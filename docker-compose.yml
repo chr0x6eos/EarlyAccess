@@ -1,0 +1,38 @@
+version : '3'
+
+networks:
+  nw:
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      # Default MYSQL-conf
+      MYSQL_DATABASE: ${db}
+      MYSQL_USER: ${user}
+      MYSQL_PASSWORD: ${pw}
+      MYSQL_ROOT_PASSWORD: "root_${pw}"
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - nw
+  
+  webserver:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: "webserver"
+    container_name: webserver
+    ports:
+      - "443:443"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - nw
