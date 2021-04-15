@@ -17,7 +17,7 @@ return [
     |
     */
 
-    'default' => env('LOG_CHANNEL', 'stack'),
+    'default' => env('LOG_CHANNEL', 'none'),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,10 +35,10 @@ return [
     */
 
     'channels' => [
-	'none' => [
-	    'driver' => 'monolog',
-	    'handler' => NullHandler::class,
-	],
+        'none' => [
+            'driver' => 'monolog',
+            'handler' => NullHandler::class,
+        ],
         'stack' => [
             'driver' => 'stack',
             'channels' => ['single'],

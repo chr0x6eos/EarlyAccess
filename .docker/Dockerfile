@@ -14,7 +14,11 @@ RUN apt-get update && apt-get install -y \
         zip \
         curl \
         unzip \
-        npm \
+        #nodejs \
+        #npm \
+        w3m \
+        cron \
+        vim \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
@@ -23,6 +27,8 @@ RUN apt-get update && apt-get install -y \
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+#RUN npm i domcurl
 
 # Setup SSL-Cert
 COPY scripts/gen_ssl.sh /opt/gen_ssl.sh
@@ -36,3 +42,5 @@ RUN chown -R www-data:www-data /var/www/html/ \
 
 # Setup Laravel
 COPY scripts/laravel_setup.sh /opt/laravel_setup.sh
+
+RUN echo '* * * * * cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' >> /etc/crontab

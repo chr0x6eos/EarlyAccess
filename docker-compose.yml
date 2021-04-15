@@ -11,6 +11,8 @@ services:
     tty: true
     ports:
       - "3306:3306"
+    volumes:
+       - ./mysql-storage:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
       MYSQL_DATABASE: ${db}
@@ -34,5 +36,15 @@ services:
       - ./src:/var/www/html
     depends_on:
       - mysql
+    networks:
+      - nw
+
+  npm:
+    image: node:13.7
+    container_name: npm
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ['npm']
     networks:
       - nw

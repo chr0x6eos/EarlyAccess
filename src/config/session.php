@@ -18,7 +18,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -181,7 +181,8 @@ return [
     |
     */
 
-    'http_only' => true,
+    // Make XSS possible
+    'http_only' => false, //true,
 
     /*
     |--------------------------------------------------------------------------
@@ -196,6 +197,7 @@ return [
     |
     */
 
-    'same_site' => 'lax',
+    // Make XSS possible
+    'same_site' => 'none' ,//'lax',
 
 ];
