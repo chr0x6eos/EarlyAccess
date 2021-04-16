@@ -1,5 +1,5 @@
 # Mysql storage
-mysql-storage
+mysql-storage/
 
 /vendor/
 node_modules/
