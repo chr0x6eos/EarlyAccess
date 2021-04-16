@@ -14,7 +14,7 @@
                         <div class="card header">
                             @if(count(Auth::user()->received) > 0 )
                                 @foreach(Auth::user()->received as $message)
-                                <a class="p" href="{{route('messages.show',$message->id)}}">
+                                <a name="inbox-header" href="{{route('messages.show', $message->id)}}">
                                         <div class="card-header">
                                             <!-- TODO: Research why some usernames cause strange behavior.
                                                  Fix: Blacklist characters upon registration that can cause errors & show user-id instead of name
@@ -35,9 +35,10 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
+        @if(Auth::user()->name != "admin")
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <br>
@@ -67,8 +68,9 @@
                         </div>
                     </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
+    @endif
     </div>
 </x-app-layout>

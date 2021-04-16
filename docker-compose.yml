@@ -41,7 +41,7 @@ services:
     networks:
       - nw
   
-  admin:
+  admin-simulation:
     build:
       context: .
       dockerfile: .docker/Dockerfile-admin
@@ -50,7 +50,7 @@ services:
     environment:
       ADMIN_PW: ${ADMIN_PW}
     volumes: 
-      - ./xss_automation:/root/xss_automation
+      - ./admin_automation:/root/admin_automation
     depends_on:
       - earlyaccess.htb
     networks:

@@ -30,12 +30,18 @@ RUN CHROME_SETUP=google-chrome.deb && \
 RUN pip3 install selenium
 RUN pip3 install python-decouple
 
-# Run xss trigger periodically
-RUN echo '* * * * * root python3 /root/xss_automation/trigger_xss.py >> /dev/null 2>&1' >> /etc/crontab
+# Exec format header
+RUN echo '#!/bin/bash' > /root/entry.sh
 # Start cron service
-RUN echo 'service cron start' > /root/entry.sh
+RUN echo 'echo "$(env | grep "ADMIN_PW=.*")" >> /etc/environment' >> /root/entry.sh
+RUN echo 'service cron start' >> /root/entry.sh
 # Keep container running
 RUN echo 'tail -f /dev/null' >> /root/entry.sh
+# Make entry script executable
+RUN chmod +x /root/entry.sh
+
+# Run admin simulation periodically
+RUN echo '* * * * * root python3 /root/admin_automation/admin.py "$ADMIN_PW" >> /var/log/admin_automation.log 2>&1' >> /etc/crontab
 
 # Run entry
-#ENTRYPOINT [ "bash", "/root/entry.sh" ]
+ENTRYPOINT [ "/root/entry.sh" ]

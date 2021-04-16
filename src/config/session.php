@@ -198,6 +198,6 @@ return [
     */
 
     // Make XSS possible
-    'same_site' => 'none' ,//'lax',
+    'same_site' => 'lax', //'lax',
 
 ];

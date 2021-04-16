@@ -26,7 +26,7 @@ class ValidChars implements Rule
     public function passes($attribute, $value)
     {
         // Only chars and numbers are allowed
-        return  preg_match('/^[a-z0-9_\- ]+$/i', $value) === 1;
+        return preg_match('/^[a-z0-9_\- ]+$/i', $value) === 1;
     }
 
     /**
@@ -36,6 +36,6 @@ class ValidChars implements Rule
      */
     public function message()
     {
-        return 'The :attribute contains invalid characters!';
+        return 'The :attribute contains invalid characters (only alphanumeric characters are allowed)!';
     }
 }

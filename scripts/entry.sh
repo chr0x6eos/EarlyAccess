@@ -4,6 +4,9 @@ composer install
 # Generate artisan key
 php artisan key:generate
 
+# Wait for mysql to start-up
+sleep $time
+
 # Migrate database
 php artisan migrate:fresh --seed
 
