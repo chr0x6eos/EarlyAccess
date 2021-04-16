@@ -22,10 +22,23 @@
                                     {{-- Allow users to change recipient to test messaging --}}
                                     <input type="hidden" id="name" name="name" @if(session()->has('name'))value="{{session('name')}}" @else value="admin" @endif>
 
+                                    <div class="form-group{{ $errors->has('subject') ? ' has-error' : '' }}">
+                                        <label for="subject" class="col-md-4 control-label">Subject:</label>
+                                        <div class="col-md-6">
+                                        <input id="subject" class="input" name="subject" @if(session()->has('subject'))value="{{session('subject')}}"@endif placeholder="Some subject" required></input>
+
+                                        @if ($errors->has('subject'))
+                                            <span class="help-block">
+                                                <strong>{{ $errors->first('subject') }}</strong>
+                                            </span>
+                                        @endif
+                                        </div>
+                                    </div>
+
                                     <div class="form-group{{ $errors->has('message') ? ' has-error' : '' }}">
                                         <label for="message" class="col-md-4 control-label">Type in your message:</label>
                                         <div class="col-md-6">
-                                        <textarea id="message" class="form-control" name="message" required></textarea>
+                                        <textarea id="message" class="form-control" name="message" placeholder="Some message" required></textarea>
 
                                         @if ($errors->has('message'))
                                             <span class="help-block">

@@ -27,9 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function () {
+        /*$schedule->call(function () {
             Message::where('created_at', '<=', Carbon::now()->subMinutes(1))->delete();
         })->everyMinute();
+        */
 
         $schedule->call(function () {
             DB::table('users')
@@ -37,6 +38,7 @@ class Kernel extends ConsoleKernel
                 ->where('role', '!=', 'admin')
                 ->delete();
         })->everyMinute();
+
         // $schedule->command('inspire')->hourly();
     }
 

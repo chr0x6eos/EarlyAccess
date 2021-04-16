@@ -63,7 +63,7 @@ class User extends Authenticatable
     /**
      * Returns True, if user is part of $role
      *
-     * @param string $role User-role (admin|user|api)
+     * @param string $role User-role (admin|user)
      * @return bool
      */
     public function hasRole($role)
@@ -71,25 +71,33 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
-     // All send messages
-     public function sent()
-     {
-         return $this->hasMany(Message::class, 'sender_id');
-     }
-
-     // All received messages
-     public function received()
-     {
-         return $this->hasMany(Message::class, 'recipient_id');
-     }
-
-
-    public function sendMessage($recipient, $message)
+    // All send messages
+    public function sent()
     {
-        return $this->sent()->create([
-            'body'       => $message,
-            'sender_id' => $this->id,
-            'recipient_id' => $recipient,
-        ]);
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    // All received messages
+    public function received()
+    {
+        return $this->hasMany(Message::class, 'recipient_id');
+    }
+
+    // Send message to $recipient with $message
+    public function sendMessage($recipient, $message, $subject)
+    {
+        try
+        {
+            return $this->sent()->create([
+                'subject' => $subject,
+                'body' => $message,
+                'sender_id' => $this->id,
+                'recipient_id' => $recipient
+            ]);
+        }
+        catch(\Exception $ex)
+        {
+            throw $ex;
+        }
     }
 }

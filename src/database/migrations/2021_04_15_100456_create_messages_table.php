@@ -15,9 +15,10 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->string('subject');
+            $table->string('body');
             $table->foreignId('recipient_id')->constrained('users');
             $table->foreignId('sender_id')->constrained('users');
-            $table->string('body');
             $table->timestamps();
         });
     }

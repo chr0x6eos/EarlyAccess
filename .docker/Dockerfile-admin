@@ -1,0 +1,41 @@
+FROM ubuntu:latest
+
+USER root
+
+WORKDIR /root
+
+# Non interactive install
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip curl unzip wget cron \
+    fonts-liberation libasound2 libatk-bridge2.0-0 \
+    libnss3 lsb-release xdg-utils libxss1 libdbus-glib-1-2 \
+    libcairo2 libcups2 libgbm1 libgtk-3-0 libpango-1.0-0  libxkbcommon-x11-0
+    
+# install chromedriver and google-chrome
+RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
+    wget -q https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip && \
+    unzip chromedriver_linux64.zip -d /usr/bin && \
+    chmod +x /usr/bin/chromedriver && \
+    rm chromedriver_linux64.zip
+
+RUN CHROME_SETUP=google-chrome.deb && \
+    wget -q -O $CHROME_SETUP "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb" && \
+    dpkg -i $CHROME_SETUP && \
+    apt-get install -y -f && \
+    rm $CHROME_SETUP
+
+RUN pip3 install selenium
+RUN pip3 install python-decouple
+
+# Run xss trigger periodically
+RUN echo '* * * * * root python3 /root/xss_automation/trigger_xss.py >> /dev/null 2>&1' >> /etc/crontab
+# Start cron service
+RUN echo 'service cron start' > /root/entry.sh
+# Keep container running
+RUN echo 'tail -f /dev/null' >> /root/entry.sh
+
+# Run entry
+#ENTRYPOINT [ "bash", "/root/entry.sh" ]

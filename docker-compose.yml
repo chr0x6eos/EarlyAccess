@@ -24,18 +24,35 @@ services:
     networks:
       - nw
   
-  webserver:
+  earlyaccess.htb:
     build:
       context: .
-      dockerfile: .docker/Dockerfile
+      dockerfile: .docker/Dockerfile-webserver
     image: "webserver"
     container_name: webserver
+    environment:
+      ADMIN_PW: ${ADMIN_PW}
     ports:
       - "443:443"
     volumes:
       - ./src:/var/www/html
     depends_on:
       - mysql
+    networks:
+      - nw
+  
+  admin:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile-admin
+    image: admin-simulation
+    container_name: admin-simulation
+    environment:
+      ADMIN_PW: ${ADMIN_PW}
+    volumes: 
+      - ./xss_automation:/root/xss_automation
+    depends_on:
+      - earlyaccess.htb
     networks:
       - nw
 
