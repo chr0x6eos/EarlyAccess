@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -64,10 +65,10 @@ class User extends Authenticatable
     /**
      * Returns True, if user is part of $role
      *
-     * @param string $role User-role (admin|user)
+     * @param string $role // User-role (admin|user)
      * @return bool
      */
-    public function hasRole($role)
+    public function hasRole(string $role): bool
     {
         return $this->role === $role;
     }
@@ -77,42 +78,50 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->hasRole("admin");
     }
 
-    // All send messages
-    public function sent()
+    /**
+     * Returns all send messages
+     *
+     * @return HasMany
+     */
+    public function sent(): HasMany
     {
         return $this->hasMany(Message::class, 'sender_id');
     }
 
-    // All received messages
-    public function received()
+    /**
+     * Returns all received messages
+     *
+     * @return HasMany
+     */
+    public function received(): HasMany
     {
         return $this->hasMany(Message::class, 'recipient_id');
     }
 
-    // Send message to $recipient with $message
-    public function sendMessage($recipient, $message, $subject)
+    /**
+     * Sends message to $recipient with $message
+     *
+     * @param $recipient //ID of user to send to
+     * @param string $message //Message body
+     * @param string $subject //Message subject
+     * @return Model
+     */
+    public function sendMessage($recipient, string $message, string $subject): Model
     {
-        try
-        {
-            return $this->sent()->create([
-                'subject' => $subject,
-                'body' => $message,
-                'sender_id' => $this->id,
-                'recipient_id' => $recipient
-            ]);
-        }
-        catch(\Exception $ex)
-        {
-            throw $ex;
-        }
+        return $this->sent()->create([
+            'subject' => $subject,
+            'body' => $message,
+            'sender_id' => $this->id,
+            'recipient_id' => $recipient
+        ]);
     }
 
-    public function download()
+    public function download(): \Illuminate\Http\RedirectResponse
     {
         if ($this->isAdmin())
         {

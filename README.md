@@ -1,6 +1,30 @@
 # EarlyAccess_Web
 Web-Code of Early Access 
 
+##  Install:
+1. Create .env and src/.env, as seen in examples below
+2. Install docker-compose
+3. Create mysql-storage folder (for peristent storage)
+4. Run `docker-compose up --build` in the project root
+5. Wait for containers to be started up
+6. Add earlyaccess.htb to /etc/hosts
+7. Access https://earlyaccess.htb
+
+## Interaction with containers:
+Command:
+```bash
+docker-compose exec <service-name> <command>
+```
+### Running containers:
+- Webserver (earlyaccess.htb)
+    - Laravel application running
+- mysql
+    - Database
+- admin-simulation
+    - Reads the admins messages each minute
+- npm (DEFAULT NOT RUNNING) 
+    - Run npm commands (`docker-compose run --rm npm <cmd>`)
+
 ## .env Example:
 ```bash
 # MySQL-config

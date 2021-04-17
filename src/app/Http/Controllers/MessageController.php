@@ -36,17 +36,22 @@ class MessageController extends Controller
         {
             $message = Message::find($id);
 
-            if ($message != null)
+            if (!$message)
+                throw new \Exception('Message not found!');
+
+            //Only show the message if user is sender or recipient
+            if ( Auth::user()->id == $message->sender->id || Auth::user()->id == $message->recipient->id)
             {
-                //Only show the message if user is sender or recipient
-                if ( Auth::user()->id == $message->sender->id || Auth::user()->id == $message->recipient->id)
-                    return view('messages.show')->with('message', $message);
+                //Mark message as read upon rendering webpage
+                $message->read();
+
+                return view('messages.show')->with('message', $message);
             }
             return redirect()->route('messages.index');
         }
         catch (Exception $ex)
         {
-            return redirect()->route('messages.index')->withErrors("No connection to the database could be established!");
+            return redirect()->route('messages.index')->withErrors($ex->getMessage());
         }
     }
 

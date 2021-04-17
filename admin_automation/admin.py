@@ -12,12 +12,13 @@ class AdminAutomation:
     driver = None
     _password = "" # Default value
 
-    def __init__(self, password:str=""):
+    def __init__(self, password:str="", timeout:int=5):
         """
         Initializes XSS python-class that access webpage as admin and reads all messages
         """
         #service = Service('/usr/bin/chromedriver')
         self.driver = webdriver.Chrome('/usr/bin/chromedriver', options=self._set_chrome_options())
+        self.driver.set_page_load_timeout(timeout) # define timeout
 
         #self._password = config("ADMIN_PW")
         self._password = password
@@ -67,15 +68,30 @@ class AdminAutomation:
         """
         self.driver.get(f"{self.host}/messages")
         links = [element.get_attribute('href') for element in self.driver.find_elements_by_name("inbox-header")]
+        err_links = [] # Add timeout links to array to access again later
         if len(links) > 0:
             for link in links:
                 if link:
                     try:
-                        self.driver.implicitly_wait(10) # Wait 10 seconds for visiting each message
                         self.driver.get(link) # Visit message
                         print(f"[{datetime.now()}] Visited: {self.driver.current_url}\r\n")
                     except Exception:
+                        """Timeout or other exception occurred on url.
+                        Add to err_links array to visiting again later.
+                        This way one falty link does not stop the automation.
+                        """
                         print(f"[{datetime.now()}] Error on: {self.driver.current_url}\r\n")
+                        err_links.append(link) # Retry after every other link is visited
+        
+        # Revisit links that caused errors again
+        if len(err_links) > 0:
+             for link in err_links:
+                if link:
+                    try:
+                        self.driver.get(link) # Visit message
+                        print(f"[{datetime.now()}] Visited 2nd time: {self.driver.current_url}\r\n")
+                    except Exception:
+                        print(f"[{datetime.now()}] Error 2nd time on: {self.driver.current_url}\r\n")
     
     def close(self):
         """

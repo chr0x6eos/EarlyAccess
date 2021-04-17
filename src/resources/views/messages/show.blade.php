@@ -19,7 +19,7 @@
                             <div class="card-body">
                                 <p>{{$message->body}}</p>
                             </div>
-                            <a class="btn btn-outline-success" href="{{route('contact.name', $message->id)}}">Reply</a>
+                            <a class="btn btn-outline-success" href="{{route('contact.reply', $message->id)}}">Reply</a>
                             <form method="POST" action="{{ route('messages.destroy', $message->id)}}" class="btn btn-outline-danger">
                                 @csrf
                                 @method('delete')
