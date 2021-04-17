@@ -12,28 +12,64 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
+                    {{ __('Home') }}
                 </x-jet-nav-link>
 
-                <x-jet-nav-link href="{{ route('notes') }}" :active="request()->routeIs('notes')">
-                    {{ __('Patch Notes') }}
-                </x-jet-nav-link>
+                <x-jet-dropdown id="adminPanel">
+                    <x-slot name="trigger">
+                        {{ __('Messaging') }}
+                    </x-slot>
 
-                <x-jet-nav-link href="{{ route('forum') }}" :active="request()->routeIs('forum')">
-                    {{ __('Forum') }}
-                </x-jet-nav-link>
+                    <x-slot name="content">
+                        <x-jet-dropdown-link href="{{ route('messages.index') }}" :active="request()->routeIs('messages.index')">
+                            {{ __('Message inbox') }}
+                        </x-jet-dropdown-link>
 
-                <x-jet-nav-link href="{{ route('contact.index') }}" :active="request()->routeIs('contact.index')">
-                    {{ __('Contact') }}
-                </x-jet-nav-link>
+                        <x-jet-dropdown-link href="{{ route('messages.sent') }}" :active="request()->routeIs('messages.index')">
+                            {{ __('Message outbox') }}
+                        </x-jet-dropdown-link>
 
-                <x-jet-nav-link href="{{ route('messages.index') }}" :active="request()->routeIs('messages.index')">
-                    {{ __('Messages') }}
-                </x-jet-nav-link>
+                        <x-jet-dropdown-link href="{{ route('contact.index') }}" :active="request()->routeIs('contact.index')">
+                            {{ __('Contact Us') }}
+                        </x-jet-dropdown-link>
+                    </x-slot>
+                </x-jet-dropdown>
 
                 @if(Auth::user()->isAdmin())
-                    <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
-                        {{ __('Admin panel') }}
+                    <x-jet-dropdown id="adminPanel">
+                        <x-slot name="trigger">
+                            {{ __('Admin') }}
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-jet-dropdown-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+                                {{ __('Admin panel') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                                {{ __('User management') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('admin.download') }}" :active="request()->routeIs('admin.download')">
+                                {{ __('Download backup') }}
+                            </x-jet-dropdown-link>
+
+                            <x-jet-dropdown-link href="{{ route('key.index') }}" :active="request()->routeIs('key.index')">
+                                {{ __('Verify a key') }}
+                            </x-jet-dropdown-link>
+                        </x-slot>
+                    </x-jet-dropdown>
+                @else
+                    <x-jet-nav-link href="{{ route('notes') }}" :active="request()->routeIs('notes')">
+                        {{ __('Patch Notes') }}
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('forum') }}" :active="request()->routeIs('forum')">
+                        {{ __('Forum') }}
+                    </x-jet-nav-link>
+
+                    <x-jet-nav-link href="{{ route('key.index') }}" :active="request()->routeIs('key.index')">
+                        {{ __('Register key') }}
                     </x-jet-nav-link>
                 @endif
             </ul>
@@ -99,17 +135,19 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
-                            </x-jet-dropdown-link>
-
-                            @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
-                                    {{ __('API Tokens') }}
+                            @if(!Auth::User()->isAdmin())
+                                <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                                    {{ __('Profile') }}
                                 </x-jet-dropdown-link>
-                            @endif
 
-                            <hr class="dropdown-divider">
+                                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                                    <x-jet-dropdown-link href="{{ route('api-tokens.index') }}">
+                                        {{ __('API Tokens') }}
+                                    </x-jet-dropdown-link>
+                                @endif
+
+                                <hr class="dropdown-divider">
+                            @endif
 
                             <!-- Authentication -->
                             <x-jet-dropdown-link href="{{ route('logout') }}"

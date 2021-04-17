@@ -41,7 +41,7 @@ RUN chown -R www-data:www-data /var/www/html/ \
 RUN echo '* * * * * www-data cd /var/www/html && php artisan schedule:run >> /dev/null 2>&1' >> /etc/crontab
 
 # Wait time for mysql to be fully setup
-ENV time=15
+ENV time=20
 
 # Setup entrypoint
 COPY scripts/entry.sh /root/entry.sh

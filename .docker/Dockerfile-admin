@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
-    python3 python3-pip curl unzip wget cron \
+    python3 python3-pip curl unzip wget cron util-linux \
     fonts-liberation libasound2 libatk-bridge2.0-0 \
     libnss3 lsb-release xdg-utils libxss1 libdbus-glib-1-2 \
     libcairo2 libcups2 libgbm1 libgtk-3-0 libpango-1.0-0  libxkbcommon-x11-0
@@ -40,8 +40,8 @@ RUN echo 'tail -f /dev/null' >> /root/entry.sh
 # Make entry script executable
 RUN chmod +x /root/entry.sh
 
-# Run admin simulation periodically
-RUN echo '* * * * * root python3 /root/admin_automation/admin.py "$ADMIN_PW" >> /var/log/admin_automation.log 2>&1' >> /etc/crontab
+# Run admin simulation periodically (flock protects overlapping of cron)
+RUN echo '* * * * * root /usr/bin/flock -w 0 /var/cron.lock python3 /root/admin_automation/admin.py "$ADMIN_PW" > /var/log/admin_automation.log 2>&1' >> /etc/crontab
 
 # Run entry
 ENTRYPOINT [ "/root/entry.sh" ]

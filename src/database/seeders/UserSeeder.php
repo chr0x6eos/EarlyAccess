@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $this->create_user('chronos','chronos@earlyaccess.htb','pw4chronos@htb');
 
         // Test XSS by creating some XSS test users
-        $this->xss_test(50);
+        //$this->xss_test(100);
     }
 
     public function create_admin()
@@ -65,7 +65,7 @@ class UserSeeder extends Seeder
     {
         // Send messages to admin
         $admin = User::where('name', 'admin')->first();
-        foreach (User::all() as $user)
+        foreach (User::all()->except($admin->id) as $user)
         {
             $user->sendMessage($admin->id, "Lorem ipsum", "Subject");
         }

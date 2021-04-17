@@ -121,13 +121,37 @@ class User extends Authenticatable
         ]);
     }
 
-    public function download(): \Illuminate\Http\RedirectResponse
+    public function download()
     {
         if ($this->isAdmin())
         {
             if(Storage::disk('local')->exists('backup.zip'))
                 return Storage::download('backup.zip');
+            else
+                return redirect()->route('admin.index')->withErrors('Critical ERROR: Backup file not found!');
         }
-        return redirect()->route()->withErrors('You are not authorized to access this resource!');
+        else
+            return redirect()->route('dashboard')->withErrors('You are not authorized to access this resource!');
+    }
+
+    public function verify_key($key): bool
+    {
+        //TODO: Implement verification algorithm
+        if($key == "TEST-GAME-KEY")
+            return true;
+
+        return false;
+    }
+
+    public function isSender($id) : bool
+    {
+        $message = Message::findOrFail($id);
+        return $this->id === $message->sender->id;
+    }
+
+    public function isRecipient($id) : bool
+    {
+        $message = Message::findOrFail($id);
+        return $this->id === $message->recipient->id;
     }
 }

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="h4 font-weight-bold">
-            {{ __('Inbox') }}
+            {{ __('Outbox') }}
         </h2>
     </x-slot>
 
@@ -31,37 +31,30 @@
                             </ul>
                         </div>
                         <br>
-                        <p>Please note that we currently delete read messages after some time, as a result of our limited storage.<br>We will upgrade our storage soon!</p>
-                            @if(count(Auth::user()->received) > 0 )
-                                @foreach(Auth::user()->received as $message)
+                        <p>Please note that it may take a couple of minutes for the message to be read by the admin!<br>Read messages will be marked.</p>
+                            @if(count(Auth::user()->sent) > 0 )
+                                @foreach(Auth::user()->sent as $message)
                                     <div class="card header">
-                                        <a href="{{route('messages.show', $message->id)}}">
-                                            <div class="card-header {{-- @if($message->read)bg-success @endif--}}">
-                                                <p>{{$message->subject}} @if($message->read) (Read) @endif</p>
+                                        <a href="{{route('messages.show',$message->id)}}">
+                                            <div class="card-header">
+                                                Message to: {{$message->recipient->name}} @if($message->read) (Read) @endif
                                             </div>
                                         </a>
-                                        <div class="card-body" {{-- @if($message->read)style="background-color: white" @endif--}}>
-                                            {{--
-                                             <!--
-                                                TODO: Research why some usernames cause strange behavior.
-                                                Fix: Blacklist characters upon registration that can cause errors & show user-id instead of name
-                                            -->
-                                            {{-- Echo user-id to not distrupt all messages after this one --\}}
-                                            <p>Message by (ID: @php echo $message->sender->id; @endphp)</p>
-                                            --}}
-                                            <p>Received at: {{$message->updated_at->toDateTimeString()}}</p>
+                                        <div class="card-body">
+                                            <p>{{$message->subject}}</p>
+                                            <p>Sent at: {{$message->created_at->toDateTimeString()}}</p>
                                         </div>
                                         <br>
                                     </div>
                                 @endforeach
                             @else
-                                <div class="card header">
-                                    <div class="card-body">
-                                        <h3>You currently have not received any messages yet!</h3>
-                                    </div>
+                                <div class="card-body">
+                                    <h3>You have not send any messages yet!</h3>
+                                    {{--<a class="btn btn-outline-success" href="{{route('contact.index')}}">Send message</a>--}}
                                 </div>
                             @endif
                         </div>
+                        <br>
                     </div>
                 </div>
             </div>

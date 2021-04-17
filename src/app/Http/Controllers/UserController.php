@@ -79,4 +79,51 @@ class UserController extends Controller
             return redirect()->route('users.index')->withErrors($ex->getMessage());
         }
     }
+
+    public function download()
+    {
+        return Auth::user()->download();
+    }
+
+    public function add_key(Request $request)
+    {
+        $this->validate($request, [
+            'key' => 'required'
+        ]);
+
+        $key = $request->key;
+        $user = Auth::User();
+
+        if($user->verify_key($key))
+        {
+            $user->key = $key;
+            $user->save();
+
+            return redirect()->route('key.index')->withSuccess('Game-key successfully added!');
+        }
+        else
+        {
+            return redirect()->route('key.index')->withErrors('Game-key is invalid!');
+        }
+    }
+
+    public function verify_key(Request $request)
+    {
+        //TODO: Implement verify algo
+        $this->validate($request, [
+            'key' => 'required'
+        ]);
+
+        $key = $request->key;
+        $user = Auth::User();
+
+        if($user->verify_key($key))
+        {
+            return redirect()->route('key.index')->withSuccess('Game-key is valid!');
+        }
+        else
+        {
+            return redirect()->route('key.index')->withErrors('Game-key is invalid!');
+        }
+    }
 }

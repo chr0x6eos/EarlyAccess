@@ -21,8 +21,8 @@
                                 <p>Name: @php echo $user->name; @endphp</p>
                                 <p>E-Mail: {{$user->email}}</p>
                                 <p>Role: {{$user->role}}</p>
-                                <p>Created at: {{$user->created_at->toDateString()}}</p>
-                                <p>Last time updated at: {{$user->updated_at->toDateString()}}</p>
+                                <p>Created at: {{$user->created_at->toDateTimeString()}}</p>
+                                <p>Last time updated at: {{$user->updated_at->toDateTimeString()}}</p>
                             </div>
                             <form method="POST" action="{{ route('users.destroy', $user->id)}}" class="btn btn-outline-danger">
                                 @csrf

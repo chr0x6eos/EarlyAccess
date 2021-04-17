@@ -15,21 +15,6 @@ class MessageController extends Controller
         $this->middleware(['auth:sanctum','verified']);
     }
 
-    /*
-    public function index()
-    {
-        try
-        {
-            $messages = Auth::user()->received;
-            return view('messages.index')->with('messages', $messages);
-        }
-        catch (Exception $ex)
-        {
-            return redirect()->route('messages.index')->withErrors("No connection to the database could be established!");
-        }
-    }
-    */
-
     public function show($id)
     {
         try
@@ -40,16 +25,19 @@ class MessageController extends Controller
                 throw new \Exception('Message not found!');
 
             //Only show the message if user is sender or recipient
-            if ( Auth::user()->id == $message->sender->id || Auth::user()->id == $message->recipient->id)
+            if (Auth::user()->isSender($message->id) || Auth::user()->isRecipient($message->id))
             {
-                //Mark message as read upon rendering webpage
-                $message->read();
-
+                // Mark as read if user is recipient
+                if(Auth::user()->isRecipient($message->id))
+                {
+                    //Mark message as read upon rendering webpage
+                    $message->read();
+                }
                 return view('messages.show')->with('message', $message);
             }
             return redirect()->route('messages.index');
         }
-        catch (Exception $ex)
+        catch (\Exception $ex)
         {
             return redirect()->route('messages.index')->withErrors($ex->getMessage());
         }
@@ -60,18 +48,18 @@ class MessageController extends Controller
         try
         {
             $this->validate($request, [
-                'name' => 'required',
+                'email' => 'required',
                 'message' => 'required',
                 'subject' => 'required'
             ]);
 
-            $user = User::where('name', $request->name)->first();
+            $user = User::where('email', $request->email)->first();
 
-            if ($user == null)
-                throw new \Exception("Could not find the user you are trying to message! Please verify the username (" . $request->name . "!");
+            if (!$user)
+                throw new \Exception("Could not find the user you are trying to message! Please verify the username (" . $request->email . "!");
             Auth::user()->sendMessage($user->id, $request->message, $request->subject);
 
-            return redirect()->route('messages.index')->withSuccess('Message to ' . $request->name . ' has been send successfully!');
+            return redirect()->route('messages.sent')->withSuccess('Message to ' . $request->email . ' has been send successfully!');
         }
         catch (\Exception $ex)
         {
@@ -86,7 +74,7 @@ class MessageController extends Controller
             $message = Message::findOrFail($id);
 
             //Only allow deletion of the message if user is sender or recipient
-            if (Auth::user()->id == $message->sender->id || Auth::user()->id == $message->recipient->id)
+            if (Auth::user()->isSender($message->id) || Auth::user()->isRecipient($message->id))
             {
                 $message->delete();
                 return redirect()->route('messages.index')->withSuccess('Successfully deleted message!');
@@ -115,7 +103,7 @@ class MessageController extends Controller
             if (!$user)
                 throw new \Exception('Could not find user to reply to!');
 
-            return redirect('contact')->with(['name' => $user->name, 'subject' => 'RE: ' . $message->subject]);
+            return redirect('contact')->with(['email' => $user->email, 'subject' => 'RE: ' . $message->subject]);
         }
         catch(\Exception $ex)
         {

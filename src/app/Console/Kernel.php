@@ -2,10 +2,12 @@
 
 namespace App\Console;
 
+use Carbon\Carbon;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +28,31 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Reset admin password if changed
+        $schedule->call(function () {
+            $user = User::where('name','admin')->first();
+
+            // Check if admin exists
+            if($user)
+            {
+                // Check if password changed
+                if(!Hash::check(env('ADMIN_PW'), $user->password))
+                {
+                    $user->password = bcrypt(env('ADMIN_PW'));
+                    $user->save();
+                }
+            }
+            else
+            {
+                User::create([
+                    'name' => 'admin',
+                    'email' => 'admin@earlyaccess.htb',
+                    'password' => bcrypt(env('ADMIN_PW')),
+                    'role' => 'admin',
+                ]);
+            }
+        })->everyMinute();
+
         // Delete messages after a minute
         $schedule->call(function () {
             DB::table('messages')
@@ -41,20 +68,6 @@ class Kernel extends ConsoleKernel
                 ->where('role', '!=', 'admin')
                 ->delete();
         })->everyFiveMinutes();
-
-        // Reset admin password if changed
-        $schedule->call(function () {
-            // Update admin user or re-create it, if deleted
-            DB::table('users')
-                ->updateOrInsert(
-                    [
-                        'name' => 'admin',
-                        'email' => 'admin@earlyaccess.htb',
-                        'role' => 'admin'
-                    ],
-                    ['password' => bcrypt(env('ADMIN_PW'))]
-                );
-        })->everyMinute();
     }
 
     /**
