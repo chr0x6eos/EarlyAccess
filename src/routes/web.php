@@ -34,8 +34,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('contact', function () {
     return view('contact');
 })->name('contact.index');
 
-Route::middleware(['auth:sanctum', 'verified'])->get('contact/{user}', 'App\Http\Controllers\MessageController@contact')->name('contact.name');
 Route::middleware(['auth:sanctum', 'verified'])->post('contact','App\Http\Controllers\MessageController@create')->name('contact.create');
+Route::middleware(['auth:sanctum', 'verified'])->get('contact/{user}', 'App\Http\Controllers\MessageController@reply')->name('contact.reply');
 
 // Messages routes
 Route::middleware(['auth:sanctum', 'verified'])->get('messages', function () {
@@ -43,3 +43,13 @@ Route::middleware(['auth:sanctum', 'verified'])->get('messages', function () {
 })->name('messages.index');
 Route::middleware(['auth:sanctum', 'verified'])->delete('messages/delete/{message}','App\Http\Controllers\MessageController@destroy')->name('messages.destroy');
 Route::middleware(['auth:sanctum', 'verified'])->get('messages/{message}', 'App\Http\Controllers\MessageController@show')->name('messages.show');
+
+// Admin routes
+Route::middleware(['auth:sanctum', 'admin'])->get('admin', function () {
+    return view('admin.index');
+})->name('admin.index');
+Route::middleware(['auth:sanctum', 'admin'])->get('admin/backup', 'App\Http\Controllers\UserController@download')->name('admin.download');
+
+Route::middleware(['auth:sanctum', 'admin'])->get('users', 'App\Http\Controllers\UserController@users')->name('users.index');
+Route::middleware(['auth:sanctum', 'admin'])->get('users/{user}', 'App\Http\Controllers\UserController@show')->name('users.show');
+Route::middleware(['auth:sanctum', 'admin'])->delete('users/delete/{user}','App\Http\Controllers\UserController@destroy')->name('users.destroy');

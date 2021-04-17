@@ -41,10 +41,10 @@
                     </div>
                 </div>
 
-                <div class="mb-0">
+                <div class="mb-2">
                     <div class="d-flex justify-content-end align-items-baseline">
                         @if (Route::has('password.request'))
-                            <a class="text-muted mr-3" href="{{ route('password.request') }}">
+                            <a class="text-muted mr-3" href="#">
                                 {{ __('Forgot your password?') }}
                             </a>
                         @endif
@@ -52,6 +52,14 @@
                         <x-jet-button>
                             {{ __('Log in') }}
                         </x-jet-button>
+                    </div>
+                </div>
+                <div class="mb-0">
+                    <div class="d-flex justify-content-end align-items-baseline">
+                        <p class="text-decoration-none mr-3">{{ __('New to us?') }}</p>
+                        <a class="text-muted" href="{{ route('register') }}">
+                            {{ __('Register here') }}
+                        </a>
                     </div>
                 </div>
             </form>

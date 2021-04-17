@@ -30,6 +30,12 @@
                 <x-jet-nav-link href="{{ route('messages.index') }}" :active="request()->routeIs('messages.index')">
                     {{ __('Messages') }}
                 </x-jet-nav-link>
+
+                @if(Auth::user()->isAdmin())
+                    <x-jet-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+                        {{ __('Admin panel') }}
+                    </x-jet-nav-link>
+                @endif
             </ul>
 
             <!-- Right Side Of Navbar -->

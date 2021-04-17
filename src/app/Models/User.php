@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -71,6 +72,16 @@ class User extends Authenticatable
         return $this->role === $role;
     }
 
+    /**
+     * Returns True, if user is admin
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->hasRole("admin");
+    }
+
     // All send messages
     public function sent()
     {
@@ -99,5 +110,15 @@ class User extends Authenticatable
         {
             throw $ex;
         }
+    }
+
+    public function download()
+    {
+        if ($this->isAdmin())
+        {
+            if(Storage::disk('local')->exists('backup.zip'))
+                return Storage::download('backup.zip');
+        }
+        return redirect()->route()->withErrors('You are not authorized to access this resource!');
     }
 }

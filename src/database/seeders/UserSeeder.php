@@ -21,15 +21,14 @@ class UserSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Create admin users
+        // Test user
         \App\Models\User::create([
                 'name' => 'chronos',
                 'email' => 'chronos@earlyaccess.htb',
                 'password' => bcrypt('chronos'),
-                'role' => 'admin',
-            ]);
+        ]);
 
-        // Dummy test-user
+        // Test user
         \App\Models\User::create([
             'name' => 'dummy',
             'email' => 'dummy@earlyaccess.htb',

@@ -98,14 +98,19 @@ class MessageController extends Controller
         }
     }
 
-    public function contact($id)
+    public function reply($id)
     {
         try
         {
-            $message = Message::findOrFail($id);
-            $user = User::findOrFail($message->sender->id);
-            if ($user != null)
-                return redirect('contact')->with(['name' => $user->name, 'subject' => 'RE: ' . $message->subject]);
+            $message = Message::find($id);
+            if(!$message)
+                throw new \Exception('Could not find message to reply to!');
+
+            $user = User::find($message->sender->id);
+            if (!$user)
+                throw new \Exception('Could not find user to reply to!');
+
+            return redirect('contact')->with(['name' => $user->name, 'subject' => 'RE: ' . $message->subject]);
         }
         catch(\Exception $ex)
         {
