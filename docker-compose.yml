@@ -28,7 +28,7 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile-webserver
-    image: "webserver"
+    image: webserver
     container_name: webserver
     environment:
       ADMIN_PW: ${ADMIN_PW}

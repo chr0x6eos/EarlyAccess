@@ -134,7 +134,12 @@ class User extends Authenticatable
             return redirect()->route('dashboard')->withErrors('You are not authorized to access this resource!');
     }
 
-    public function verify_key($key): bool
+    public function validRole($role) : bool
+    {
+        return $role === "admin" || $role === "user";
+    }
+
+    public function verifyKey($key): bool
     {
         //TODO: Implement verification algorithm
         if($key == "TEST-GAME-KEY")

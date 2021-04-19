@@ -197,7 +197,6 @@ return [
     |
     */
 
-    // Make XSS possible
-    'same_site' => 'lax', //'lax',
+    'same_site' => 'lax',
 
 ];

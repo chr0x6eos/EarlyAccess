@@ -59,6 +59,10 @@ Route::middleware(['auth:sanctum', 'admin'])->get('admin', function () {
 })->name('admin.index');
 Route::middleware(['auth:sanctum', 'admin'])->get('admin/download', 'App\Http\Controllers\UserController@download')->name('admin.download');
 
-Route::middleware(['auth:sanctum', 'admin'])->get('users', 'App\Http\Controllers\UserController@users')->name('users.index');
+Route::middleware(['auth:sanctum', 'admin'])->get('users/edit/{user}','App\Http\Controllers\UserController@edit')->name('users.edit');
+Route::middleware(['auth:sanctum', 'admin'])->patch('users/update/{user}','App\Http\Controllers\UserController@update')->name('users.update');
+Route::middleware(['auth:sanctum', 'admin'])->get('users', function () {
+    return view('admin.users.index');
+})->name('users.index');
 Route::middleware(['auth:sanctum', 'admin'])->get('users/{user}', 'App\Http\Controllers\UserController@show')->name('users.show');
 Route::middleware(['auth:sanctum', 'admin'])->delete('users/delete/{user}','App\Http\Controllers\UserController@destroy')->name('users.destroy');
