@@ -22,7 +22,7 @@ class Key:
         Can be used to quickly verify if a user's game key is valid when the API is down (again).
 
         Keys look like the following:
-        AAAAA-BBBBB-CCCCC-DDDDD-1234
+        AAAAA-BBBBB-CCCC1-DDDDD-1234
 
         Usage: {sys.argv[0]} <game-key>"""
 
