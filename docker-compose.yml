@@ -38,9 +38,28 @@ services:
       - ./src:/var/www/html
     depends_on:
       - mysql
+      - api
     networks:
       - nw
-  
+    
+  api:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile-api
+    container_name: api
+    image: "api"
+    restart: on-failure
+    ports:
+      - "8000:5000"
+    volumes:
+      - ./key_validator/api:/opt/api # Source-code
+    environment: 
+      # Flask config - dev or prod
+      FLASK_ENV: development # production || development
+      DEBUG: "True" #"False" ||"True"
+    networks:
+      - nw
+    
   admin-simulation:
     build:
       context: .

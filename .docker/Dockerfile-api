@@ -1,0 +1,17 @@
+FROM python:3.8
+RUN apt-get update
+# Setup files to container
+WORKDIR /opt/api
+COPY ./key_validator/api/ /opt/api/
+
+# Install requirements
+RUN pip3 install -r requirements.txt
+
+# Setup flask
+ENV FLASK_APP api
+ENV FLASK_env /opt/api/
+ENV FLASK_RUN_HOST 0.0.0.0
+
+# Install & run project
+RUN pip install -e .
+CMD ["flask","run"]

@@ -2,127 +2,98 @@
 import sys
 from re import match
 
-def usage() -> str:
-    return (f"Usage: {sys.argv[0]} <game-key>")
+class Key:
+    key = ""
+    magic_value = "XP" # Static (same on API)
+    magic_num = 348 # TODO: Sync with API (api generates magic_num every day)
 
-def info() -> str:
-    return f"""
-    # Game-Key validator #
+    def __init__(self, key:str, magic_value:str="", magic_num:int=0):
+        self.key = key
+        if magic_value != "":
+            self.magic_value = magic_value
+        if magic_num != 0:
+            self.magic_num = magic_num
 
-    Can be used to quickly verify the game-key of a user, if the API is down again.
+    @staticmethod
+    def info() -> str:
+        return f"""
+        # Game-Key validator #
 
-    Keys look like the following:
-    AAAAA-BBBBB-CCCCC-DDDDD-EEEEE
+        Can be used to quickly verify if a user's game key is valid when the API is down (again).
 
-    {usage()}
-    """
+        Keys look like the following:
+        AAAAA-BBBBB-CCCCC-DDDDD-1234
 
-def valid_format(key:str) -> bool:
-    """
-    Returns True, if `key` is in the right format
-    """
-    key_format = r"^[A-Z0-9]{5}(-[A-Z0-9]{5}){4}$"
-    return bool(match(key_format,key))
+        Usage: {sys.argv[0]} <game-key>"""
 
-def calc_checksum(key:str) -> int:
-    """
-    Returns checksum of `key`
-    """
-    groups = key.split("-")[:-1] # Last one is checksum
-    return sum([sum(bytearray(group.encode())) for group in groups]) % 256
+    def valid_format(self) -> bool:
+        return bool(match(r"^[A-Z0-9]{5}(-[A-Z0-9]{5})(-[A-Z]{4}[0-9])(-[A-Z0-9]{5})(-[0-9]{1,5})$", self.key))
 
-def first_group_valid(key:str) -> bool:
-    """
-    Returns True, if first group of `key` is of format `KEY<NUM><NUM>` and characters are not repeating
-    """
-    group1 = key.split("-")[0]
+    def calc_checksum(self) -> int:
+        gs = self.key.split('-')[:-1]
+        return sum([sum(bytearray(g.encode())) for g in gs])
 
-    # Obfuscate check
-    res = [(ord(value) << index+1) % 256 ^ ord(value) for index, value in enumerate(group1[0:3])]
+    def g1_valid(self) -> bool:
+        g1 = self.key.split('-')[0]
+        r = [(ord(value)<<index+1)%256^ord(value) for index, value in enumerate(g1[0:3])]
+        if r != [221, 81, 145]:
+            return False
+        for v in g1[3:]:
+            try:
+                int(v)
+            except:
+                return False
+        return len(set(g1)) == len(g1)
 
-    # First 3 chars are "KEY"
-    if res != [221, 81, 145]:
-        return False
-    
-    # Last 2 chars have to be INT
-    for value in group1[3:]:
-        try:
-            int(value) # Check if 
-        except:
+    def g2_valid(self) -> bool:
+        g2 = self.key.split('-')[1]
+        p1 = g2[::2]
+        p2 = g2[1::2]
+        return sum(bytearray(p1.encode())) == sum(bytearray(p2.encode()))
+
+    def g3_valid(self) -> bool:
+        # TODO: Add mechanism to sync magic_num with API
+        g3 = self.key.split('-')[2]
+        if g3[0:2] == self.magic_value:
+            return sum(bytearray(g3.encode())) == self.magic_num
+        else:
             return False
 
-    # Set removes duplicates
-    return len(set(group1)) == len(group1)
+    def g4_valid(self) -> bool:
+        return [ord(i)^ord(g) for g, i in zip(self.key.split('-')[0], self.key.split('-')[3])] == [12, 4, 20, 117, 0]
 
-def second_group_valid(key:str) -> bool:
-    """
-    Returns True, if second group's even and odd chars of have same sum
-    """
-    group2 = key.split("-")[1]
-    p1 = group2[::2] # Index is even
-    p2 = group2[1::2] # Index is odd
+    def checksum_valid(self) -> bool:
+        cs = int(self.key.split('-')[-1])
+        return self.calc_checksum() == cs
 
-    return sum(bytearray(p1.encode())) == sum(bytearray(p2.encode()))
-
-def third_group_valid(key:str):
-    """
-    Returns True, if third group of `key` has sum of 123
-    """
-    group3 = key.split("-")[2]
-    return sum(bytearray(group3.encode())) % 256 == 123
-
-def fourth_group_valid(key:str):
-    """
-    Returns True, if fourth group of `key` XORed with first group returns certain sequence [12, 4, 20, 117, 0]
-    """
-    return [ord(a) ^ ord(b) for a, b in zip(key.split("-")[0], key.split("-")[3])] == [12, 4, 20, 117, 0]
-
-def checksum_valid(key:str):
-    """
-    Returns True, if fifth group (checksum-group) of `key` has same sum as all other groups combined
-    """
-    group5 = key.split("-")[-1]
-    checksum = sum(bytearray(group5.encode())) % 256
-    return calc_checksum(key) == checksum
-
-def check_key(key:str) -> bool:
-    """
-    Returns True, if `key` is valid, otherwise it returns false
-    """
-    if not valid_format(key):
-        print("Key format invalid!")
-        return False
-
-    if not first_group_valid(key):
-        print("First group invalid!")
-        return False
-
-    if not second_group_valid(key):
-        print("Second group invalid!")
-        return False
-    
-    if not third_group_valid(key):
-        print("Third group invalid!")
-        return False
-
-    if not fourth_group_valid(key):
-        print("Fourth group invalid!")
-        return False
-    
-    if not checksum_valid(key):
-        print("Checksum invalid!")
-        return False
-    
-    return True
+    def check(self) -> bool:
+        if not self.valid_format():
+            print('Key format invalid!')
+            return False
+        if not self.g1_valid():
+            print('G1 invalid!')
+            return False
+        if not self.g2_valid():
+            print('G2 invalid!')
+            return False
+        if not self.g3_valid():
+            print('G3 invalid!')
+            return False
+        if not self.g4_valid():
+            print('G4 invalid!')
+            return False
+        if not self.checksum_valid():
+            print('[Critical] Checksum verification failed!')
+            return False
+        return True
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2 or len(sys.argv) > 2:
-        print(info())
+    if len(sys.argv) != 2:
+        print(Key.info())
         sys.exit(-1)
-    
-    key = sys.argv[1]
-
-    if check_key(key):
+    input = sys.argv[1]
+    validator = Key(input)
+    if validator.check():
         print(f"Entered key is valid!")
     else:
         print(f"Entered key is invalid!") 
