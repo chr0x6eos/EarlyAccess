@@ -62,7 +62,7 @@ class Key:
  
     def _third_group_valid(self):
         """
-        Returns True, if third group of `self.key` has sum of `magic_num`, first 2 chars are `magic_value` and format is `magic_value00A`
+        Returns True, if third group of `self.key` has sum of `magic_num`, first 2 chars are `magic_value` and format is `magic_valueAA0`
         """
         group3 = self.key.split('-')[2]
         if group3[0:2] == self.magic_value:
