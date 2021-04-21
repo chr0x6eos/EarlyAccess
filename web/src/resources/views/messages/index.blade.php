@@ -35,7 +35,7 @@
                             @if(count(Auth::user()->received) > 0 )
                                 @foreach(Auth::user()->received as $message)
                                     <div class="card header">
-                                        <a href="{{route('messages.show', $message->id)}}">
+                                        <a name="inbox-header" href="{{route('messages.show', $message->id)}}">
                                             <div class="card-header {{-- @if($message->read)bg-success @endif--}}">
                                                 <p>{{$message->subject}} @if($message->read) (Read) @endif</p>
                                             </div>

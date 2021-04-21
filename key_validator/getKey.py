@@ -18,6 +18,8 @@ if __name__ == "__main__":
         key = sys.argv[1]
         print(calc_checksum(key))
         quit()
+
+    quit()
     values = ascii_uppercase
     req = 0
     possible = product(values, repeat=2)

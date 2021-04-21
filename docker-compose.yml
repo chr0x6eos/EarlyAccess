@@ -9,8 +9,8 @@ services:
     container_name: mysql
     restart: unless-stopped
     tty: true
-    ports:
-      - "3306:3306"
+    #ports:
+    #  - "3306:3306"
     volumes:
        - ./mysql-storage:/var/lib/mysql # Persistent storage
     environment:
@@ -32,10 +32,16 @@ services:
     container_name: webserver
     environment:
       ADMIN_PW: ${ADMIN_PW}
+      MYSQL_DATABASE: ${db}
+      MYSQL_USER: ${user}
+      MYSQL_PASSWORD: ${pw}
     ports:
+      - "80:80"
       - "443:443"
     volumes:
-      - ./src:/var/www/html
+      - ./web/src:/var/www/html
+      - ./web/game:/var/www/earlyaccess.htb/game
+      - ./web/dev:/var/www/earlyaccess.htb/dev
     depends_on:
       - mysql
       - api
@@ -80,7 +86,7 @@ services:
     image: node:13.7
     container_name: npm
     volumes:
-      - ./src:/var/www/html
+      - ./web/src:/var/www/html
     working_dir: /var/www/html
     entrypoint: ['npm']
     networks:

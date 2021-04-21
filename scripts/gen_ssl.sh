@@ -74,16 +74,20 @@ echo "service apache2 restart"
 echo "-------------------------------------------------------------"
 echo "3.) Editing ApacheConf..."
 echo "cat $target"
-echo "<VirtualHost *:443>" > $target
+echo "" >> $target
+echo "<VirtualHost *:443>" >> $target
+echo "	ServerName earlyaccess.htb" >> $target
+echo "" >> $target
 echo "	SSLEngine On" >> $target
 echo "	SSLCertificateFile $crt" >> $target
 echo "	SSLCertificateKeyFile $key" >> $target
 echo "	ServerAdmin $email" >> $target
 echo "	DocumentRoot /var/www/html/public" >> $target
-echo "<Directory \"/var/www/html\">" >> $target
-echo "AllowOverride all" >> $target
-echo "Require all granted" >> $target
-echo "</Directory>" >> $target
+echo "	<Directory \"/var/www/html\">" >> $target
+echo "		AllowOverride all" >> $target
+echo "		Require all granted" >> $target
+echo "	</Directory>" >> $target
+echo "" >> $target
 echo "	ErrorLog \${APACHE_LOG_DIR}/error.log" >> $target
 echo "	CustomLog \${APACHE_LOG_DIR}/access.log combined" >> $target 
 echo "</VirtualHost>" >> $target

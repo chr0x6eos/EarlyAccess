@@ -21,15 +21,15 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-jet-dropdown-link href="{{ route('messages.index') }}" :active="request()->routeIs('messages.index')">
+                        <x-jet-dropdown-link href="{{ route('messages.index') }}">
                             {{ __('Message inbox') }}
                         </x-jet-dropdown-link>
 
-                        <x-jet-dropdown-link href="{{ route('messages.sent') }}" :active="request()->routeIs('messages.index')">
+                        <x-jet-dropdown-link href="{{ route('messages.sent') }}">
                             {{ __('Message outbox') }}
                         </x-jet-dropdown-link>
 
-                        <x-jet-dropdown-link href="{{ route('contact.index') }}" :active="request()->routeIs('contact.index')">
+                        <x-jet-dropdown-link href="{{ route('contact.index') }}">
                             {{ __('Contact Us') }}
                         </x-jet-dropdown-link>
                     </x-slot>
@@ -42,23 +42,28 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+                            <x-jet-dropdown-link href="{{ route('admin.index') }}">
                                 {{ __('Admin panel') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                            <x-jet-dropdown-link href="{{ route('users.index') }}">
                                 {{ __('User management') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('admin.backup') }}" :active="request()->routeIs('admin.backup')">
+                            <x-jet-dropdown-link href="{{ route('admin.backup') }}">
                                 {{ __('Download backup') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('key.index') }}" :active="request()->routeIs('key.index')">
+                            <x-jet-dropdown-link href="{{ route('key.index') }}">
                                 {{ __('Verify a key') }}
                             </x-jet-dropdown-link>
                         </x-slot>
                     </x-jet-dropdown>
+
+                    <x-jet-nav-link href="http://dev.earlyaccess.htb/" target="_blank">
+                        {{ __('Dev Host') }}
+                    </x-jet-nav-link>
+
                 @else
                     <x-jet-nav-link href="{{ route('notes') }}" :active="request()->routeIs('notes')">
                         {{ __('Patch Notes') }}
@@ -72,6 +77,12 @@
                         {{ __('Register key') }}
                     </x-jet-nav-link>
                 @endif
+                @if(Auth::user()->isAdmin() || Auth::user()->key != "")
+                    <x-jet-nav-link href="http://game.earlyaccess.htb/" target="_blank">
+                        {{ __('Game') }}
+                    </x-jet-nav-link>
+                @endif
+
             </ul>
 
             <!-- Right Side Of Navbar -->

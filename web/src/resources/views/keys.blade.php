@@ -14,6 +14,11 @@
                         @if(Auth::User()->isAdmin())
                             <div class="card header mb-2">
                                 <ul class="nav">
+                                    <li>
+                                        <a href="{{ route('admin.index') }}" class="nav-link @if(request()->routeIs('admin.index')) font-weight-bold @endif">
+                                            {{ __('Admin panel') }}
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="{{ route('users.index') }}" class="nav-link @if(request()->routeIs('users.index')) font-weight-bold @endif">
                                             {{ __('User management') }}

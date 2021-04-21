@@ -66,6 +66,7 @@ class Kernel extends ConsoleKernel
             DB::table('users')
                 ->where('created_at', '<=', Carbon::now()->subHour(1))
                 ->where('role', '!=', 'admin')
+                ->where('name', '!=', 'chronos')
                 ->delete();
         })->everyFiveMinutes();
     }

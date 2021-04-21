@@ -9,10 +9,15 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h2>Admin panel</h2></div>
+                    <div class="panel-heading"><h2>Key-verification backup</h2></div>
                     <div class="panel-body">
                         <div class="card header mb-2">
                             <ul class="nav">
+                                <li>
+                                    <a href="{{ route('admin.index') }}" class="nav-link @if(request()->routeIs('admin.index')) font-weight-bold @endif">
+                                        {{ __('Admin panel') }}
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a href="{{ route('users.index') }}" class="nav-link @if(request()->routeIs('users.index')) font-weight-bold @endif">
                                         {{ __('User management') }}
@@ -29,6 +34,16 @@
                                     </a>
                                 </li>
                             </ul>
+                        </div>
+                        <div class="card header">
+                            <div class="card-header">
+                                <h2>Offline Key-validator</h2>
+                            </div>
+                            <div class="card-body">
+                                <p>Since the API has been down a lot lately, we have come up with an temporary solution.
+                                    As requested, an offline backup of the game-key validator algorithm is now available to all administrative users. To use this, the magic_num must be entered into the validator app.</p>
+                                <a class="btn btn-outline-success" href="{{route('admin.download')}}">Download Key-validator</a>
+                            </div>
                         </div>
                     </div>
                 </div>
