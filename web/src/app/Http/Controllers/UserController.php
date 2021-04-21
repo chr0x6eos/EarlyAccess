@@ -161,6 +161,11 @@ class UserController extends Controller
         $key = $request->key;
         $user = Auth::User();
 
+        if($user->isAdmin())
+        {
+            return redirect()->route('key.index');
+        }
+
         if (API::verify_key($key) == "Key is valid!")
         {
             $user->key = $key;

@@ -10,7 +10,7 @@ try
 
         if ($email != "" && $password != "")
         {
-            $sql = $pdo->prepare("select * from users where email=?");
+            $sql = $pdo->prepare("SELECT * FROM users WHERE email=?");
             $sql->execute([$email]);
             $user = $sql->fetch();
             
@@ -21,14 +21,22 @@ try
                 $id = $user["id"];
                 $name = $user["name"];
                 $hash = $user["password"];
+                $key = $user["key"];
 
                 if(password_verify($password,$hash))
                 {
-                    // Store id & username in session
-                    $_SESSION['user'] = array();
-                    $_SESSION['user']['id'] = $id;
-                    $_SESSION['user']['name'] = $name;
-                    header('Location: game.php');
+                    if ($name == "admin" || $key != "")
+                    {
+                        // Store id & username in session
+                        $_SESSION['user'] = array();
+                        $_SESSION['user']['id'] = $id;
+                        $_SESSION['user']['name'] = $name;
+                        header('Location: game.php');
+                    }
+                    else
+                    {
+                        throw new Exception("The account has no EarlyAccess-Key linked! Please link your game key to your account to continue.");
+                    }
                 }
                 else
                 {
@@ -48,5 +56,6 @@ try
 }
 catch(Exception $ex)
 {
-    echo $ex->getMessage();
+    $_SESSION['error'] = $ex->getMessage();
+    header('Location: index.php');
 }

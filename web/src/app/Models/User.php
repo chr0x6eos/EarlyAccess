@@ -102,6 +102,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'recipient_id');
     }
 
+    public function score(): HasMany
+    {
+        return $this->hasMany(Scoreboard::class, 'user_id');
+    }
+
     /**
      * Sends message to $recipient with $message
      *

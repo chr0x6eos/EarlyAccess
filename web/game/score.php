@@ -12,35 +12,34 @@ try
     {
         $score = $_GET['score'];
 
-        $sql = $pdo->prepare("select * from users where name=?");
-        $sql->execute([$_SESSION['name']]);
+        $sql = $pdo->prepare("SELECT * FROM users WHERE id=?");
+        $sql->execute([$_SESSION['user']['id']]);
         $user = $sql->fetch();
         
         // Check if user was found
         if ($user)
         {
-            // Get username and hash
-            $name = $user["name"];
-            $hash = $user["password"];
+            $id = $user["id"];
 
-            if(password_verify($password,$hash))
-            {
-                // Store username in session
-                $_SESSION['user'] = $name;
-                header('Location: game.php');
-            }
-            else
-            {
-                throw new Exception("Invalid username or password!");
-            }
+            $sql = $pdo->prepare("INSERT INTO scoreboard (score, user_id) VALUES (?,?)");
+            $sql->execute([$score, $id]); 
+
+            header('Location: game.php');
         }
         else
         {
-            throw new Exception("Invalid username or password!");
+            $_SESSION['error'] = "The user with the name " . htmlentities($_SESSION['user']['name']) . " does not exist anymore!";
+            session_destroy();
+            header('Location: index.php');
         }
+    }
+    else
+    {
+        throw new Exception('No score inputted!');
     }
 }
 catch(Exception $ex)
 {
-    echo $ex->getMessage();
+    $_SESSION['error'] = $ex->getMessage();
+    header('Location: game.php');
 }

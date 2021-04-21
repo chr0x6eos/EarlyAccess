@@ -7,26 +7,44 @@ if(isset($_SESSION['user'])){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<title>EarlyAccess Game</title>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet"
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<div class="container">
-    <form method="post" action="/login.php">
-        <div id="div_login">
-            <h1>Login</h1>
-            <div>
-                <input type="text" class="textbox" id="email" name="email" placeholder="user@earlyaccess.htb"/>
-            </div>
-            <div>
-                <input type="password" class="textbox" id="password" name="password" placeholder="password"/>
-            </div>
-            <div>
-                <input type="submit"/>
-            </div>
-        </div>
-    </form>
-</div>
+	<?php include "header.php"; ?>
+	<body class="bg-light font-sans antialiased">
+		<div class="container">
+    		<div class="row justify-content-center my-5">
+        		<div class="col-sm-12 col-md-8 col-lg-5 my-4">
+					<div>
+                		<a class="d-flex justify-content-center mb-4" href="/">
+							<svg width="64" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M11.395 44.428C4.557 40.198 0 32.632 0 24 0 10.745 10.745 0 24 0a23.891 23.891 0 0113.997 4.502c-.2 17.907-11.097 33.245-26.602 39.926z" fill="#6875F5"></path>
+								<path d="M14.134 45.885A23.914 23.914 0 0024 48c13.255 0 24-10.745 24-24 0-3.516-.756-6.856-2.115-9.866-4.659 15.143-16.608 27.092-31.75 31.751z" fill="#6875F5"></path>
+							</svg>
+						</a>
+            		</div>
+					<div class="card shadow-sm px-1 mx-4">
+						<div class="card-body">
+							<h3>Welcome!</h3>
+							<p>Please log in with your account that your EarlyAccess-Key is linked to.</p>
+        	    			<form method="POST" action="/login.php">
+        	    			    <div class="form-group">
+        	    			        <label>Email</label>
+        	    			        <input class="form-control" type="email" name="email" required="required">
+								</div>
+        	    			    <div class="form-group">
+        	    			        <label>Password</label>
+        	    			        <input class="form-control" type="password" name="password" required="required" autocomplete="current-password">
+								</div>
+							
+        	    			    <div class="mb-2">
+        	    			        <div class="d-flex justify-content-end align-items-baseline">
+        	    			            <button type="submit" class="btn btn-dark text-uppercase">Log in</button>
+        	    			        </div>
+        	    			    </div>
+        	    			</form>
+							<?php include "error.php"; ?>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

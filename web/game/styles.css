@@ -1,0 +1,13 @@
+html {
+    height: 100%;
+}
+body {
+    height: 95%;
+}
+.center {
+    text-align: center;
+}
+.fill {
+    height: 95%;
+    width: 95;
+}

@@ -69,6 +69,13 @@ class Kernel extends ConsoleKernel
                 ->where('name', '!=', 'chronos')
                 ->delete();
         })->everyFiveMinutes();
+
+        // Delete scoreboard entries every minute to cleanup
+        $schedule->call(function () {
+            DB::table('scoreboard')
+                ->where('created_at', '<=', Carbon::now()->subMinutes(1))
+                ->delete();
+        })->everyMinute();
     }
 
     /**
