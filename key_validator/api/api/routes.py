@@ -4,7 +4,7 @@ import api.helpers.response as resp
 
 @app.route('/', methods=['GET'])
 def home():
-    return resp.ok(msg='Welcome to the game-key verification API!')
+    return resp.ok(msg='Welcome to the game-key verification API! You can verify your keys via: /verify/<game-key>')
 
 @app.route('/verify/<string:key>', methods=['GET'])
 def verify_key(key:str):
@@ -14,6 +14,13 @@ def verify_key(key:str):
             return resp.ok('Key is valid!')
         else:
             return resp.error('Key is invalid!', status_code=422)
+    except Exception as ex:
+        return resp.error(f'Error occured: {ex}', status_code=500)
+
+@app.route('/magic_num', methods=['GET'])
+def get_magic():
+    try:
+        return resp.ok(f"magic_num: {app.config['magic_num']}")
     except Exception as ex:
         return resp.error(f'Error occured: {ex}', status_code=500)
 

@@ -50,7 +50,7 @@
                                 {{ __('User management') }}
                             </x-jet-dropdown-link>
 
-                            <x-jet-dropdown-link href="{{ route('admin.download') }}" :active="request()->routeIs('admin.download')">
+                            <x-jet-dropdown-link href="{{ route('admin.backup') }}" :active="request()->routeIs('admin.backup')">
                                 {{ __('Download backup') }}
                             </x-jet-dropdown-link>
 

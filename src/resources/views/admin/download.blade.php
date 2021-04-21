@@ -30,6 +30,16 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="card header">
+                            <div class="card-header">
+                                <h2>Offline Key-validator</h2>
+                            </div>
+                            <div class="card-body">
+                                <p>Since the API has been down a lot lately, we have come up with an temporary solution.
+                                    As requested, an offline backup of the game-key validator algorithm is now available to all administrative users. To use this, the magic_num must be entered into the validator app.</p>
+                                <a class="btn btn-outline-success" href="{{route('admin.download')}}">Download Key-validator</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

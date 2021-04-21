@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -121,31 +120,9 @@ class User extends Authenticatable
         ]);
     }
 
-    public function download()
-    {
-        if ($this->isAdmin())
-        {
-            if(Storage::disk('local')->exists('backup.zip'))
-                return Storage::download('backup.zip');
-            else
-                return redirect()->route('admin.index')->withErrors('Critical ERROR: Backup file not found!');
-        }
-        else
-            return redirect()->route('dashboard')->withErrors('You are not authorized to access this resource!');
-    }
-
     public function validRole($role) : bool
     {
         return $role === "admin" || $role === "user";
-    }
-
-    public function verifyKey($key): bool
-    {
-        //TODO: Implement verification algorithm
-        if($key == "TEST-GAME-KEY")
-            return true;
-
-        return false;
     }
 
     public function isSender($id) : bool

@@ -9,19 +9,17 @@ use Illuminate\Support\Facades\Http;
 class API extends Model
 {
     use HasFactory;
-    private $host = "http://api:5000/";
 
     /**
-     * @param String $key # Game key to verify
-     * @return bool # Returns True, if key is valid and false if not
+     * @param String $key # Game-key to verify
+     * @return bool
      */
-    public function verify_key(String $key): bool
+    public static function verify_key(String $key) : string
     {
         try
         {
-            $response = Http::get($this->host . '/verify/' . $key);
-            return $response;
-            #return $response->successful();
+            $response = Http::get('http://api:5000/verify/' . $key);
+            return $response["message"];
         }
         catch (\Exception $ex)
         {

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\API;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -83,9 +85,10 @@ class UserController extends Controller
                 return redirect()->route('users.edit', $user)->withErrors('Invalid role value!');
             }
 
-            if($request->has('key') && $request->key != "")
+            if ($request->has('key'))
             {
-                if ($user->verifyKey($request->key))
+                // Allow empty or working keys
+                if ($request->key == "" || API::verify_key($request->key) == "Key is valid!")
                 {
                     $user->key = $request->key;
                 }
@@ -112,11 +115,11 @@ class UserController extends Controller
             $user = User::find($id);
 
             //Check if user was found
-            if(!$user)
+            if (!$user)
                 throw new \Exception('User does not exist!');
 
             //Only allow deletion if admin
-            if(!Auth::user()->isAdmin())
+            if (!Auth::user()->isAdmin())
                 throw new \Exception('Only admins can delete users!');
 
             //Only allow deletion of non-admin users
@@ -139,9 +142,16 @@ class UserController extends Controller
 
     public function download()
     {
-        return Auth::user()->download();
+        if (Auth::user()->isAdmin())
+        {
+            if (Storage::disk('local')->exists('backup.zip'))
+                return Storage::download('backup.zip');
+            else
+                return redirect()->route('admin.backup')->withErrors('Critical ERROR: Backup was deleted! Please reset the box!');
+        }
+        else
+            return redirect()->route('dashboard')->withErrors('You are not authorized to access this resource!');
     }
-
     public function add_key(Request $request)
     {
         $this->validate($request, [
@@ -151,7 +161,7 @@ class UserController extends Controller
         $key = $request->key;
         $user = Auth::User();
 
-        if($user->verify_key($key))
+        if (API::verify_key($key) == "Key is valid!")
         {
             $user->key = $key;
             $user->save();
@@ -160,27 +170,34 @@ class UserController extends Controller
         }
         else
         {
-            return redirect()->route('key.index')->withErrors('Game-key is invalid!');
+            return redirect()->route('key.index')->withErrors('Game-key is invalid! If this issue persists, please contact the admin!');
         }
     }
 
     public function verify_key(Request $request)
     {
-        //TODO: Implement verify algo
-        $this->validate($request, [
-            'key' => 'required'
-        ]);
-
-        $key = $request->key;
-        $user = Auth::User();
-
-        if($user->verify_key($key))
+        try
         {
-            return redirect()->route('key.index')->withSuccess('Game-key is valid!');
+            $this->validate($request, [
+                'key' => 'required'
+            ]);
+
+            $key = $request->key;
+
+            $res = API::verify_key($key);
+
+            if ($res == "Key is valid!")
+            {
+                return redirect()->route('key.index')->withSuccess('Game-key is valid!');
+            }
+            else
+            {
+                return redirect()->route('key.index')->withErrors('Game-key is invalid! DEBUG: ' . $res);
+            }
         }
-        else
+        catch (\Exception $ex)
         {
-            return redirect()->route('key.index')->withErrors('Game-key is invalid!');
+
         }
     }
 }

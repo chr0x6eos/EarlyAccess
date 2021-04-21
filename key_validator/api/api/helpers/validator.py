@@ -8,7 +8,10 @@ class Key:
     magic_value = "XP"
     magic_num = 312 # XP000
 
-    def __init__(self, key:str, magic_num:int=0):
+    def __init__(self, key:str, magic_num:int=312):
+        """
+        Initializes `Key` object and sets `key` and `magic_num value`
+        """
         self.key = key
         if magic_num != 0:
             self.magic_num = magic_num
@@ -34,9 +37,9 @@ class Key:
         group1 = self.key.split('-')[0]
 
         # Obfuscate check
-        res = [(ord(value) << index+1) % 256 ^ ord(value) for index, value in enumerate(group1[0:3])]
+        res = [(ord(value) << index + 1) % 256 ^ ord(value) for index, value in enumerate(group1[0:3])]
 
-        # First 3 chars are "self.key"
+        # First 3 chars are "KEY"
         if res != [221, 81, 145]:
             return False
         
@@ -55,10 +58,10 @@ class Key:
         Returns True, if second group's even and odd chars have same sum
         """
         group2 = self.key.split('-')[1]
-        p1 = group2[::2] # Index is even
-        p2 = group2[1::2] # Index is odd
+        even = group2[::2] # Index is even
+        odd = group2[1::2] # Index is odd
 
-        return sum(bytearray(p1.encode())) == sum(bytearray(p2.encode()))
+        return sum(bytearray(even.encode())) == sum(bytearray(odd.encode()))
  
     def _third_group_valid(self):
         """
@@ -74,7 +77,7 @@ class Key:
         """
         Returns True, if fourth group of `self.key` XORed with first group returns certain sequence [12, 4, 20, 117, 0]
         """
-        return [ord(a) ^ ord(b) for a, b in zip(self.key.split('-')[0], self.key.split('-')[3])] == [12, 4, 20, 117, 0]
+        return [ord(group1) ^ ord(group4) for group1, group4 in zip(self.key.split('-')[0], self.key.split('-')[3])] == [12, 4, 20, 117, 0]
 
     def _checksum_valid(self):
         """

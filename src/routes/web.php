@@ -57,7 +57,10 @@ Route::middleware(['auth:sanctum', 'verified'])->get('messages/{message}', 'App\
 Route::middleware(['auth:sanctum', 'admin'])->get('admin', function () {
     return view('admin.index');
 })->name('admin.index');
-Route::middleware(['auth:sanctum', 'admin'])->get('admin/download', 'App\Http\Controllers\UserController@download')->name('admin.download');
+Route::middleware(['auth:sanctum', 'admin'])->get('admin/backup', function () {
+    return view('admin.download');
+})->name('admin.backup');
+Route::middleware(['auth:sanctum', 'admin'])->get('admin/backup/download', 'App\Http\Controllers\UserController@download')->name('admin.download');
 
 Route::middleware(['auth:sanctum', 'admin'])->get('users/edit/{user}','App\Http\Controllers\UserController@edit')->name('users.edit');
 Route::middleware(['auth:sanctum', 'admin'])->patch('users/update/{user}','App\Http\Controllers\UserController@update')->name('users.update');

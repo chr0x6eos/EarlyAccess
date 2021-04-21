@@ -49,8 +49,9 @@ services:
     container_name: api
     image: "api"
     restart: on-failure
-    ports:
-      - "8000:5000"
+    # API is only exposed to other containers
+    #ports:
+    #  - "8000:5000"
     volumes:
       - ./key_validator/api:/opt/api # Source-code
     environment: 
