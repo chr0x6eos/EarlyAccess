@@ -62,7 +62,7 @@ function main() {
         document.getElementById('status').innerHTML = "Game over!";
         document.getElementById('btn').disabled = false;
         document.getElementById('btn').innerHTML = "Replay";
-        url = 'http://game.earlyaccess.htb/score.php?score=';
+        url = 'http://game.earlyaccess.htb/actions/score.php?score=';
         score = document.getElementById('score').innerHTML;
         url += score;
         $.get(url);

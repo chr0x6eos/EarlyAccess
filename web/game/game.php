@@ -1,17 +1,11 @@
 <?php
-
-include "config.php";
-
-if(!isset($_SESSION['user'])){
-    header('Location: index.php');
-}
+    include "includes/session.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-	<?php include "header.php"; ?>
+	<?php include "includes/header.php"; ?>
     <body>
-        <?php include "menu.php"; ?>
+        <?php include "includes/menu.php"; ?>
         <div class="container fill">
             <div class="panel panel-default fill">
                 <div class="panel-heading center"><h1>Game version v0.1.2.733</h1></div>
@@ -49,12 +43,12 @@ if(!isset($_SESSION['user'])){
                                             width: 50%;
                                         }
                                     </style>
-                                    <script src="game.js"></script>
+                                    <script src="assets/js/game.js"></script>
                                 </div>
                                 <div class="play">
                                     <button id="btn" class="btn btn-outline-dark center play-btn" onclick="start()">Play</button>
                                     <br>
-                                    <?php include "error.php"; ?>
+                                    <?php include "includes/error.php"; ?>
                                 </div>
                             </div>
                         </div>

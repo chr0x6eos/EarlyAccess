@@ -23,20 +23,25 @@
                     <a class="nav-link" href="/scoreboard.php">
                         Scoreboard
                     </a>
-                </li>               
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/leaderboard.php">
+                        Global Leaderboard
+                    </a>
+                </li>  
             </ul>
 
             <ul class="navbar-nav ml-auto align-items-baseline">
                 <li class="nav-item dropdown">
                     <a id="settingsDropdown" class="nav-link" role="button" data-toggle="dropdown" aria-expanded="false">
                         <?php echo $_SESSION['user']['name']; ?>
-                        <svg class="ml-2" width="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <svg class="ml-2" width="18" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="settingsDropdown">
                         <a class="dropdown-item px-4" href="https://earlyaccess.htb/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log out</a>
-                        <form method="POST" id="logout-form" action="/logout.php">
+                        <form method="POST" id="logout-form" action="/actions/logout.php">
                             <input type="hidden" value="Logout" name="logout">
                         </form>
                     </div>

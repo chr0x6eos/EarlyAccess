@@ -1,5 +1,5 @@
 <?php
-include "config.php";
+include "../includes/session.php";
 
 try
 {
@@ -31,7 +31,7 @@ try
                         $_SESSION['user'] = array();
                         $_SESSION['user']['id'] = $id;
                         $_SESSION['user']['name'] = $name;
-                        header('Location: game.php');
+                        header('Location: /game.php');
                     }
                     else
                     {
@@ -56,6 +56,6 @@ try
 }
 catch(Exception $ex)
 {
-    $_SESSION['error'] = $ex->getMessage();
-    header('Location: index.php');
+    $_SESSION['error'] = htmlentities($ex->getMessage());
+    header('Location: /index.php');
 }

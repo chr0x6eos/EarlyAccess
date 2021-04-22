@@ -1,4 +1,8 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/app.js": "/js/app.js?id=6724cb6b960269f5e1a4",
+    "/css/app.css": "/css/app.css?id=29321073247f0ff551e4",
+    "/css/nunito.css": "/css/nunito.css?id=28b2170c836b8b5cf6f5",
+    "/fonts/XRXV3I6Li01BKofINeaE.ttf": "/fonts/XRXV3I6Li01BKofINeaE.ttf?id=e004f4fb21178a513678",
+    "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf": "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf?id=100c2a5e73d809a87f8e",
+    "/fonts/XRXW3I6Li01BKofAjsOUYevN.ttf": "/fonts/XRXW3I6Li01BKofAjsOUYevN.ttf?id=93f3b9d07a7555bcadee"
 }

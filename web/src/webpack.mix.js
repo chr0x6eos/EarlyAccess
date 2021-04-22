@@ -13,7 +13,10 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
+    .css('resources/css/nunito.css','public/css')
     .webpackConfig(require('./webpack.config'));
+
+mix.copyDirectory('resources/assets/fonts', 'public/fonts');
 
 if (mix.inProduction()) {
     mix.version();

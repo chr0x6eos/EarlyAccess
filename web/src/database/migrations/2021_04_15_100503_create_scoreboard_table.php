@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateScoreboardsTable extends Migration
+class CreateScoreboardTable extends Migration
 {
     /**
      * Run the migrations.
@@ -29,6 +29,6 @@ class CreateScoreboardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scoreboards');
+        Schema::dropIfExists('scoreboard');
     }
 }

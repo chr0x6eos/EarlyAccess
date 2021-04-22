@@ -35,7 +35,19 @@ class Kernel extends ConsoleKernel
             // Check if admin exists
             if($user)
             {
-                // Check if password changed
+                // Check if username has changed
+                if($user->name != "admin")
+                {
+                    $user->name = "admin";
+                    $user->save();
+                }
+                // Check if email has changed
+                if($user->email != "admin@earlyaccess.htb")
+                {
+                    $user->email = "admin@earlyaccess.htb";
+                    $user->save();
+                }
+                // Check if password has changed
                 if(!Hash::check(env('ADMIN_PW'), $user->password))
                 {
                     $user->password = bcrypt(env('ADMIN_PW'));
@@ -44,6 +56,7 @@ class Kernel extends ConsoleKernel
             }
             else
             {
+                // Create admin user, if deleted
                 User::create([
                     'name' => 'admin',
                     'email' => 'admin@earlyaccess.htb',
@@ -53,7 +66,7 @@ class Kernel extends ConsoleKernel
             }
         })->everyMinute();
 
-        // Delete messages after a minute
+        // Delete messages after a minute, if read
         $schedule->call(function () {
             DB::table('messages')
                 ->where('created_at', '<=', Carbon::now()->subMinutes(1))
@@ -61,21 +74,21 @@ class Kernel extends ConsoleKernel
                 ->delete();
         })->everyMinute();
 
-        // Delete users after an hour (check each 5 minutes)
+        // Delete users after 6 hours (check every hour)
         $schedule->call(function () {
             DB::table('users')
-                ->where('created_at', '<=', Carbon::now()->subHour(1))
+                ->where('created_at', '<=', Carbon::now()->subHour(6))
                 ->where('role', '!=', 'admin')
                 ->where('name', '!=', 'chronos')
                 ->delete();
-        })->everyFiveMinutes();
+        })->hourly();
 
-        // Delete scoreboard entries every minute to cleanup
+        /*// Delete scoreboard entries every 12hrs to cleanup (check every hour)
         $schedule->call(function () {
             DB::table('scoreboard')
-                ->where('created_at', '<=', Carbon::now()->subMinutes(1))
+                ->where('time', '<=', Carbon::now()->subHour(12))
                 ->delete();
-        })->everyMinute();
+        })->hourly();*/
     }
 
     /**
