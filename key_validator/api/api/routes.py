@@ -19,6 +19,9 @@ def verify_key(key:str):
 
 @app.route('/magic_num', methods=['GET'])
 def get_magic():
+    """
+    Returns magic_num for synchronization
+    """
     try:
         return resp.ok(f"magic_num: {app.config['magic_num']}")
     except Exception as ex:

@@ -20,19 +20,6 @@
                             <?php
                                 try
                                 {
-                                    $sql = $pdo->prepare("SELECT * FROM users WHERE id=?");
-                                    $sql->execute([$_SESSION['user']['id']]);
-                                    $user = $sql->fetch();
-
-                                    // Check if user was found
-                                    if (!$user)
-                                    {
-                                        $_SESSION['error'] = "The user with the name " . htmlentities($_SESSION['user']['name']) . " does not exist anymore!";
-                                        session_destroy();
-                                        header('Location: index.php');
-                                        return;
-                                    }
-
                                     $sql = $pdo->prepare("SELECT count(*) as sum FROM scoreboard WHERE user_id=?");
                                     $sql->execute([$_SESSION['user']['id']]);
                                     $res = $sql->fetch();

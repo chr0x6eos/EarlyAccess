@@ -20,9 +20,17 @@ if(isset($_SESSION['user']))
         $_SESSION['user']['id'] = $id;
         $_SESSION['user']['name'] = $name;
     }
+    else
+    {
+        // User does not exist anymore, delete session
+        session_destroy();
+        header('Location: index.php');
+        return;
+    }
 }
 else
 {
     header('Location: index.php');
+    return;
 }
 ?>
