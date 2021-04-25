@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 import urllib3
 urllib3.disable_warnings()
 
-proxies = {'https':'http://127.0.0.1:8080'}
+proxies = {} #{'https':'http://127.0.0.1:8080'}
 # URL of webpage
 url = "https://earlyaccess.htb"
 

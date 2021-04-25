@@ -65,10 +65,11 @@
                     </x-jet-nav-link>
 
                 @else
+                    {{--
                     <x-jet-nav-link href="{{ route('notes') }}" :active="request()->routeIs('notes')">
                         {{ __('Patch Notes') }}
                     </x-jet-nav-link>
-
+                    --}}
                     <x-jet-nav-link href="{{ route('forum') }}" :active="request()->routeIs('forum')">
                         {{ __('Forum') }}
                     </x-jet-nav-link>

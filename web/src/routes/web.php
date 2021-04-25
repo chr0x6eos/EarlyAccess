@@ -25,10 +25,11 @@ Route::middleware(['auth:sanctum'])->get('forum', function () {
     return view('forum');
 })->name('forum');
 
+/*
 Route::middleware(['auth:sanctum'])->get('notes', function () {
     return view('notes');
 })->name('notes');
-
+*/
 Route::middleware(['auth:sanctum'])->get('key', function () {
     return view('keys');
 })->name('key.index');

@@ -18,11 +18,21 @@
                             <div class="card-body">
                                     <h5>Changes:</h5>
                                     <ul>
-                                        <li>Registration of usernames limited to alphanumeric characters</li>
                                         <li></li>
                                         <li>B</li>
                                     </ul>
                             </div>
+                        </div>
+                        <div class="card-header">
+                            <h3>Game-Version v0.1.2.732</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5>Changes:</h5>
+                            <ul>
+                                <li>Registration of usernames limited to alphanumeric characters</li>
+                                <li></li>
+                                <li>B</li>
+                            </ul>
                         </div>
                         {{-- @for($i = 733; $i>728; $i--)
                             <div class="card header">
