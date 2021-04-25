@@ -15,11 +15,6 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/actions/file.php">
-                        File-Checker
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/actions/hash.php">
                         Hash-Checker
                     </a>

@@ -1,6 +1,6 @@
 <?php
 
-include "../includes/session.php";
+include_once "../includes/session.php";
 
 if(!isset($_SESSION['user'])){
     header('Location: /index.php');

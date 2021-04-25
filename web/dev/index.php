@@ -1,12 +1,12 @@
 <?php
-	include "includes/config.php";
+	include_once "includes/config.php";
 
 	if(isset($_SESSION['user']))
 		header('Location: /home.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-	<?php include "includes/header.php"; ?>
+	<?php include_once "includes/header.php"; ?>
 	<body class="bg-light font-sans antialiased">
 		<div class="container">
     		<div class="row justify-content-center my-5">
@@ -39,7 +39,7 @@
         	    			        </div>
         	    			    </div>
         	    			</form>
-							<?php include "includes/error.php"; ?>
+							<?php include_once "includes/error.php"; ?>
 						</div>
 					</div>
 				</div>

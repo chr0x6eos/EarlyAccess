@@ -1,6 +1,6 @@
 <?php
 
-include "config.php";
+include_once "config.php";
 
 // Update user on each page-load
 if(isset($_SESSION['user']))
