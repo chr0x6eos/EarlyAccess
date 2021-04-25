@@ -1,5 +1,8 @@
 <?php
 	include "includes/config.php";
+
+	if(isset($_SESSION['user']))
+		header('Location: /game.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

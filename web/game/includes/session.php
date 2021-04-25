@@ -24,13 +24,13 @@ if(isset($_SESSION['user']))
     {
         // User does not exist anymore, delete session
         session_destroy();
-        header('Location: index.php');
+        header('Location: /index.php');
         return;
     }
 }
 else
 {
-    header('Location: index.php');
+    header('Location: /index.php');
     return;
 }
 ?>

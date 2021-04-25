@@ -2,7 +2,7 @@
 	include "includes/config.php";
 
 	if(isset($_SESSION['user']))
-		header('/home.php');
+		header('Location: /home.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
