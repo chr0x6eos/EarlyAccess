@@ -12,7 +12,7 @@ class MessageController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth:sanctum','verified']);
+        $this->middleware(['auth:sanctum']);
     }
 
     public function show($id)

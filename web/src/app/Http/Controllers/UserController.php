@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use GrahamCampbell\Throttle\Facades\Throttle;
 
 class UserController extends Controller
 {
+
+    protected $timeout = 1; //1 minute timeout on too many requests
+
     public function __construct()
     {
-        $this->middleware(['auth:sanctum', 'verified']);
+        $this->middleware(['auth:sanctum']);
     }
 
     public function show($id)
@@ -152,30 +156,45 @@ class UserController extends Controller
         else
             return redirect()->route('dashboard')->withErrors('You are not authorized to access this resource!');
     }
+
     public function add_key(Request $request)
     {
-        $this->validate($request, [
-            'key' => 'required'
-        ]);
-
-        $key = $request->key;
-        $user = Auth::User();
-
-        if($user->isAdmin())
+        try
         {
-            return redirect()->route('key.index');
+            $this->validate($request, [
+                'key' => 'required'
+            ]);
+
+            // Throttle users to 60req/min = 1req/s
+            $throttler = Throttle::get($request, 60, $this->timeout);
+
+            if (!$throttler->attempt())
+                return redirect()->route('key.index')->withErrors('Too many requests! Please wait (' . $this->timeout . ' min) before retrying!');
+
+            $key = $request->key;
+            $user = Auth::User();
+
+            if ($user->isAdmin())
+            {
+                return redirect()->route('key.index');
+            }
+
+            if (API::verify_key($key) == "Key is valid!")
+            {
+                $user->key = $key;
+                $user->save();
+                $throttler->clear();
+
+                return redirect()->route('key.index')->withSuccess('Game-key successfully added!');
+            }
+            else
+            {
+                return redirect()->route('key.index')->withErrors('Game-key is invalid! If this issue persists, please contact the admin!');
+            }
         }
-
-        if (API::verify_key($key) == "Key is valid!")
+        catch (\Exception $ex)
         {
-            $user->key = $key;
-            $user->save();
-
-            return redirect()->route('key.index')->withSuccess('Game-key successfully added!');
-        }
-        else
-        {
-            return redirect()->route('key.index')->withErrors('Game-key is invalid! If this issue persists, please contact the admin!');
+            return redirect()->route('key.index')->withErrors('Error occurred! Please try again!');
         }
     }
 
@@ -183,6 +202,12 @@ class UserController extends Controller
     {
         try
         {
+            // Throttle admins to 600req/min = 10req/s
+            $throttler = Throttle::get($request, 600, $this->timeout);
+
+            if(!$throttler->attempt())
+                return redirect()->route('key.index')->withErrors('Too many requests! Please wait (' . $this->timeout . ' min) before retrying!');
+
             $this->validate($request, [
                 'key' => 'required'
             ]);
@@ -202,7 +227,7 @@ class UserController extends Controller
         }
         catch (\Exception $ex)
         {
-
+            return redirect()->route('key.index')->withErrors('Error occurred! Please try again!');
         }
     }
 }

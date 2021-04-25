@@ -16,7 +16,7 @@ class CreateScoreboardTable extends Migration
     {
         Schema::create('scoreboard', function (Blueprint $table) {
             $table->id();
-            $table->integer("score");
+            $table->unsignedInteger("score");
             $table->foreignId('user_id')->constrained('users');
             $table->timestamp('time')->useCurrent();
         });

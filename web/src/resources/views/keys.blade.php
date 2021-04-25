@@ -47,7 +47,7 @@
                                         <div class="form-group{{ $errors->has('key') ? ' has-error' : '' }}">
                                             <label for="subject" class="col-md-5 control-label">Enter game-key:</label>
                                             <div class="col-md-auto">
-                                                <input class="input w-75" name="key" @if(session()->has('key'))value="{{session('key')}}"@endif placeholder="AAAAA-BBBBB-CCCC1-DDDDD-1234" required>
+                                                <input class="input w-75" name="key" @if(session()->has('key'))value="{{session('key')}}"@endif placeholder="AAAAA-BBBBB-CCCC1-DDDDD-1234" required autofocus>
 
                                                 @if ($errors->has('key'))
                                                     <span class="help-block">
@@ -76,7 +76,7 @@
                                             <div class="form-group{{ $errors->has('key') ? ' has-error' : '' }}">
                                                 <label for="subject" class="col-md-5 control-label">Enter game-key:</label>
                                                 <div class="col-md-auto">
-                                                    <input class="input w-75" name="key" @if(session()->has('key'))value="{{session('key')}}"@endif placeholder="AAAAA-BBBBB-CCCC1-DDDDD-1234" required>
+                                                    <input class="input w-75" name="key" @if(session()->has('key'))value="{{session('key')}}"@endif placeholder="AAAAA-BBBBB-CCCC1-DDDDD-1234" required autofocus>
 
                                                     @if ($errors->has('key'))
                                                         <span class="help-block">
@@ -103,7 +103,7 @@
                                             <div class="form-group{{ $errors->has('key') ? ' has-error' : '' }}">
                                                 <label for="subject" class="col-md-5 control-label">Enter your new game-key:</label>
                                                 <div class="col-md-auto">
-                                                    <input class="input w-75" name="key" placeholder="{{Auth::User()->key}}" required>
+                                                    <input class="input w-75" name="key" placeholder="{{Auth::User()->key}}" required autofocus>
 
                                                     @if ($errors->has('key'))
                                                         <span class="help-block">

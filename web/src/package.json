@@ -26,5 +26,7 @@
         "sass-loader": "^8.0.0",
         "tailwindcss": "^2.0.1"
     },
-    "dependencies": []
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.3"
+    }
 }

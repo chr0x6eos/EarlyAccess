@@ -30,7 +30,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 COPY .docker/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Setup SSL-Cert
-COPY scripts/gen_ssl.sh /opt/gen_ssl.sh
+COPY scripts/web/gen_ssl.sh /opt/gen_ssl.sh
 RUN bash /opt/gen_ssl.sh
 
 # Setup composer
@@ -47,5 +47,5 @@ RUN echo '* * * * * www-data cd /var/www/html && php artisan schedule:run >> /de
 ENV time=20
 
 # Setup entrypoint
-COPY scripts/entry.sh /root/entry.sh
+COPY scripts/web/entry.sh /root/entry.sh
 ENTRYPOINT /root/entry.sh

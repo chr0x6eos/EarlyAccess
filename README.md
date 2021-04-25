@@ -54,3 +54,12 @@ DB_DATABASE=db
 DB_USERNAME=mysql
 DB_PASSWORD=P@ssw0rd
 ```
+
+## NPM:
+`npm i @fortawesome/fontawesome-free --save`
+
+## Manual setup:
+1.) Create mysql-storage directory
+2.) DC UP
+3.) earlyaccess.htb: `php artisan migrate:fresh --seed`
+4.) MySQL: `/root/mysql.sh`
