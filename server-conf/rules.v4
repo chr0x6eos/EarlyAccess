@@ -1,0 +1,30 @@
+*filter
+
+# INBOUND
+# -------
+-P INPUT DROP # Drop all inbound traffic by default
+
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT # Allow established connections
+-A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT # Allow echo-requests
+-A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT # Allow SSH
+-A INPUT -p tcp --match multiport --dport 80,443 -j ACCEPT # Allow HTTP & HTTPs
+
+-A INPUT -i lo -j ACCEPT # Allow from loopback
+-A INPUT -d 127.0.0.0/8 -j REJECT # Block all other 127.0.0.1/8
+
+# OUTBOUND
+# --------
+#-P OUTPUT DROP # Drop all outbound by default (Only in prod)
+
+-A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT # Allow echo-reply
+-A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT # Allow established connections
+-A OUTPUT -p udp -j ACCEPT # Allow UDP outbound
+
+-A OUTPUT -o lo -j ACCEPT # Allow to loopback
+-A OUTPUT -d 127.0.0.0/8 -j REJECT # Block all other 127.0.0.1/8
+
+# FORWARD
+# -------
+-P FORWARD DROP # Drop all forward packages
+
+COMMIT
