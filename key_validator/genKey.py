@@ -183,7 +183,7 @@ if __name__ == "__main__":
         """
         Bruteforce all values
         """
-        keys = gen_all_keys() #gen_all_keys() || calc_key(known="XP")
+        keys = calc_key() #gen_all_keys() || calc_key()
 
         print(f"[*] Starting Brute-Force with {len(keys)} possible keys!\r\n")
         

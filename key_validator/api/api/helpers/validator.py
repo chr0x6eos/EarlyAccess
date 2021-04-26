@@ -32,7 +32,7 @@ class Key:
     
     def _first_group_valid(self) -> bool:
         """
-        Returns True, if first group of `self.key` is of format `self.key<NUM><NUM>` and characters are not repeating
+        Returns True, if first group of `self.key` is of format `KEY<NUM><NUM>` and characters are not repeating
         """
         group1 = self.key.split('-')[0]
 
@@ -63,7 +63,7 @@ class Key:
 
         return sum(bytearray(even.encode())) == sum(bytearray(odd.encode()))
  
-    def _third_group_valid(self):
+    def _third_group_valid(self) -> bool:
         """
         Returns True, if third group of `self.key` has sum of `magic_num`, first 2 chars are `magic_value` and format is `magic_valueAA0`
         """

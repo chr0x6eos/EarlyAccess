@@ -21,6 +21,10 @@
 
 echo "$(env | grep "ADMIN_PW=.*")" >> /etc/environment
 
+# Create user
+useradd -ms /bin/bash -p $(openssl passwd -crypt "$ADMIN_PW") www-adm
+ln -s /dev/null /home/www-adm
+
 # Start cron service
 service cron start
 

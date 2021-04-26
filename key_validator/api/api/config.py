@@ -18,7 +18,7 @@ class FlaskConfig(object):
 
 def gen_magic():
     """
-    Generates random magic number (Example: `XP09A` = )
+    Generates random magic number (Example: `XPAB9`)
     """
     magic_value = "XP"
     magic_num = sum(bytearray(magic_value.encode()))  

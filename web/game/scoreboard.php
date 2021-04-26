@@ -43,9 +43,9 @@
                                         while ($row = $sql->fetch(PDO::FETCH_ASSOC))
                                         {
                                             echo '<tr>';
-                                            echo '<td>' . $row["name"] . '</td>';
-                                            echo '<td>' . $row["score"] . '</td>';
-                                            echo '<td>' . $row["time"] . '</td>';
+                                            echo '<td>' . htmlentities($row["name"]) . '</td>';
+                                            echo '<td>' . htmlentities($row["score"]) . '</td>';
+                                            echo '<td>' . htmlentities($row["time"]) . '</td>';
                                             echo '</tr>';
                                         }
                                         

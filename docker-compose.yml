@@ -12,7 +12,8 @@ services:
     #ports:
     #  - "3306:3306"
     volumes:
-       - ./scripts/mysql:/root/scripts:ro
+      # - ./scripts/mysql/conf.d:/etc/mysql/conf.d:ro
+       - ./scripts/mysql/setup:/root/scripts:ro
        - ./mysql-storage:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
@@ -71,7 +72,7 @@ services:
     #ports:
     #  - "8000:5000"
     volumes:
-      - ./key_validator/api:/opt/api # Source-code
+      - ./key_validator/api:/opt/api:ro # Source-code
     environment: 
       # Flask config - dev or prod
       FLASK_ENV: development # production || development
@@ -88,7 +89,7 @@ services:
     environment:
       ADMIN_PW: ${ADMIN_PW}
     volumes: 
-      - ./admin_automation:/root/admin_automation
+      - ./admin_automation:/root/admin_automation:ro
     depends_on:
       - earlyaccess.htb
     networks:

@@ -4,6 +4,8 @@ USER root
 
 WORKDIR /root
 
+RUN ln -s /dev/null /root/.bash_history
+
 # Non interactive install
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -29,6 +31,9 @@ RUN CHROME_SETUP=google-chrome.deb && \
 
 RUN pip3 install selenium
 RUN pip3 install python-decouple
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Exec format header
 RUN echo '#!/bin/bash' > /root/entry.sh

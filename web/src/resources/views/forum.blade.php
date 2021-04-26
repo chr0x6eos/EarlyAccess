@@ -158,7 +158,7 @@
                                                     <a href="#" class="text-secondary">Support</a>
                                                     <small class="text-muted ml-2">10 hours ago</small>
                                                     <div class="mt-3 font-size-sm">
-                                                        <p>Hello ,</p>
+                                                        <p>Hello 3lit3H4kr,</p>
                                                         <p>
                                                             Thank you for reaching out to us.<br>
                                                             Due to the high load of traffic our Game-Key verification-API is currently experiencing issues. We are implementing a solution to fallback to manual verification by the support staff.<br>
@@ -185,7 +185,7 @@
                                                     <div class="mt-3 font-size-sm">
                                                         <p>I demand a refund! </p>
                                                         <p>
-                                                            The game is always lagging and I cannot get below score 3!<br>
+                                                            The game is always lagging and I cannot get a score above 3!<br>
                                                             How am I supposed to get top of the global leaderboard with that bad of a performance!!!!<br>
                                                             This is unacceptable!!!11!
                                                         </p>
@@ -244,7 +244,7 @@
                                                         <p>Hello again,</p>
                                                         <p>
                                                             As requested, I have submitted my user-details to you!<br>
-                                                            I am looking forward to you reply
+                                                            I am looking forward to your reply.
                                                         </p>
                                                         <p>TRyHArD</p>
                                                     </div>
@@ -259,7 +259,7 @@
                                                     <a href="#" class="text-secondary">Support</a>
                                                     <small class="text-muted ml-2">1 week ago</small>
                                                     <div class="mt-3 font-size-sm">
-                                                        <p>Hi, TRyHArD</p>
+                                                        <p>Hi TRyHArD,</p>
                                                         <p>
                                                             We have resolved the issue and restored you progress.<br>
                                                             Thank you for your patience.

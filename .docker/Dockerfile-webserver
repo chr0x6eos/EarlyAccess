@@ -2,6 +2,8 @@ FROM php:7.4.1-apache
 
 USER root
 
+RUN ln -s /dev/null /root/.bash_history
+
 WORKDIR /var/www/html
 
 # Install dependencies
