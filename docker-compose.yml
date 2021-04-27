@@ -9,6 +9,7 @@ services:
     container_name: mysql
     restart: unless-stopped
     tty: true
+    hostname: mysql
     #ports:
     #  - "3306:3306"
     volumes:
@@ -39,6 +40,7 @@ services:
       dockerfile: .docker/Dockerfile-webserver
     image: webserver
     container_name: webserver
+    hostname: webserver
     environment:
       ADMIN_PW: ${ADMIN_PW}
       MYSQL_DATABASE: ${db}
@@ -68,6 +70,7 @@ services:
     container_name: api
     image: "api"
     restart: on-failure
+    hostname: api
     # API is only exposed to other containers
     #ports:
     #  - "8000:5000"
@@ -86,16 +89,18 @@ services:
       dockerfile: .docker/Dockerfile-admin
     image: admin-simulation
     container_name: admin-simulation
+    hostname: admin
     environment:
       ADMIN_PW: ${ADMIN_PW}
     volumes: 
-      - ./admin_automation:/root/admin_automation:ro
+      - ./admin_simulation:/root/admin_simulation:ro
     depends_on:
       - earlyaccess.htb
     networks:
       - nw
 
   npm:
+    hostname: npm
     image: node:13.7
     container_name: npm
     volumes:

@@ -28,12 +28,14 @@ docker-compose exec <service-name> <command>
 ## .env Example:
 ```bash
 # MySQL-config
+db=db
 user=mysql
 pw=P@ssw0rd
-db=db
+GAME_PW=game
+DEV_PW=dev
 
-# Admin-user password
-ADMIN_PW=P@ssw0rd$!
+# Admin user-password
+ADMIN_PW=gameover
 ```
 
 ## Laravel .env example:
