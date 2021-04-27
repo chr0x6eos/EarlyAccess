@@ -30,7 +30,7 @@
 								</div>
         	    			    <div class="form-group">
         	    			        <label>Password</label>
-        	    			        <input class="form-control" type="password" name="password" required="required" autocomplete="current-password">
+        	    			        <input class="form-control" type="password" name="password" required="required" autofocus autocomplete="current-password">
 								</div>
 							
         	    			    <div class="mb-2">

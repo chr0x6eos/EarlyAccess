@@ -83,6 +83,13 @@ class Kernel extends ConsoleKernel
                 ->delete();
         })->hourly();
 
+        // Deletes failed_logins that are older than 2 minutes (check every minute)
+        $schedule->call(function () {
+            DB::table('failed_logins')
+                ->where('time', '<=', Carbon::now()->subMinutes(2))
+                ->delete();
+        })->everyMinute();
+
         /*// Delete scoreboard entries every 12hrs to cleanup (check every hour)
         $schedule->call(function () {
             DB::table('scoreboard')

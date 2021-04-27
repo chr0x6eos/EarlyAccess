@@ -1,8 +1,14 @@
 <?php
 include_once "../includes/session.php";
+include_once "../includes/ban.php";
 
 try
 {
+    if(!allow_login($_SERVER['REMOTE_ADDR']))
+    {
+        throw new Exception("You have made too many failed login attempts! Please wait before trying again!");
+    }
+
     if(isset($_POST['email']) && isset($_POST['password']))
     {
         $email = $_POST['email'];
@@ -33,22 +39,24 @@ try
                         $_SESSION['user']['name'] = $name;
                         header('Location: /game.php');
                     }
-                    else
+                    else // No game-key registered
                     {
                         throw new Exception("The account has no EarlyAccess-Key linked! Please link your game key to your account to continue.");
                     }
                 }
-                else
+                else // Password incorrect
                 {
+                    failed_login($_SERVER['REMOTE_ADDR']); // Log failed login
                     throw new Exception("Invalid username or password!");
                 }
             }
-            else
+            else // User not found
             {
+                failed_login($_SERVER['REMOTE_ADDR']); // Log failed login
                 throw new Exception("Invalid username or password!");
             }
         }
-        else
+        else // No email or password specified
         {
             throw new Exception("Email and password required!");
         }

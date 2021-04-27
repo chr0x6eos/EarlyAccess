@@ -1,8 +1,15 @@
 <?php
 include_once "../includes/session.php";
+include_once "../includes/ban.php";
 
 try
 {
+
+    if(!allow_login($_SERVER['REMOTE_ADDR']))
+    {
+        throw new Exception("You have made too many failed login attempts! Please wait before trying again!");
+    }
+
     if(isset($_POST['password']) && $_POST['password'] != "")
     {
         $password = $_POST['password'];
@@ -22,8 +29,16 @@ try
                 header('Location: /home.php');
                 return;
             }
+            else
+            {
+                failed_login($_SERVER['REMOTE_ADDR']); // Log failed login
+                throw new Exception("Invalid password!");
+            }
         }
-        throw new Exception("Invalid username or password!");
+        else
+        {
+            throw new Exception("[CRITICAL ERROR] Admin not found!");
+        }
     }
     else
     {

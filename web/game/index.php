@@ -26,7 +26,7 @@
         	    			<form method="POST" action="/actions/login.php">
         	    			    <div class="form-group">
         	    			        <label>Email</label>
-        	    			        <input class="form-control" type="email" name="email" required="required">
+        	    			        <input class="form-control" type="email" name="email" required="required" autofocus>
 								</div>
         	    			    <div class="form-group">
         	    			        <label>Password</label>

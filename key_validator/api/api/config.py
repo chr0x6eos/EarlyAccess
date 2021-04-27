@@ -23,6 +23,6 @@ def gen_magic():
     magic_value = "XP"
     magic_num = sum(bytearray(magic_value.encode()))  
     magic_num += randrange(ord('A'),ord('Z'))
-    magic_num += randrange(ord('A'),ord('Z'))
+    magic_num += randrange(ord('P'),ord('Z')) # Fixed higher second char => Protect against fast bruteforce
     magic_num += randrange(ord('0'),ord('9'))
     return magic_num
