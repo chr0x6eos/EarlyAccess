@@ -20,7 +20,7 @@ services:
       MYSQL_DATABASE: ${db}
       MYSQL_USER: ${user}
       MYSQL_PASSWORD: ${pw}
-      MYSQL_ROOT_PASSWORD: "root_${pw}"
+      MYSQL_ROOT_PASSWORD: Sup3r_S3cUr3_${pw}!
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
 

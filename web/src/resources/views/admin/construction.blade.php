@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="h4 font-weight-bold">
-            {{ __('Download') }}
+            {{ __('Under construction') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h2>Key-verification backup</h2></div>
+                    <div class="panel-heading"><h2>Admin panel</h2></div>
                     <div class="panel-body">
                         <div class="card header mb-2">
                             <ul class="nav">
@@ -37,12 +37,10 @@
                         </div>
                         <div class="card header">
                             <div class="card-header">
-                                <h2>Offline Key-validator</h2>
+                                <h2>This page is still under construction! <i class="fas fa-hammer"></i></h2>
                             </div>
                             <div class="card-body">
-                                <p>Since the API has been down a lot lately, we have come up with an temporary solution.
-                                    As requested, an offline backup of the game-key validator algorithm is now available to all administrative users. To use this, the magic_num must be entered into the validator app.</p>
-                                <a class="btn btn-outline-success" href="{{route('admin.download')}}">Download Key-validator</a>
+                                <h3>Please check back again another time!</h3>
                             </div>
                         </div>
                     </div>

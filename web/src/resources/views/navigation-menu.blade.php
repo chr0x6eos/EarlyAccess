@@ -74,6 +74,10 @@
                         {{ __('Forum') }}
                     </x-jet-nav-link>
 
+                    <x-jet-nav-link href="{{ route('store') }}" :active="request()->routeIs('store')">
+                        {{ __('Store') }}
+                    </x-jet-nav-link>
+
                     <x-jet-nav-link href="{{ route('key.index') }}" :active="request()->routeIs('key.index')">
                         {{ __('Register key') }}
                     </x-jet-nav-link>

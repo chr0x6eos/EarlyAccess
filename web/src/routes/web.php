@@ -25,6 +25,9 @@ Route::middleware(['auth:sanctum'])->get('forum', function () {
     return view('forum');
 })->name('forum');
 
+Route::middleware(['auth:sanctum'])->get('store', function () {
+    return view('maintenance');
+})->name('store');
 /*
 Route::middleware(['auth:sanctum'])->get('notes', function () {
     return view('notes');
@@ -64,11 +67,15 @@ Route::middleware(['auth:sanctum', 'admin'])->get('admin/backup', function () {
 })->name('admin.backup');
 
 Route::middleware(['auth:sanctum', 'admin'])->get('admin/backup/download', 'App\Http\Controllers\UserController@download')->name('admin.download');
-Route::middleware(['auth:sanctum', 'admin'])->get('users/edit/{user}','App\Http\Controllers\UserController@edit')->name('users.edit');
-Route::middleware(['auth:sanctum', 'admin'])->patch('users/update/{user}','App\Http\Controllers\UserController@update')->name('users.update');
+//Route::middleware(['auth:sanctum', 'admin'])->get('users/edit/{user}','App\Http\Controllers\UserController@edit')->name('users.edit');
+//Route::middleware(['auth:sanctum', 'admin'])->patch('users/update/{user}','App\Http\Controllers\UserController@update')->name('users.update');
+
+/*Route::middleware(['auth:sanctum', 'admin'])->get('users', function () {
+    return view('admin.users.index');
+})->name('users.index');*/
 
 Route::middleware(['auth:sanctum', 'admin'])->get('users', function () {
-    return view('admin.users.index');
+    return view('admin.construction');
 })->name('users.index');
 
 Route::middleware(['auth:sanctum', 'admin'])->get('users/{user}', 'App\Http\Controllers\UserController@show')->name('users.show');
