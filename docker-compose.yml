@@ -10,11 +10,10 @@ services:
     restart: unless-stopped
     tty: true
     hostname: mysql
-    #ports:
-    #  - "3306:3306"
+    # Set sql_mode manually
+    command: mysqld --sql_mode=""
     volumes:
-      # - ./scripts/mysql/conf.d:/etc/mysql/conf.d:ro
-       - ./scripts/mysql/setup:/root/scripts:ro
+       - ./scripts/mysql:/root/scripts:ro
        - ./mysql-storage:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
