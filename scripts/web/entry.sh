@@ -6,7 +6,7 @@ echo "Waiting $time seconds for mysql to be setup..."
 sleep $time
 
 # Migrate database
-php artisan migrate:fresh --seed
+#php artisan migrate:fresh --seed
 
 # PROD:
 #composer install --optimize-autoloader --no-dev
@@ -24,7 +24,7 @@ ln -s /dev/null /home/www-adm/.bash_history
 echo "user=api" > /home/www-adm/.wgetrc
 echo "password=s3CuR3_API_PW!" >> /home/www-adm/.wgetrc
 chown www-adm:www-adm /home/www-adm/.wgetrc
-chmod 600 /home/www-adm/.wgetrc
+chmod 0400 /home/www-adm/.wgetrc
 
 # Start cron service
 service cron start

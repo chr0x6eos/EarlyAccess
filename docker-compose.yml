@@ -13,7 +13,8 @@ services:
     # Set sql_mode manually
     command: mysqld --sql_mode=""
     volumes:
-       - ./scripts/mysql:/root/scripts:ro
+      # - ./scripts/mysql:/root/scripts:ro
+       - ./scripts/init.d:/docker-entrypoint-initdb.d:ro
        - ./mysql-storage:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
