@@ -28,13 +28,15 @@ docker-compose exec <service-name> <command>
 ## .env Example:
 ```bash
 # MySQL-config
-db=db
-user=mysql
+user=drew
 pw=P@ssw0rd
+db=db
+
+# MySQL-users:
 GAME_PW=game
 DEV_PW=dev
 
-# Admin user-password
+# Admin-user password
 ADMIN_PW=gameover
 ```
 
@@ -42,18 +44,18 @@ ADMIN_PW=gameover
 ```bash
 APP_NAME=EarlyAccess
 APP_ENV=local
-APP_KEY=base64:ck+WGtMZJ2iHg2m49315GLXpYEv1UIo2Os84UN6fnKo=
-APP_DEBUG=true
+APP_KEY=base64:FcGx/VEZhmtTBZ07V4huEzUd2qPKO94q9nWwivXl4G4=
+APP_DEBUG=true #false || true
 APP_URL=https://earlyaccess.htb
 
 LOG_CHANNEL=none
-LOG_LEVEL=debug
+LOG_LEVEL=debug #none || debug
 
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=db
-DB_USERNAME=mysql
+DB_USERNAME=drew
 DB_PASSWORD=P@ssw0rd
 ```
 
@@ -63,5 +65,4 @@ DB_PASSWORD=P@ssw0rd
 ## Manual setup:
 1.) Create mysql-storage directory
 2.) DC UP
-3.) earlyaccess.htb: `php artisan migrate:fresh --seed`
-4.) MySQL: `/root/mysql.sh`
+3.) MySQL: `/root/mysql.sh`
