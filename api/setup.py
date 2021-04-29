@@ -8,5 +8,6 @@ setup(
         'flask',
         'flask_apscheduler',
         'python-decouple',
+        'docker',
     ],
 )

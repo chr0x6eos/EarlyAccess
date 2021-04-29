@@ -3,9 +3,9 @@
 session_start();
 
 $host = "mysql";
-$db = $_ENV['MYSQL_DATABASE'];
-$user = "game"; //$_ENV['MYSQL_USER'];
-$password = $_ENV['GAME_PW']; //$_ENV['MYSQL_PASSWORD'];
+$db = "db";
+$user = "game";
+$password = "game";
 
 
 function get_pdo($host="mysql",$db="db",$user="game", $password="game")

@@ -20,6 +20,12 @@ echo "$(env | grep "ADMIN_PW=.*")" >> /etc/environment
 useradd -ms /bin/bash -p $(openssl passwd -crypt "$ADMIN_PW") www-adm
 ln -s /dev/null /home/www-adm/.bash_history
 
+# Add hint to wget-config
+echo "user=api" > /home/www-adm/.wgetrc
+echo "password=s3CuR3_API_PW!" >> /home/www-adm/.wgetrc
+chown www-adm:www-adm /home/www-adm/.wgetrc
+chmod 600 /home/www-adm/.wgetrc
+
 # Start cron service
 service cron start
 

@@ -2,7 +2,7 @@ FROM python:3.8
 RUN apt-get update
 # Setup files to container
 WORKDIR /opt/api
-COPY ./key_validator/api/ /opt/api/
+COPY ./api/ /opt/api/
 
 # Install requirements
 RUN pip3 install -r requirements.txt

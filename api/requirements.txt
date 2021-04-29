@@ -1,0 +1,4 @@
+flask
+python-decouple
+flask_apscheduler
+docker

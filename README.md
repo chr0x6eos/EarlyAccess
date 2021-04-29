@@ -2,7 +2,7 @@
 Web-Code of Early Access 
 
 ##  Install:
-1. Create .env and src/.env, as seen in examples below
+1. Create web/src/.env, as seen in examples below
 2. Install docker-compose
 3. Create mysql-storage folder (for peristent storage)
 4. Run `docker-compose up --build` in the project root
@@ -25,21 +25,6 @@ docker-compose exec <service-name> <command>
 - npm (DEFAULT NOT RUNNING) 
     - Run npm commands (`docker-compose run --rm npm <cmd>`)
 
-## .env Example:
-```bash
-# MySQL-config
-user=drew
-pw=P@ssw0rd
-db=db
-
-# MySQL-users:
-GAME_PW=game
-DEV_PW=dev
-
-# Admin-user password
-ADMIN_PW=gameover
-```
-
 ## Laravel .env example:
 ```bash
 APP_NAME=EarlyAccess
@@ -56,7 +41,7 @@ DB_HOST=mysql
 DB_PORT=3306
 DB_DATABASE=db
 DB_USERNAME=drew
-DB_PASSWORD=P@ssw0rd
+DB_PASSWORD=drew
 ```
 
 ## NPM:

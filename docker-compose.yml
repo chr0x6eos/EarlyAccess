@@ -17,17 +17,12 @@ services:
        - ./mysql-storage:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
-      MYSQL_DATABASE: ${db}
-      MYSQL_USER: ${user}
-      MYSQL_PASSWORD: ${pw}
-      MYSQL_ROOT_PASSWORD: Sup3r_S3cUr3_${pw}!
+      MYSQL_DATABASE: db
+      MYSQL_USER: drew
+      MYSQL_PASSWORD: drew
+      MYSQL_ROOT_PASSWORD: XeoNu86JTznxMCQuGHrGutF3Csq5
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
-
-      # VHost conf
-      GAME_PW: ${GAME_PW}
-      DEV_PW: ${DEV_PW}
-    
     cap_add: # Prevent mbind errors
       - SYS_NICE  # CAP_SYS_NICE
     networks:
@@ -41,14 +36,7 @@ services:
     container_name: webserver
     hostname: webserver
     environment:
-      ADMIN_PW: ${ADMIN_PW}
-      MYSQL_DATABASE: ${db}
-      MYSQL_USER: ${user}
-      MYSQL_PASSWORD: ${pw}
-
-      # VHost conf
-      GAME_PW: ${GAME_PW}
-      DEV_PW: ${DEV_PW}
+      ADMIN_PW: gameover
     ports:
       - "80:80"
       - "443:443"
@@ -70,15 +58,13 @@ services:
     image: "api"
     restart: on-failure
     hostname: api
-    # API is only exposed to other containers
-    #ports:
-    #  - "8000:5000"
     volumes:
-      - ./key_validator/api:/opt/api:ro # Source-code
+      - /var/run/docker.sock:/var/run/docker.sock # Mount to api to allow listing of images
+      - ./api:/opt/api:ro # Source-code
     environment: 
       # Flask config - dev or prod
-      FLASK_ENV: development # production || development
-      DEBUG: "True" #"False" ||"True"
+      FLASK_ENV: production # production || development
+      DEBUG: "False" #"False" ||"True"
     networks:
       - nw
     
@@ -90,7 +76,7 @@ services:
     container_name: admin-simulation
     hostname: admin
     environment:
-      ADMIN_PW: ${ADMIN_PW}
+      ADMIN_PW: gameover
     volumes: 
       - ./admin_simulation:/root/admin_simulation:ro
     depends_on:
