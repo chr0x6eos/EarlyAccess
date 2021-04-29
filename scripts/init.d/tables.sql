@@ -1,21 +1,24 @@
 # users-Table:
-create table `users` (`id` bigint unsigned not null auto_increment primary key, `name` varchar(255) not null, `email` varchar(255) not null, `password` varchar(255) not null, `role` varchar(255) not null default 'user', `key` varchar(255) null, `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
-alter table `users` add unique `users_email_unique`(`email`);
+CREATE TABLE `users` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `email` varchar(255) NOT NULL, `password` varchar(255) NOT NULL, `role` varchar(255) NOT NULL default 'user', `key` varchar(255) NULL, `created_at` timestamp NULL, `updated_at` timestamp NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
+ALTER TABLE `users` add unique `users_email_unique`(`email`);
 
-# sessions-table:
-create table `sessions` (`id` varchar(255) not null, `user_id` bigint unsigned null, `ip_address` varchar(45) null, `user_agent` text null, `payload` text not null, `last_activity` int not null) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
-alter table `sessions` add primary key `sessions_id_primary`(`id`);
-alter table `sessions` add index `sessions_user_id_index`(`user_id`);
-alter table `sessions` add index `sessions_last_activity_index`(`last_activity`);
+# sessions-TABLE:
+CREATE TABLE `sessions` (`id` varchar(255) NOT NULL, `user_id` BIGINT unsigned NULL, `ip_address` varchar(45) NULL, `user_agent` text NULL, `payload` text NOT NULL, `last_activity` int NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
+ALTER TABLE `sessions` add PRIMARY KEY `sessions_id_PRIMARY`(`id`);
+ALTER TABLE `sessions` add index `sessions_user_id_index`(`user_id`);
+ALTER TABLE `sessions` add index `sessions_last_activity_index`(`last_activity`);
 
-# messages-table:
-create table `messages` (`id` bigint unsigned not null auto_increment primary key, `subject` varchar(255) not null, `body` varchar(255) not null, `recipient_id` bigint unsigned not null, `sender_id` bigint unsigned not null, `read` tinyint(1) not null default '0', `created_at` timestamp null, `updated_at` timestamp null) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
-alter table `messages` add constraint `messages_recipient_id_foreign` foreign key (`recipient_id`) references `users` (`id`);
-alter table `messages` add constraint `messages_sender_id_foreign` foreign key (`sender_id`) references `users` (`id`);
+# messages-TABLE:
+CREATE TABLE `messages` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `subject` varchar(255) NOT NULL, `body` varchar(255) NOT NULL, `recipient_id` BIGINT unsigned NOT NULL, `sender_id` BIGINT unsigned NOT NULL, `read` tinyint(1) NOT NULL default '0', `created_at` timestamp NULL, `updated_at` timestamp NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
+ALTER TABLE `messages` add constraint `messages_recipient_id_FOREIGN` FOREIGN KEY (`recipient_id`) references `users` (`id`);
+ALTER TABLE `messages` add constraint `messages_sender_id_FOREIGN` FOREIGN KEY (`sender_id`) references `users` (`id`);
 
-# scoreboard-table:
-create table `scoreboard` (`id` bigint unsigned not null auto_increment primary key, `score` int unsigned not null, `user_id` bigint unsigned not null, `time` timestamp default CURRENT_TIMESTAMP not null) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
-alter table `scoreboard` add constraint `scoreboard_user_id_foreign` foreign key (`user_id`) references `users` (`id`);
+# scoreboard-TABLE:
+CREATE TABLE `scoreboard` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `score` int unsigned NOT NULL, `user_id` BIGINT unsigned NOT NULL, `time` timestamp default CURRENT_TIMESTAMP NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
+ALTER TABLE `scoreboard` add constraint `scoreboard_user_id_FOREIGN` FOREIGN KEY (`user_id`) references `users` (`id`);
 
-# failed_logins-table:
-create table `failed_logins` (`id` bigint unsigned not null auto_increment primary key, `IP` bigint not null, `time` timestamp default CURRENT_TIMESTAMP not null) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
+# failed_logins-TABLE:
+CREATE TABLE `failed_logins` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `IP` BIGINT NOT NULL, `time` timestamp default CURRENT_TIMESTAMP NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
+
+# Create admin user:
+INSERT INTO users (name, email, password, role) VALUES ("admin","admin@earlyaccess.htb","$2y$10$sk9.8a8M.sQwxyR9zcQhCu4Sk/cCnPqzSC0UozCdHXfP7L3TwHiJu","admin");

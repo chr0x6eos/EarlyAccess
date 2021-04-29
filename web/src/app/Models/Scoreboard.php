@@ -12,6 +12,11 @@ class Scoreboard extends Model
 
     protected $table = 'scoreboard';
 
+    /**
+     * Marks relation with users table
+     *
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -15,7 +15,12 @@ class Message extends Model
      *
      * @var array
      */
-    protected $fillable = ['subject', 'body', 'recipient_id', 'sender_id'];
+    protected $fillable = [
+        'subject',
+        'body',
+        'recipient_id',
+        'sender_id'
+    ];
 
     /**
      * Returns sender of message

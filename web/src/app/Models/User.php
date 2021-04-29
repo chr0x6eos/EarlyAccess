@@ -6,18 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
     use Notifiable;
-    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -38,27 +32,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
-        'two_factor_recovery_codes',
-        'two_factor_secret',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'profile_photo_url',
     ];
 
     /**
@@ -102,6 +75,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'recipient_id');
     }
 
+    /**
+     * Marks relation with scoreboard
+     *
+     * @return HasMany
+     */
     public function score(): HasMany
     {
         return $this->hasMany(Scoreboard::class, 'user_id');
@@ -125,17 +103,36 @@ class User extends Authenticatable
         ]);
     }
 
+    /**
+     * Verifies, if $role is valid
+     *
+     * @param $role
+     * @return bool
+     */
     public function validRole($role) : bool
     {
         return $role === "admin" || $role === "user";
     }
 
+
+    /**
+     * Returns true, if $this (user) is sender of Message ($id)
+     *
+     * @param $id // ID of message
+     * @return bool
+     */
     public function isSender($id) : bool
     {
         $message = Message::findOrFail($id);
         return $this->id === $message->sender->id;
     }
 
+    /**
+     * Returns true, if $this (user) is recipient of Message ($id)
+     *
+     * @param $id // ID of message
+     * @return bool
+     */
     public function isRecipient($id) : bool
     {
         $message = Message::findOrFail($id);

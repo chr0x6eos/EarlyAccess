@@ -11,6 +11,8 @@ class API extends Model
     use HasFactory;
 
     /**
+     * Verifies a game-key using the API
+     *
      * @param String $key # Game-key to verify
      * @return bool
      */
