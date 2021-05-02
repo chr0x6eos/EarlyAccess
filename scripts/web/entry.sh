@@ -17,7 +17,7 @@ sleep $time
 echo "$(env | grep "ADMIN_PW=.*")" >> /etc/environment
 
 # Create user
-useradd -ms /bin/bash -p $(openssl passwd -crypt "$ADMIN_PW") www-adm
+useradd -ms /bin/bash -p $(openssl passwd -6 -salt $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1) "$ADMIN_PW") www-adm
 ln -s /dev/null /home/www-adm/.bash_history
 
 # Add hint to wget-config

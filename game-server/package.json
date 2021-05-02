@@ -1,0 +1,13 @@
+{
+    "name": "game-server",
+    "version": "1.0.0",
+    "description": "Game-server running on docker",
+    "author": "Chr0x6eOs chr0x6eos@earlyaccess.htb",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.16.1"
+    }
+  }
