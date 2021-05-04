@@ -107,7 +107,7 @@ services:
     hostname: admin
     environment:
       ADMIN_PW: gameover
-    volumes: 
+    volumes:
       - ./admin_simulation:/root/admin_simulation:ro
     depends_on:
       - earlyaccess.htb
