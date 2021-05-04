@@ -1,0 +1,12 @@
+[Unit]
+Description=Firewall Init
+After=network.target iptables.service firewalld.service
+Before=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/etc/network/firewall/init.sh
+
+[Install]
+WantedBy=multi-user.target

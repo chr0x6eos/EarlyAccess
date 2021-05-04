@@ -62,23 +62,6 @@ cp drew/id_rsa.pub /home/drew/.ssh/id_rsa.pub
 chmod 600 /home/drew/.ssh/id_rsa.pub
 chown -R drew:drew /home/drew/.ssh/
 
-if [ ! -f etc/rules.v4 ];
- then
-    echo 'v4 missing!'
-    exit -1
-fi
-
-if [ ! -f etc/rules.v6 ];
- then
-    echo 'v6 missing!'
-    exit -1
-fi
-
-echo 'Copying iptables-config'
-cp etc/rules.v4 /etc/iptables-rules.v4
-cp etc/rules.v6 /etc/iptables-rules.v6
-chmod 644 /etc/iptables-rules.v*
-
 echo 'Creating game-adm user...'
 useradd -ms /bin/bash game-adm
 # Set user-password
@@ -130,11 +113,7 @@ curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compo
 chmod +x /usr/local/bin/docker-compose
 
 echo 'Installing other important tools...'
-apt-get install vim iptables iptables-persistent
-
-echo 'Setting up iptables...'
-iptables-restore < /etc/iptables-rules.v4
-ip6tables-restore < /etc/iptables-rules.v6
+apt-get install vim iptables
 
 echo 'Disabling ipv6...'
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
@@ -175,11 +154,36 @@ if [ ! -f etc/dc-app.service ];
     exit -1
 fi
 
-echo 'Setting up docker-compose service...'
-cp etc/dc-app.service /etc/systemd/system/dc-app.service
+if [ ! -f etc/firewall-init.service ];
+ then
+    echo 'firewall-init.service missing!'
+    exit -1
+fi
+
+if [ ! -f etc/init.sh ];
+ then
+    echo 'init.sh missing!'
+    exit -1
+fi
+
+if [ ! -f etc/rules.sh ];
+ then
+    echo 'rules.sh missing!'
+    exit -1
+fi
+
+mkdir -p /etc/network/firewall/
+cp etc/*.sh /etc/network/firewall/
+
+echo 'Setting up services...'
+cp etc/*.service /etc/systemd/system/
 # Apply changes
 systemctl daemon-reload
 # Run at startup
 systemctl enable dc-app
-# Start service
+systemctl enable firewall-init
+systemctl enable firewall
+# Start services
 systemctl restart dc-app
+systemctl restart firewall-init
+systemctl restart firewall
