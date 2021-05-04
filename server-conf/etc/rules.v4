@@ -17,8 +17,9 @@
 # Allow established connections
 -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
-# Allow echo-requests
--A INPUT -p icmp -m icmp --icmp-type 8 -j ACCEPT
+# Allow echo-requests & replies
+-A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+-A INPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
 # Allow SSH
 -A INPUT -p tcp -m state --state NEW --dport 22 -j ACCEPT
@@ -29,7 +30,8 @@
 # Drop all outbound by default (Only in prod)
 -P OUTPUT DROP
 
-# Allow echo-reply
+# Allow echo-requests & replies
+-A OUTPUT -p icmp --icmp-type echo-request -j ACCEPT
 -A OUTPUT -p icmp --icmp-type echo-reply -j ACCEPT
 
 # Allow established connections

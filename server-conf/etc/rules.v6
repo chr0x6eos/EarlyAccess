@@ -1,4 +1,14 @@
-# Disable IPv6 traffic
+*filter
+
+# Reset firewall
+-F
+-X
+-Z
+
+# Disable all IPv6
+
 -P INPUT DROP
 -P FORWARD DROP
 -P OUTPUT DROP
+
+COMMIT

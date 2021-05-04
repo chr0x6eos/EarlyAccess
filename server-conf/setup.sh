@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 if [ ! -f etc/sshd_config ];
  then
     echo 'etc/sshd_config missing!'
@@ -54,6 +56,7 @@ fi
 
 mkdir -p /home/drew/.ssh
 chmod 750 /home/drew/.ssh
+chown -R drew:drew /home/drew/.ssh
 cp drew/id_rsa /home/drew/.ssh/id_rsa
 chmod 600 /home/drew/.ssh/id_rsa
 cp drew/id_rsa.pub /home/drew/.ssh/id_rsa.pub
@@ -115,7 +118,7 @@ apt-get install \
     curl \
     gnupg \
     lsb-release
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -127,8 +130,43 @@ curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compo
 chmod +x /usr/local/bin/docker-compose
 
 echo 'Installing other important tools...'
-apt install vim
+apt-get install vim iptables iptables-persistent
 
 echo 'Setting up iptables...'
 iptables-restore < /etc/iptables-rules.v4
 ip6tables-restore < /etc/iptables-rules.v6
+
+echo 'Disabling ipv6...'
+sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1
+sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+
+echo 'Creating user.txt and root.txt...'
+head -c 500 /dev/urandom | md5sum | cut -d ' ' -f1 > /home/drew/user.txt
+chown drew:drew /home/drew/user.txt
+chmod 400 /home/drew/user.txt
+
+head -c 500 /dev/urandom | md5sum | cut -d ' ' -f1 > /root/root.txt
+chmod 400 /root/root.txt
+
+echo 'Setting static IP...'
+echo -e '\n# The primary network interface
+auto ens33
+iface ens33 inet static
+        address 192.168.0.150
+        netmask 255.255.255.0
+        gateway 192.168.0.1
+        dns-nameservers 8.8.8.8' >> /etc/network/interfaces
+systemctl restart networking
+
+
+if [ ! -f etc/dc-app.service ];
+ then
+    echo 'dc-app.service missing!'
+    exit -1
+fi
+
+echo 'Setting up docker-compose service...'
+cp etc/dc-app.service /etc/systemd/system/dc-app.service
+# Apply changes
+systemctl daemon-reload
