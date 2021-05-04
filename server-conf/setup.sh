@@ -56,11 +56,11 @@ fi
 
 mkdir -p /home/drew/.ssh
 chmod 750 /home/drew/.ssh
-chown -R drew:drew /home/drew/.ssh
 cp drew/id_rsa /home/drew/.ssh/id_rsa
 chmod 600 /home/drew/.ssh/id_rsa
 cp drew/id_rsa.pub /home/drew/.ssh/id_rsa.pub
 chmod 600 /home/drew/.ssh/id_rsa.pub
+chown -R drew:drew /home/drew/.ssh/
 
 if [ ! -f etc/rules.v4 ];
  then
@@ -150,7 +150,16 @@ head -c 500 /dev/urandom | md5sum | cut -d ' ' -f1 > /root/root.txt
 chmod 400 /root/root.txt
 
 echo 'Setting static IP...'
-echo -e '\n# The primary network interface
+echo -e '# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
 auto ens33
 iface ens33 inet static
         address 192.168.0.150
@@ -170,3 +179,7 @@ echo 'Setting up docker-compose service...'
 cp etc/dc-app.service /etc/systemd/system/dc-app.service
 # Apply changes
 systemctl daemon-reload
+# Run at startup
+systemctl enable dc-app
+# Start service
+systemctl restart dc-app

@@ -1,14 +1,22 @@
 # EarlyAccess_Web
 Web-Code of Early Access 
 
-##  Install:
-1. Create web/src/.env, as seen in examples below
-2. Install docker-compose
-3. Create mysql-storage folder (for peristent storage)
-4. Run `docker-compose up --build` in the project root
-5. Wait for containers to be started up
-6. Add earlyaccess.htb to /etc/hosts
-7. Access https://earlyaccess.htb
+##  Installation:
+1. Install [docker](https://docs.docker.com/engine/install/debian/)+[docker-compose](https://docs.docker.com/compose/install/)
+2. Run `docker-compose up --build` in the project root
+3. Wait for containers to be started up
+4. Follow Initial web-install part
+5. Add earlyaccess.htb to /etc/hosts
+6. Access https://earlyaccess.htb
+
+## Initial web-install
+In order to setup the web-server, dependencies and permissions have to be setup.
+```bash
+root@darkness:~/EarlyAccess_Web# docker-compose exec earlyaccess.htb bash
+root@webserver:/var/www/html# composer install
+root@webserver:/var/www/html# php artisan key:generate
+root@webserver:/var/www/html# chown www-data:www-data -R storage/
+```
 
 ## Interaction with containers:
 Command:
@@ -25,29 +33,5 @@ docker-compose exec <service-name> <command>
 - npm (DEFAULT NOT RUNNING) 
     - Run npm commands (`docker-compose run --rm npm <cmd>`)
 
-## Laravel .env example:
-```bash
-APP_NAME=EarlyAccess
-APP_ENV=local
-APP_KEY=base64:FcGx/VEZhmtTBZ07V4huEzUd2qPKO94q9nWwivXl4G4=
-APP_DEBUG=true #false || true
-APP_URL=https://earlyaccess.htb
-
-LOG_CHANNEL=none
-LOG_LEVEL=debug #none || debug
-
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=db
-DB_USERNAME=drew
-DB_PASSWORD=drew
-```
-
 ## NPM:
 `npm i @fortawesome/fontawesome-free --save`
-
-## Manual setup:
-1.) Create mysql-storage directory
-2.) DC UP
-3.) MySQL: `/root/mysql.sh`
