@@ -21,4 +21,4 @@ ALTER TABLE `scoreboard` add constraint `scoreboard_user_id_FOREIGN` FOREIGN KEY
 CREATE TABLE `failed_logins` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `IP` BIGINT NOT NULL, `time` timestamp default CURRENT_TIMESTAMP NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
 
 # Create admin user:
-INSERT INTO users (name, email, password, role) VALUES ("admin","admin@earlyaccess.htb","$2y$10$sk9.8a8M.sQwxyR9zcQhCu4Sk/cCnPqzSC0UozCdHXfP7L3TwHiJu","admin");
+INSERT INTO `users` (`name`, `email`, `password`, `role`) VALUES ('admin', 'admin@earlyaccess.htb', '$2y$10$sk9.8a8M.sQwxyR9zcQhCu4Sk/cCnPqzSC0UozCdHXfP7L3TwHiJu', 'admin');

@@ -32,7 +32,7 @@ services:
       - --sql_mode=ANSI_QUOTES,ERROR_FOR_DIVISION_BY_ZERO,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,PIPES_AS_CONCAT,REAL_AS_FLOAT,STRICT_ALL_TABLES
     volumes:
        - ./scripts/init.d:/docker-entrypoint-initdb.d:ro
-      # - vol_mysql:/var/lib/mysql # Persistent storage
+       - vol_mysql:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
       MYSQL_DATABASE: db
