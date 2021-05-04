@@ -68,8 +68,6 @@ echo "-------------------------------------------------------------"
 echo "2.) Activating SSL..."
 echo "a2enmod ssl"
 	  a2enmod ssl
-echo "service apache2 restart"
-	  service apache2 restart
 
 echo "-------------------------------------------------------------"
 echo "3.) Editing ApacheConf..."

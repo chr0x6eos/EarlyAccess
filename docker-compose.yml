@@ -3,6 +3,9 @@ version : '3.4'
 networks:
   nw:
 
+volumes:
+  vol_mysql: {}
+
 services:
   mysql:
     image: mysql:latest
@@ -10,12 +13,26 @@ services:
     restart: unless-stopped
     tty: true
     hostname: mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h 127.0.0.1 --user=$$MYSQL_USER -p$$MYSQL_PASSWORD --silent",
+        ]
+      interval: 5s
+      timeout: 2s
+      retries: 3
     # Set sql_mode manually
-    command: mysqld --sql_mode=""
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_bin
+      - --skip-character-set-client-handshake
+      - --max_allowed_packet=50MB
+      - --general_log=0
+      - --sql_mode=ANSI_QUOTES,ERROR_FOR_DIVISION_BY_ZERO,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,PIPES_AS_CONCAT,REAL_AS_FLOAT,STRICT_ALL_TABLES
     volumes:
-      # - ./scripts/mysql:/root/scripts:ro
        - ./scripts/init.d:/docker-entrypoint-initdb.d:ro
-       - ./mysql-storage:/var/lib/mysql # Persistent storage
+      # - vol_mysql:/var/lib/mysql # Persistent storage
     environment:
       # Default MYSQL-conf
       MYSQL_DATABASE: db
