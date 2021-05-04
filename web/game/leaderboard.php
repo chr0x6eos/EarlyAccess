@@ -19,16 +19,15 @@
                             <?php
                                 try
                                 {
-                                    $sql = $pdo->prepare("SELECT count(*) as sum FROM scoreboard");
-                                    $sql->execute([$_SESSION['user']['id']]);
-                                    $res = $sql->fetch();
+                                    $res = $pdo->query("SELECT count(*) as sum FROM scoreboard")->fetch();
 
                                     // Only print scoreboard, if already played
                                     if((int)$res['sum'] > 0)
                                     {
-                                        //$sql = $pdo->prepare("SELECT scoreboard.user_id, scoreboard.score, scoreboard.time, users.email FROM scoreboard INNER JOIN users ON (users.id=scoreboard.user_id) ORDER BY scoreboard.score DESC LIMIT 10");
-                                        $sql = $pdo->prepare("SELECT res.user_id, res.score, res.time, res.email FROM (SELECT scoreboard.user_id, scoreboard.score, scoreboard.time, users.email FROM scoreboard INNER JOIN users ON (users.id=scoreboard.user_id) ORDER BY scoreboard.score DESC LIMIT 10) as res GROUP BY res.user_id");
+                                        //$sql = $pdo->prepare("SELECT scoreboard.user_id, scoreboard.score, scoreboard.time, users.email FROM scoreboard INNER JOIN users ON (users.id=scoreboard.user_id) ORDER BY scoreboard.score DESC LIMIT 11");
+                                        $sql = $pdo->prepare("SELECT res.user_id, res.score, res.time, res.email FROM (SELECT scoreboard.user_id, scoreboard.score, scoreboard.time, users.email FROM scoreboard INNER JOIN users ON (users.id=scoreboard.user_id) ORDER BY scoreboard.score DESC LIMIT 11) as res GROUP BY res.user_id");
                                         $sql->execute();
+
                                         echo '
                                         <table class="table center">
                                             <thead>

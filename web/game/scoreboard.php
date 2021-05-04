@@ -28,7 +28,7 @@
                                     if((int)$res['sum'] > 0)
                                     {
                                         // Seconder order injection:
-                                        $sql = $pdo->prepare("SELECT scoreboard.score, scoreboard.time, users.name FROM scoreboard INNER JOIN users ON (users.id=scoreboard.user_id) WHERE users.name=('" . $_SESSION["user"]["name"]. "') ORDER BY scoreboard.score DESC LIMIT 10");
+                                        $sql = $pdo->prepare("SELECT scoreboard.score, scoreboard.time, users.name FROM scoreboard INNER JOIN users ON (users.id=scoreboard.user_id) WHERE users.name=('" . $_SESSION["user"]["name"]. "') ORDER BY scoreboard.score DESC LIMIT 11");
                                         $sql->execute();
                                         echo '
                                         <table class="table center">

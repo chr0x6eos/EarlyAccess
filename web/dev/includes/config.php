@@ -11,7 +11,11 @@ $password = "dev";
 function get_pdo($host="mysql",$db="db",$user="dev", $password="dev")
 {
     $dsn = "mysql:host=".$host.";dbname=".$db;
-    return new PDO($dsn, $user, $password,[PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    $pdo = new PDO($dsn, $user, $password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    // Setup SQL_mode
+    $pdo->exec('SET SESSION sql_mode=\'ANSI_QUOTES,ERROR_FOR_DIVISION_BY_ZERO,IGNORE_SPACE,NO_ENGINE_SUBSTITUTION,NO_ZERO_DATE,NO_ZERO_IN_DATE,ONLY_FULL_GROUP_BY,PIPES_AS_CONCAT,REAL_AS_FLOAT,STRICT_ALL_TABLES\'');
+    $pdo->exec('SET SESSION innodb_strict_mode = on');
+    return $pdo;
 }
 
 try
