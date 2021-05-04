@@ -55,9 +55,9 @@
                                             }
                                                 // Display email to prevent hinting other users about the SQLi
                                                 echo '<td>' . $rank . '</td>';
-                                                echo '<td>' . $row["email"] . '</td>';
-                                                echo '<td>' . $row["score"] . '</td>';
-                                                echo '<td>' . $row["time"] . '</td>';
+                                                echo '<td>' . htmlentities($row["email"]) . '</td>';
+                                                echo '<td>' . htmlentities($row["score"]) . '</td>';
+                                                echo '<td>' . htmlentities($row["time"]) . '</td>';
                                                 echo '</tr>';
                                         }
                                         
