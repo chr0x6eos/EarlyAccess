@@ -82,7 +82,7 @@ for loc in "/root" "/home/game-adm" "/home/drew"
 done
 
 echo 'Installing net-tools...'
-apt install net-tools
+apt install -y net-tools
 arp=$(which arp)
 
 echo 'Setting up arp...'
@@ -95,7 +95,7 @@ setcap =ep $arp
 
 echo 'Installing Docker...'
 apt-get update
-apt-get install \
+apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -106,19 +106,19 @@ echo \
   "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
   $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io
+apt-get install -y docker-ce docker-ce-cli containerd.io
 
 echo 'Installing Docker-compose...'
 curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
 echo 'Installing other important tools...'
-apt-get install vim iptables
+apt-get install -y vim iptables
 
 echo 'Disabling ipv6...'
-sysctl -w net.ipv6.conf.all.disable_ipv6=1
-sysctl -w net.ipv6.conf.default.disable_ipv6=1
-sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+echo -e 'net.ipv6.conf.all.disable_ipv6=1
+net.ipv6.conf.default.disable_ipv6=1
+net.ipv6.conf.lo.disable_ipv6=1' >> /etc/sysctl.conf
 
 echo 'Creating user.txt and root.txt...'
 head -c 500 /dev/urandom | md5sum | cut -d ' ' -f1 > /home/drew/user.txt
@@ -144,7 +144,7 @@ iface ens33 inet static
         address 192.168.0.150
         netmask 255.255.255.0
         gateway 192.168.0.1
-        dns-nameservers 8.8.8.8' >> /etc/network/interfaces
+        dns-nameservers 8.8.8.8' > /etc/network/interfaces
 systemctl restart networking
 
 
@@ -173,7 +173,9 @@ if [ ! -f etc/rules.sh ];
 fi
 
 mkdir -p /etc/network/firewall/
+chmod 750 /etc/network/firewall
 cp etc/*.sh /etc/network/firewall/
+chmod 750 /etc/network/firewall/*
 
 echo 'Setting up services...'
 cp etc/*.service /etc/systemd/system/
@@ -184,6 +186,6 @@ systemctl enable dc-app
 systemctl enable firewall-init
 systemctl enable firewall
 # Start services
-systemctl restart dc-app
-systemctl restart firewall-init
-systemctl restart firewall
+#systemctl restart dc-app
+#systemctl restart firewall-init
+#systemctl restart firewall

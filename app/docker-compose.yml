@@ -2,6 +2,15 @@ version : '3.4'
 
 networks:
   nw:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+    driver_opts:
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+  no-nw:
+    driver: bridge
+    internal: true
 
 volumes:
   vol_mysql: {}
@@ -44,8 +53,28 @@ services:
     cap_add: # Prevent mbind errors
       - SYS_NICE  # CAP_SYS_NICE
     networks:
-      - nw
-  
+      nw:
+        ipv4_address: 172.18.0.100
+    
+  api:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile-api
+    container_name: api
+    image: "api"
+    restart: on-failure
+    hostname: api
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # Mount to api to allow listing of images
+      - ./api:/opt/api:ro # Source-code
+    environment: 
+      # Flask config - dev or prod
+      FLASK_ENV: production # production || development
+      DEBUG: "False" #"False" ||"True"
+    networks:
+      nw:
+        ipv4_address: 172.18.0.101
+    
   earlyaccess.htb:
     build:
       context: .
@@ -66,26 +95,9 @@ services:
       - mysql
       - api
     networks:
-      - nw
-    
-  api:
-    build:
-      context: .
-      dockerfile: .docker/Dockerfile-api
-    container_name: api
-    image: "api"
-    restart: on-failure
-    hostname: api
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # Mount to api to allow listing of images
-      - ./api:/opt/api:ro # Source-code
-    environment: 
-      # Flask config - dev or prod
-      FLASK_ENV: production # production || development
-      DEBUG: "False" #"False" ||"True"
-    networks:
-      - nw
-    
+      nw:
+        ipv4_address: 172.18.0.102
+
   admin-simulation:
     build:
       context: .
@@ -100,7 +112,8 @@ services:
     depends_on:
       - earlyaccess.htb
     networks:
-      - nw
+      nw:
+        ipv4_address: 172.18.0.2
 
   # Auto-restarts unhealthy containers
   autoheal:
@@ -110,6 +123,8 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - no-nw
   
   game-server:
     build:
@@ -128,6 +143,8 @@ services:
     #  start_period: 10s
     #labels:
     #- "autoheal=true"
+    networks:
+      - no-nw
 
   npm:
     hostname: npm
@@ -138,4 +155,4 @@ services:
     working_dir: /var/www/html
     entrypoint: ['npm']
     networks:
-      - nw
+      - no-nw
