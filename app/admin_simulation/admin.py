@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from decouple import config
 from datetime import datetime
 
+# Selenium imports
 from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -27,7 +28,6 @@ class AdminAutomation:
         '''
         Initializes python-class that access webpage as admin and reads all messages to automatically trigger XSS
         '''
-
         caps = DesiredCapabilities().CHROME
         caps["pageLoadStrategy"] = "eager" # Don't wait for full page load
 
@@ -68,57 +68,45 @@ class AdminAutomation:
         '''
         Login as admin
         - Returns: `True` if successful and `False` of unsuccessful
-        '''
-        print(f'[{datetime.now()}] Trying to login...')
-        # Get admin-cookie using requests to decrease change of failure
-        session = requests.Session()
-        res = session.get(f"{self.host}/login", verify=False)
-        soup = BeautifulSoup(res.text, "html.parser")
-        token = soup.find('input',{'type':'hidden'}).attrs["value"]
-        data = {'_token':token, 'email':self._email, 'password':self._password}
-        resp = session.post(f"{self.host}/login", data=data, verify=False)
+        '''       
+        self.driver.get(f'{self.host}/login')
 
-        # Verify login was successful
-        if "dashboard" not in resp.url:
+        # Enter email
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+        self.driver.find_element_by_name('email').send_keys('admin@earlyaccess.htb')
+        
+        # Enter password
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, 'password')))
+        self.driver.find_element_by_name('password').send_keys(self._password)
+        
+        # Submit using button
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'button')))
+        self.driver.find_element_by_tag_name('button').click()
+        
+        # Verify that we got redirected
+        if self.driver.current_url != f'{self.host}/dashboard':
             return False
-
-        cookies = session.cookies.get_dict()
-        if "earlyaccess_session" in cookies:
-            # Access website to setup domain
-            try:
-                self.driver.get(f'{self.host}')
-            except:
-                pass
-
-            # Manually set admin-cookie
-            admin_sess = cookies["earlyaccess_session"]
-            self.driver.add_cookie({'name' : 'earlyaccess_session', 'value' : admin_sess, 'domain' : 'earlyaccess.htb'})
-            print(f'[{datetime.now()}] Successfully logged in!\r\nSetting admin-cookie: {admin_sess}')
-            return True
-        return False
+        
+        print(f'[{datetime.now()}] Successfully logged in!\r\n')
+        return True
 
     def read_messages(self):
         '''
         Read all messages currently available to admin
         '''
         print(f'[{datetime.now()}] Checking messages...')
-        try:
-            self.driver.get(f'{self.host}/messages/inbox')
-        except:
-            pass
+        self.driver.get(f'{self.host}/messages/inbox')
+
         links = [element.get_attribute('href') for element in self.driver.find_elements_by_name('inbox-header')]
         err_links = [] # Add timeout links to array to access again later
         if len(links) > 0:
             for link in links:
                 if link:
                     try:
-                        try:
-                            self.driver.get(link) # Visit message
-                        except:
-                            pass
+                        self.driver.get(link) # Visit message
 
                         if self.driver.current_url == link:
-                            print(f'[{datetime.now()}] Visit: {self.driver.current_url}\r\n')
+                            print(f'[{datetime.now()}] Visiting: {self.driver.current_url}\r\n')
                             
                             # Reply if not redirected
                             if self.reply(link):
@@ -138,11 +126,7 @@ class AdminAutomation:
              for link in err_links:
                 if link:
                     try:
-                        try:
-                            self.driver.get(link) # Visit message
-                        except:
-                            pass
-
+                        self.driver.get(link) # Visit message
                         if self.driver.current_url == link:
                             print(f'[{datetime.now()}] Revisited: {self.driver.current_url}\r\n')
 
@@ -164,8 +148,10 @@ class AdminAutomation:
                 # Check if we got redirected
                 if self.driver.current_url != link:
                     return False # Got redirected, so no reply
+                
                 WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'reply')))
                 self.driver.find_element_by_id('reply').click()
+
             except:
                 return False
         
@@ -180,8 +166,13 @@ class AdminAutomation:
             if subject_element.get_attribute('value') != '':
                 subject = f' - {subject}'
             subject_element.send_keys(subject)
+            
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'message')))
             self.driver.find_element_by_id('message').send_keys('We appreciate you contacting us.\r\n One of our colleagues has already read your message and is currently working on it! We will get back in touch with you soon. Have a great day!')
+
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'contact')))
             self.driver.find_element_by_id('contact').click()
+
             return True
         except:
             return False
@@ -193,9 +184,10 @@ class AdminAutomation:
         if self.driver:
             self.driver.close()
             self.driver.quit()
+            self.driver = None
 
 if __name__ == '__main__':
-    # Kill all old (failed) processes
+    # Kill all old (failed) processes -> cleanup
     system('pkill -f chrome')
 
     admin = None
