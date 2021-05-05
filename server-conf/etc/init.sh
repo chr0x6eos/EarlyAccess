@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# # https://vmalli.com/managing-custom-iptables-rules-on-a-debian-docker-host/
+
 input="INPUT-CUSTOM"
 output="OUTPUT-CUSTOM"
 

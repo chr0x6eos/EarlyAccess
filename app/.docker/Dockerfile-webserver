@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
         vim \
         python3 \
         wget \
+        netcat \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
