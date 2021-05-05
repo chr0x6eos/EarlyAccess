@@ -12,7 +12,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     python3 python3-pip curl unzip wget cron util-linux \
-    fonts-liberation libasound2 libatk-bridge2.0-0 \
+    fonts-liberation libasound2 libatk-bridge2.0-0 procps \
     libnss3 lsb-release xdg-utils libxss1 libdbus-glib-1-2 \
     libcairo2 libcups2 libgbm1 libgtk-3-0 libpango-1.0-0  libxkbcommon-x11-0
     
@@ -29,8 +29,7 @@ RUN CHROME_SETUP=google-chrome.deb && \
     apt-get install -y -f && \
     rm $CHROME_SETUP
 
-RUN pip3 install selenium
-RUN pip3 install python-decouple
+RUN pip3 install selenium urllib3 python-decouple requests bs4
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

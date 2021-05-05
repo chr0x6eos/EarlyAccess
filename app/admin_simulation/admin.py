@@ -1,29 +1,39 @@
 #!/usr/bin/env python3
-import sys
+import sys, requests
+from os import system
 from time import sleep
-from selenium.webdriver import Chrome
+from bs4 import BeautifulSoup
 from decouple import config
-#from selenium.webdriver.chrome.service import Service
+from datetime import datetime
+
+from selenium import webdriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-from datetime import datetime
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+# Ignore ssl-errors
+import urllib3
+urllib3.disable_warnings()
 
 class AdminAutomation:
     host = 'https://earlyaccess.htb'
     driver = None
+    _email = 'admin@earlyaccess.htb'
     _password = '' # Default value
 
     def __init__(self, password:str='', timeout:int=10):
         '''
-        Initializes XSS python-class that access webpage as admin and reads all messages
+        Initializes python-class that access webpage as admin and reads all messages to automatically trigger XSS
         '''
-        #service = Service('/usr/bin/chromedriver')
-        self.driver = Chrome('/usr/bin/chromedriver', options=self._set_chrome_options())
+
+        caps = DesiredCapabilities().CHROME
+        caps["pageLoadStrategy"] = "eager" # Don't wait for full page load
+
+        self.driver = webdriver.Chrome('/usr/bin/chromedriver', desired_capabilities=caps, options=self._set_chrome_options())
         self.driver.set_page_load_timeout(timeout) # define timeout
 
-        #self._password = config('ADMIN_PW')
         self._password = password
         if self._password == '':
             raise Exception('No password for admin configured!')
@@ -43,7 +53,7 @@ class AdminAutomation:
         '--no-sandbox', '--disable-dev-shm-usage', '--ignore-certificate-errors', 
         '--disable-extensions', '--no-first-run', '--disable-logging',
         '--disable-notifications', '--disable-permissions-api', '--hide-scrollbars',
-        '--disable-gpu', '--window-size=1080,720'
+        '--disable-gpu', '--window-size=800,600'
         ]
 
         # Setup all options
@@ -58,33 +68,54 @@ class AdminAutomation:
         '''
         Login as admin
         - Returns: `True` if successful and `False` of unsuccessful
-        '''       
-        self.driver.get(f'{self.host}/login')
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
-        self.driver.find_element_by_name('email').send_keys('admin@earlyaccess.htb')
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, 'password')))
-        self.driver.find_element_by_name('password').send_keys(self._password)
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'button')))
-        self.driver.find_element_by_tag_name('button').click()
-        
-        if self.driver.current_url != f'{self.host}/dashboard':
+        '''
+        print(f'[{datetime.now()}] Trying to login...')
+        # Get admin-cookie using requests to decrease change of failure
+        session = requests.Session()
+        res = session.get(f"{self.host}/login", verify=False)
+        soup = BeautifulSoup(res.text, "html.parser")
+        token = soup.find('input',{'type':'hidden'}).attrs["value"]
+        data = {'_token':token, 'email':self._email, 'password':self._password}
+        resp = session.post(f"{self.host}/login", data=data, verify=False)
+
+        # Verify login was successful
+        if "dashboard" not in resp.url:
             return False
-        
-        print(f'[{datetime.now()}] Successfully logged in!\r\n')
-        return True
+
+        cookies = session.cookies.get_dict()
+        if "earlyaccess_session" in cookies:
+            # Access website to setup domain
+            try:
+                self.driver.get(f'{self.host}')
+            except:
+                pass
+
+            # Manually set admin-cookie
+            admin_sess = cookies["earlyaccess_session"]
+            self.driver.add_cookie({'name' : 'earlyaccess_session', 'value' : admin_sess, 'domain' : 'earlyaccess.htb'})
+            print(f'[{datetime.now()}] Successfully logged in!\r\nSetting admin-cookie: {admin_sess}')
+            return True
+        return False
 
     def read_messages(self):
         '''
         Read all messages currently available to admin
         '''
-        self.driver.get(f'{self.host}/messages/inbox')
+        print(f'[{datetime.now()}] Checking messages...')
+        try:
+            self.driver.get(f'{self.host}/messages/inbox')
+        except:
+            pass
         links = [element.get_attribute('href') for element in self.driver.find_elements_by_name('inbox-header')]
         err_links = [] # Add timeout links to array to access again later
         if len(links) > 0:
             for link in links:
                 if link:
                     try:
-                        self.driver.get(link) # Visit message
+                        try:
+                            self.driver.get(link) # Visit message
+                        except:
+                            pass
 
                         if self.driver.current_url == link:
                             print(f'[{datetime.now()}] Visit: {self.driver.current_url}\r\n')
@@ -107,7 +138,10 @@ class AdminAutomation:
              for link in err_links:
                 if link:
                     try:
-                        self.driver.get(link) # Visit message
+                        try:
+                            self.driver.get(link) # Visit message
+                        except:
+                            pass
 
                         if self.driver.current_url == link:
                             print(f'[{datetime.now()}] Revisited: {self.driver.current_url}\r\n')
@@ -124,6 +158,7 @@ class AdminAutomation:
         '''
         Click on message (link) and if able, reply to message
         '''
+        print(f'[{datetime.now()}] Trying to reply...')
         try:
             try:
                 # Check if we got redirected
@@ -160,6 +195,9 @@ class AdminAutomation:
             self.driver.quit()
 
 if __name__ == '__main__':
+    # Kill all old (failed) processes
+    system('pkill -f chrome')
+
     admin = None
     #try:
     if len(sys.argv) < 2:
