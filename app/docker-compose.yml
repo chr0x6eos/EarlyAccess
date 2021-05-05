@@ -19,7 +19,7 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysql
-    restart: unless-stopped
+    restart: always
     tty: true
     hostname: mysql
     healthcheck:
@@ -62,7 +62,7 @@ services:
       dockerfile: .docker/Dockerfile-api
     container_name: api
     image: "api"
-    restart: on-failure
+    restart: always
     hostname: api
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Mount to api to allow listing of images
@@ -81,6 +81,7 @@ services:
       dockerfile: .docker/Dockerfile-webserver
     image: webserver
     container_name: webserver
+    restart: always
     hostname: webserver
     environment:
       ADMIN_PW: gameover
@@ -104,7 +105,10 @@ services:
       dockerfile: .docker/Dockerfile-admin
     image: admin-simulation
     container_name: admin-simulation
+    restart: always
     hostname: admin
+    mem_limit: 128m # Limit RAM
+    cpus: 0.5 # Limit CPU
     environment:
       ADMIN_PW: gameover
     volumes:
@@ -146,13 +150,13 @@ services:
     networks:
       - no-nw
 
-  npm:
-    hostname: npm
-    image: node:14
-    container_name: npm
-    volumes:
-      - ./web/src:/var/www/html
-    working_dir: /var/www/html
-    entrypoint: ['npm']
-    networks:
-      - no-nw
+#  npm:
+#    hostname: npm
+#    image: node:14
+#    container_name: npm
+#    volumes:
+#      - ./web/src:/var/www/html
+#    working_dir: /var/www/html
+#    entrypoint: ['npm']
+#    networks:
+#      - no-nw

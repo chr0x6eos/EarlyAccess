@@ -17,10 +17,10 @@ iptables -A $input -m state --state RELATED,ESTABLISHED -j ACCEPT -m comment --c
 iptables -A $output -m state --state RELATED,ESTABLISHED -j ACCEPT -m comment --comment "OUT: Accept established, related"
 
 # Accept echo-requests & replies
-iptables -A $input -p icmp --icmp-type echo-request -j ACCEPT -m comment --comment "IN: Accept echo-request"
-iptables -A $input -p icmp --icmp-type echo-reply -j ACCEPT -m comment --comment "IN: Accept echo-reply"
-iptables -A $output --icmp-type echo-request -j ACCEPT -m comment --comment "OUT: Accept echo-request"
-iptables -A $output --icmp-type echo-reply -j ACCEPT -m comment --comment "OUT: Accept echo-reply"
+iptables -A $input -p icmp -m icmp --icmp-type echo-request -j ACCEPT -m comment --comment "IN: Accept echo-request"
+iptables -A $input -p icmp -m icmp --icmp-type echo-reply -j ACCEPT -m comment --comment "IN: Accept echo-reply"
+iptables -A $output -p icmp -m icmp --icmp-type echo-request -j ACCEPT -m comment --comment "OUT: Accept echo-request"
+iptables -A $output -p icmp -m icmp --icmp-type echo-reply -j ACCEPT -m comment --comment "OUT: Accept echo-reply"
 
 # Accept SSH
 iptables -A $input -p tcp -m state --state NEW --dport 22 -j ACCEPT -m comment --comment "IN: Accept SSH"

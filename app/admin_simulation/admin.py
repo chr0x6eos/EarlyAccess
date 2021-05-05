@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import sys
 from time import sleep
-from selenium import webdriver
+from selenium.webdriver import Chrome
 from decouple import config
 #from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
@@ -15,12 +15,12 @@ class AdminAutomation:
     driver = None
     _password = '' # Default value
 
-    def __init__(self, password:str='', timeout:int=5):
+    def __init__(self, password:str='', timeout:int=10):
         '''
         Initializes XSS python-class that access webpage as admin and reads all messages
         '''
         #service = Service('/usr/bin/chromedriver')
-        self.driver = webdriver.Chrome('/usr/bin/chromedriver', options=self._set_chrome_options())
+        self.driver = Chrome('/usr/bin/chromedriver', options=self._set_chrome_options())
         self.driver.set_page_load_timeout(timeout) # define timeout
 
         #self._password = config('ADMIN_PW')
@@ -37,10 +37,18 @@ class AdminAutomation:
         - SSL certificate errors are ignored
         '''
         chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-dev-shm-usage')
-        chrome_options.add_argument('--ignore-certificate-errors')
+        
+        options = [
+        '--headless',
+        '--no-sandbox', '--disable-dev-shm-usage', '--ignore-certificate-errors', 
+        '--disable-extensions', '--no-first-run', '--disable-logging',
+        '--disable-notifications', '--disable-permissions-api', '--hide-scrollbars',
+        '--disable-gpu', '--window-size=1080,720'
+        ]
+
+        # Setup all options
+        for option in options:
+            chrome_options.add_argument(option)
         chrome_prefs = {}
         chrome_options.experimental_options['prefs'] = chrome_prefs
         chrome_prefs['profile.default_content_settings'] = {'images': 2}
@@ -50,20 +58,20 @@ class AdminAutomation:
         '''
         Login as admin
         - Returns: `True` if successful and `False` of unsuccessful
-        '''
-        try:           
-            self.driver.get(f'{self.host}/login')
-            self.driver.find_element_by_name('email').send_keys('admin@earlyaccess.htb')
-            self.driver.find_element_by_name('password').send_keys(self._password)
-            self.driver.find_element_by_tag_name('button').click()
-            
-            if self.driver.current_url != f'{self.host}/dashboard':
-                return False
-            
-            print(f'[{datetime.now()}] Successfully logged in!\r\n')
-            return True
-        except Exception as ex:
-            return ex
+        '''       
+        self.driver.get(f'{self.host}/login')
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, 'email')))
+        self.driver.find_element_by_name('email').send_keys('admin@earlyaccess.htb')
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.NAME, 'password')))
+        self.driver.find_element_by_name('password').send_keys(self._password)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'button')))
+        self.driver.find_element_by_tag_name('button').click()
+        
+        if self.driver.current_url != f'{self.host}/dashboard':
+            return False
+        
+        print(f'[{datetime.now()}] Successfully logged in!\r\n')
+        return True
 
     def read_messages(self):
         '''
@@ -149,23 +157,30 @@ class AdminAutomation:
         '''
         if self.driver:
             self.driver.close()
+            self.driver.quit()
 
 if __name__ == '__main__':
-    try:
-        if len(sys.argv) < 2:
-            raise Exception('Specify a password!')
-        admin = AdminAutomation(sys.argv[1])
-        # Try to login
-        tries = 0
-        while not admin.login():
-            if tries > 5:
-                raise Exception('Could not login!')
-            tries += 1
-            sleep(1)
-        # If login successful, visit all messages
-        admin.read_messages()
-        # Close webdriver
-        admin.close()
-        quit()
-    except Exception as ex:
+    admin = None
+    #try:
+    if len(sys.argv) < 2:
+        raise Exception('Specify a password!')
+    admin = AdminAutomation(sys.argv[1])
+    # Try to login
+    tries = 0
+    while not admin.login():
+        if tries > 5:
+            raise Exception('Could not login!')
+        tries += 1
+        sleep(1)
+    # If login successful, visit all messages
+    admin.read_messages()
+    # Close webdriver
+    admin.close()
+    quit()
+    """except Exception as ex:
         print(f'[-] Error: {ex}')
+        # Clean exit, even on error
+        if admin is not None:
+            admin.close()
+        quit()
+    """

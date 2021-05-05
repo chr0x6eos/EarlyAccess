@@ -185,6 +185,15 @@ systemctl daemon-reload
 systemctl enable dc-app
 systemctl enable firewall-init
 systemctl enable firewall
+
+echo 'Building docker-app...'
+cd /root/app
+docker-compose up --build -d
+docker-compose down
+
+echo '[+] Done! Rebooting...'
+reboot
+
 # Start services
 #systemctl restart dc-app
 #systemctl restart firewall-init
