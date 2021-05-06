@@ -40,7 +40,8 @@ iptables -A DOCKER-USER -s 172.18.0.0/16 -m state --state RELATED,ESTABLISHED -j
 iptables -A DOCKER-USER -s 172.18.0.102 -p udp -j ACCEPT -m comment --comment "DOCKER-OUT: Accept UDP-Traffic from webserver"
 iptables -A DOCKER-USER -s 172.18.0.102 -p tcp -m multiport --sport 80,443 -j ACCEPT -m comment --comment "DOCKER-OUT: Accept HTTP/S-responses from webserver"
 iptables -A DOCKER-USER -s 172.18.0.2 -p tcp -m multiport --dport 80,443 -j ACCEPT -m comment --comment "DOCKER-OUT: Accept HTTP/S from admin-simulation"
-iptables -A DOCKER-USER -s 172.18.0.102 -o ens33 -j DROP -m comment --comment "DOCKER-OUT: Deny all tcp to internet from webserver"
+iptables -A DOCKER-USER -s 172.18.0.102 -p tcp -m multiport --dport 80,443 -j ACCEPT -m comment --comment "DOCKER-OUT: Accept HTTP/S from admin-simulation"
+iptables -A DOCKER-USER -s 172.18.0.0/16 -o ens33 -j DROP -m comment --comment "DOCKER-OUT: Deny all tcp to internet"
 
 # Apply changes
 iptables -A $input -j RETURN
