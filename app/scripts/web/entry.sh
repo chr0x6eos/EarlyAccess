@@ -26,6 +26,9 @@ echo "password=s3CuR3_API_PW!" >> /home/www-adm/.wgetrc
 chown www-adm:www-adm /home/www-adm/.wgetrc
 chmod 0400 /home/www-adm/.wgetrc
 
+# Make sure storage is owned by www-data
+chown www-data:www-data -R /var/www/html/storage/*
+
 # Start cron service
 service cron start
 

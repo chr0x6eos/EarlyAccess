@@ -80,7 +80,7 @@ class AdminAutomation:
         self.driver.find_element_by_name('password').send_keys(self._password)
         
         # Submit using button
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.TAG_NAME, 'button')))
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.TAG_NAME, 'button')))
         self.driver.find_element_by_tag_name('button').click()
         
         # Verify that we got redirected
@@ -149,7 +149,7 @@ class AdminAutomation:
                 if self.driver.current_url != link:
                     return False # Got redirected, so no reply
                 
-                WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'reply')))
+                WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, 'reply')))
                 self.driver.find_element_by_id('reply').click()
 
             except:
@@ -170,7 +170,7 @@ class AdminAutomation:
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'message')))
             self.driver.find_element_by_id('message').send_keys('We appreciate you contacting us.\r\n One of our colleagues has already read your message and is currently working on it! We will get back in touch with you soon. Have a great day!')
 
-            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'contact')))
+            WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, 'contact')))
             self.driver.find_element_by_id('contact').click()
 
             return True

@@ -45,7 +45,7 @@ RUN echo 'tail -f /dev/null' >> /root/entry.sh
 RUN chmod +x /root/entry.sh
 
 # Run admin simulation periodically (flock protects overlapping of cron)
-RUN echo '* * * * * root /usr/bin/flock -w 0 /var/cron.lock python3 /root/admin_simulation/admin.py "$ADMIN_PW" > /var/log/admin_simulation.log 2>&1' >> /etc/crontab
+RUN echo '* * * * * root /usr/bin/flock -w 0 /var/cron.lock python3 /root/admin_simulation/admin.py "$ADMIN_PW" > /var/log/admin_simulation.log 2> /var/log/admin_simulation.error' >> /etc/crontab
 
 # Run entry
 ENTRYPOINT [ "/root/entry.sh" ]
