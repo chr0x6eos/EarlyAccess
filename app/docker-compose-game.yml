@@ -1,0 +1,34 @@
+version : '3.4'
+
+services:
+  # Auto-restarts unhealthy containers
+  autoheal:
+    image: willfarrell/autoheal:latest
+    tty: true
+    container_name: autoheal
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  
+  game-server:
+    build:
+      context: .
+      dockerfile: game-server/Dockerfile
+    image: game-server
+    container_name: game-server
+    hostname: game-server
+    volumes:
+      - ./game-server/web:/usr/src/app
+      - /opt/docker-entrypoint.d/:/docker-entrypoint.d
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail localhost:9999 || exit 1"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 2
+      start_period: 60s
+    labels:
+    - "autoheal=true"

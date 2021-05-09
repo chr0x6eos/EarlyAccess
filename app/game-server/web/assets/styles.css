@@ -1,0 +1,23 @@
+html {
+    height: 100%;
+}
+body {
+    height: 95%;
+}
+.center {
+    text-align: center;
+}
+.fill {
+    height: 95%;
+    width: 95;
+}
+.overflow {
+    overflow-y: auto;
+    overflow-x: auto;
+    display:block;
+}
+
+.highlight {
+    background-color: #fff2ac;
+    background-image: linear-gradient(to right, #ffe359 0%, #fff2ac 100%);
+}

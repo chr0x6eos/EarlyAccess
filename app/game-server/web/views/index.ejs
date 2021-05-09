@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Rock v0.0.1</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h1>Game version v0.0.1</h1></div>
+                    <div class="panel-body">
+                        <div class="card header">
+                            <div class="card-header">
+                                Test-environment for Game-dev
+                            </div>
+                            <div>
+                                <h2>Choose option</h2>
+                                <div>
+                                    <a href="/autoplay"><img src="x" alt="autoplay"</a>
+                                    <a href="/rock"><img src="x" alt="rock"></a> 
+                                    <a href="/paper"><img src="x" alt="paper"></a>
+                                    <a href="/scissors"><img src="x" alt="scissor"></a>
+                                </div>
+                                <h3>Result of last game:</h3>
+                                <%= typeof result != 'undefined' ?  result : '' %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -8,9 +8,6 @@ networks:
         - subnet: 172.18.0.0/16
     driver_opts:
       com.docker.network.bridge.enable_ip_masquerade: "true"
-  no-nw:
-    driver: bridge
-    internal: true
 
 volumes:
   vol_mysql: {}
@@ -107,8 +104,6 @@ services:
     container_name: admin-simulation
     restart: always
     hostname: admin
-    mem_limit: 128m # Limit RAM
-    cpus: 0.5 # Limit CPU
     environment:
       ADMIN_PW: gameover
     volumes:
@@ -127,8 +122,6 @@ services:
     restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - no-nw
   
   game-server:
     build:
@@ -138,25 +131,17 @@ services:
     container_name: game-server
     hostname: game-server
     volumes:
+      - ./game-server/web:/usr/src/app
       - /opt/docker-entrypoint.d/:/docker-entrypoint.d
-    #healthcheck:
-    #  test: ["CMD", "curl --silent --fail localhost:9999 || exit 1"]
-    #  interval: 10s
-    #  timeout: 10s
-    #  retries: 2
-    #  start_period: 10s
-    #labels:
-    #- "autoheal=true"
-    networks:
-      - no-nw
-
-#  npm:
-#    hostname: npm
-#    image: node:14
-#    container_name: npm
-#    volumes:
-#      - ./web/src:/var/www/html
-#    working_dir: /var/www/html
-#    entrypoint: ['npm']
-#    networks:
-#      - no-nw
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail localhost:9999 || exit 1"
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      start_period: 60s
+    labels:
+    - "autoheal=true"

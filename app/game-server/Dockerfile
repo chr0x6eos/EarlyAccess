@@ -1,6 +1,6 @@
 FROM node:14
 
-# Install ssh
+# Install dependencies
 RUN apt-get update && apt-get install -y openssh-server curl openssl
 
 # Enable ssh-key auth
@@ -20,12 +20,8 @@ COPY game-server/authorized_keys  /home/game-adm/.ssh/authorized_keys
 # Create app directory
 WORKDIR /usr/src/app
 
-# Install dependencies
-COPY game-server/package*.json ./
-RUN npm install
-
-# Copy source-code
-COPY game-server/. .
+# Create entrypoint dir
+RUN mkdir - p /docker-entrypoint.d
 
 # Execute all scripts in /entrypoint.sh
 RUN echo '#!/bin/bash' > /entrypoint.sh
