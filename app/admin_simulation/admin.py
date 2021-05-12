@@ -191,26 +191,25 @@ if __name__ == '__main__':
     system('pkill -f chrome')
 
     admin = None
-    #try:
-    if len(sys.argv) < 2:
-        raise Exception('Specify a password!')
-    admin = AdminAutomation(sys.argv[1])
-    # Try to login
-    tries = 0
-    while not admin.login():
-        if tries > 5:
-            raise Exception('Could not login!')
-        tries += 1
-        sleep(1)
-    # If login successful, visit all messages
-    admin.read_messages()
-    # Close webdriver
-    admin.close()
-    quit()
-    """except Exception as ex:
+    try:
+        if len(sys.argv) < 2:
+            raise Exception('Specify a password!')
+        admin = AdminAutomation(sys.argv[1])
+        # Try to login
+        tries = 0
+        while not admin.login():
+            if tries > 5:
+                raise Exception('Could not login!')
+            tries += 1
+            sleep(1)
+        # If login successful, visit all messages
+        admin.read_messages()
+        # Close webdriver
+        admin.close()
+        quit()
+    except Exception as ex:
         print(f'[-] Error: {ex}')
         # Clean exit, even on error
         if admin is not None:
             admin.close()
         quit()
-    """
