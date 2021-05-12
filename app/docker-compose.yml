@@ -140,8 +140,8 @@ services:
           "curl --silent --fail localhost:9999 || exit 1"
         ]
       interval: 10s
-      timeout: 10s
-      retries: 2
-      start_period: 60s
+      timeout: 5s
+      retries: 1
+      start_period: 30s
     labels:
     - "autoheal=true"
