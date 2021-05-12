@@ -4,11 +4,11 @@ from re import match
 
 class Key:
     key = ""
-    # Default value for group3 is XP000
+    # Default value for group3 is XPAA0
     magic_value = "XP"
-    magic_num = 312 # XP000
+    magic_num = 346 # XPAA0
 
-    def __init__(self, key:str, magic_num:int=312):
+    def __init__(self, key:str, magic_num:int=346):
         """
         Initializes `Key` object and sets `key` and `magic_num value`
         """

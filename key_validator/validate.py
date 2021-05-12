@@ -5,9 +5,9 @@ from re import match
 class Key:
     key = ""
     magic_value = "XP" # Static (same on API)
-    magic_num = 348 # TODO: Sync with API (api generates magic_num every 30min)
+    magic_num = 346 # TODO: Sync with API (api generates magic_num every 30min)
 
-    def __init__(self, key:str, magic_num:int=348):
+    def __init__(self, key:str, magic_num:int=346):
         self.key = key
         if magic_num != 0:
             self.magic_num = magic_num
