@@ -179,9 +179,8 @@ chmod 000 /media/
 
 echo 'Setting up docker-entrypoint.d'
 mkdir -p /opt/docker-entrypoint.d/
+chmod 777 /opt/docker-entrypoint.d/
 chmod +t /opt/docker-entrypoint.d/
-chown root:drew /opt/docker-entrypoint.d/
-chmod 775 /opt/docker-entrypoint.d/
 
 echo 'Setting up cron...'
 crontab root/reset.cron
