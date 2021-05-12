@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo 'Updating server...'
+apt-get update && apt-get upgrade -y
+
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 if [ ! -f etc/sshd_config ];
@@ -186,6 +189,15 @@ systemctl enable dc-app
 systemctl enable firewall-init
 systemctl enable firewall
 
+echo 'Hardening server...'
+mount -o remount,rw,hidepid=2 /proc
+chmod 000 /media/
+
+echo 'Setting up docker-entrypoint.d'
+mkdir -p /opt/docker-entrypoint.d/
+chown root:drew /opt/docker-entrypoint.d/
+chmod 730 /opt/docker-entrypoint.d/
+
 echo 'Building docker-app...'
 cd /root/app
 docker-compose up --build -d
@@ -193,8 +205,3 @@ docker-compose down
 
 echo '[+] Done! Rebooting...'
 reboot
-
-# Start services
-#systemctl restart dc-app
-#systemctl restart firewall-init
-#systemctl restart firewall

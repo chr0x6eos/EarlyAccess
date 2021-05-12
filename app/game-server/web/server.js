@@ -65,23 +65,50 @@ app.get('/scissors', (req,res) => {
 });
 
 app.post('/autoplay', async function autoplay(req,res) {
+  
+  // Stop execution if not number
+  if (isNaN(req.body.rounds))
+  {
+    res.render('autoplay');
+    return;
+  }
+  
   rounds = req.body.rounds;
   res.write('<html><body>')
   res.write('<h1>Starting autoplay with ' + rounds + ' rounds</h1>');
   
   var counter = 0;
   var rounds_ = rounds;
+  var wins = 0;
+  var losses = 0;
+  var ties = 0;
 
   while(rounds != 0)
   {
     counter++;
-    res.write('<p><h3>Playing round: ' + counter + '</h3>\n');
-    res.write('Outcome of round: ' + play() + '</p>\n');
+    var result = play();
+    if(req.body.verbose)
+    {
+      res.write('<p><h3>Playing round: ' + counter + '</h3>\n');
+      res.write('Outcome of round: ' + result + '</p>\n');
+    }
+    if (result == "win")
+      wins++;
+    else if(result == "loss")
+      losses++;
+    else
+      ties++;
+      
+    
     // Decrease round
     rounds = rounds - 1;
   }
   rounds = rounds_;
 
+  res.write('<h4>Stats:</h4>')
+  res.write('<p>Wins: ' + wins + '</p>')
+  res.write('<p>Losses: ' + losses + '</p>')
+  res.write('<p>Ties: ' + ties + '</p>')
   res.write('<a href="/autoplay">Go back</a></body></html>')
   res.end()
 });

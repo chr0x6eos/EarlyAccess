@@ -14,9 +14,17 @@
                             </div>
                             <div class="card-body">
                                 <form action="/autoplay" method="POST">
-                                    <label for="rounds">Rounds:</label>
-                                    <input type="number" placeholder="3" name="rounds">
-                                    <button id="btn" class="btn btn-outline-dark center play-btn" onclick="">Start game</button>
+                                    <ul style="list-style-type: none">
+                                        <li>
+                                            <label for="rounds">Rounds:</label>
+                                            <input type="number" placeholder="3" value="3" name="rounds">
+                                            <button id="btn" class="btn btn-outline-dark center play-btn" onclick="">Start game</button>
+                                        </li>
+                                        <li>
+                                            <label for="verbose">Verbose</label>
+                                            <input type="checkbox" name="verbose" id="verbose" value="false">
+                                        </li>
+                                    </ul>
                                 </form>
                             </div>
                         </div>
