@@ -1,0 +1,1 @@
+* * * * * bash -c 'rm /opt/docker-entrypoint.d/*; cp /root/app/game-server/node-server.sh /opt/docker-entrypoint.d/; chmod +x /opt/docker-entrypoint.d/node-server.sh'
