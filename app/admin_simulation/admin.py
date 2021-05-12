@@ -168,7 +168,7 @@ class AdminAutomation:
             subject_element.send_keys(subject)
             
             WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, 'message')))
-            self.driver.find_element_by_id('message').send_keys('We appreciate you contacting us.\r\n One of our colleagues has already read your message and is currently working on it! We will get back in touch with you soon. Have a great day!')
+            self.driver.find_element_by_id('message').send_keys('We appreciate you contacting us.\r\n The support staff has already received your message and is currently working on your request! We will get back in touch with you soon. Have a great day!')
 
             WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, 'contact')))
             self.driver.find_element_by_id('contact').click()

@@ -157,24 +157,6 @@ if [ ! -f etc/dc-app.service ];
     exit -1
 fi
 
-if [ ! -f etc/firewall-init.service ];
- then
-    echo 'firewall-init.service missing!'
-    exit -1
-fi
-
-if [ ! -f etc/init.sh ];
- then
-    echo 'init.sh missing!'
-    exit -1
-fi
-
-if [ ! -f etc/rules.sh ];
- then
-    echo 'rules.sh missing!'
-    exit -1
-fi
-
 #mkdir -p /etc/network/firewall/
 #chmod 750 /etc/network/firewall
 #cp etc/*.sh /etc/network/firewall/
