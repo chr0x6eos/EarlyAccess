@@ -18,7 +18,12 @@
                     <a class="nav-link" href="/actions/hash.php">
                         Hash-Checker
                     </a>
-                </li>  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        File-checker
+                    </a>
+                </li> 
             </ul>
 
             <ul class="navbar-nav ml-auto align-items-baseline">

@@ -191,15 +191,20 @@ systemctl enable firewall
 
 echo 'Hardening server...'
 mount -o remount,rw,hidepid=2 /proc
+echo 'proc            /proc           proc    defaults,hidepid=2   0    0' >> /etc/fstab
 chmod 000 /media/
 
 echo 'Setting up docker-entrypoint.d'
 mkdir -p /opt/docker-entrypoint.d/
-chown root:drew /opt/docker-entrypoint.d/
-chmod 730 /opt/docker-entrypoint.d/
+chmod 755 /opt/docker-entrypoint.d/
+
+echo 'Setting up cron...'
+crontab root/reset.cron
 
 echo 'Building docker-app...'
 cd /root/app
+chown www-data:www-data -R web/src/storage/
+chown root:root web/src/storage/app/backup.zip
 docker-compose up --build -d
 docker-compose down
 

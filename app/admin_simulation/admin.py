@@ -24,7 +24,7 @@ class AdminAutomation:
     _email = 'admin@earlyaccess.htb'
     _password = '' # Default value
 
-    def __init__(self, password:str='', timeout:int=10):
+    def __init__(self, password:str='', timeout:int=15):
         '''
         Initializes python-class that access webpage as admin and reads all messages to automatically trigger XSS
         '''

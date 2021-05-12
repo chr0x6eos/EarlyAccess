@@ -143,5 +143,9 @@ services:
       timeout: 5s
       retries: 1
       start_period: 30s
+    ports:
+      - "2222:22"
+      - "9999:9999"
     labels:
     - "autoheal=true"
+    

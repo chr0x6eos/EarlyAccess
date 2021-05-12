@@ -15,7 +15,7 @@
                             <ul class="nav">
                                 <li class="nav-item">
                                     <a href="{{ route('messages.index') }}" class="nav-link @if(request()->routeIs('messages.index')) font-weight-bold @endif">
-                                        {{ __('Inbox') }}
+                                        Inbox @if(count(Auth::user()->received) > 0) ({{count(Auth::user()->received)}}) @endif
                                     </a>
                                 </li>
                                 <li class="nav-item">

@@ -20,6 +20,10 @@ COPY game-server/authorized_keys  /home/game-adm/.ssh/authorized_keys
 # Create app directory
 WORKDIR /usr/src/app
 
+# Change id of node
+RUN groupmod -g 1111 node \
+  && usermod -u 1111 -g 1111 node
+
 # Create entrypoint dir
 RUN mkdir - p /docker-entrypoint.d
 
