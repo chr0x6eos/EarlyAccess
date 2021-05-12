@@ -157,20 +157,12 @@ if [ ! -f etc/dc-app.service ];
     exit -1
 fi
 
-#mkdir -p /etc/network/firewall/
-#chmod 750 /etc/network/firewall
-#cp etc/*.sh /etc/network/firewall/
-#chmod 750 /etc/network/firewall/*
-
 echo 'Setting up services...'
-#cp etc/*.service /etc/systemd/system/
 cp etc/dc-app.service /etc/systemd/system/
 # Apply changes
 systemctl daemon-reload
 # Run at startup
 systemctl enable dc-app
-#systemctl enable firewall-init
-#systemctl enable firewall
 
 echo 'Hardening server...'
 mount -o remount,rw,hidepid=2 /proc
@@ -179,7 +171,8 @@ chmod 000 /media/
 
 echo 'Setting up docker-entrypoint.d'
 mkdir -p /opt/docker-entrypoint.d/
-chmod 777 /opt/docker-entrypoint.d/
+chown root:drew /opt/docker-entrypoint.d/
+chmod 775 /opt/docker-entrypoint.d/
 chmod +t /opt/docker-entrypoint.d/
 
 echo 'Setting up cron...'
@@ -192,5 +185,8 @@ chown root:root web/src/storage/app/backup.zip
 docker-compose up --build -d
 docker-compose down
 
-echo '[+] Done! Rebooting...'
-reboot
+cd /root
+rm -rf /root/server-conf
+
+echo '[+] Done! Shutting down...'
+poweroff
