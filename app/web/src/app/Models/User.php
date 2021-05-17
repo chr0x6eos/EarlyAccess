@@ -76,7 +76,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Marks relation with scoreboard
+     * Returns all scores of user
      *
      * @return HasMany
      */

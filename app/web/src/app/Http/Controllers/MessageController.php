@@ -56,7 +56,9 @@ class MessageController extends Controller
             $user = User::where('email', $request->email)->first();
 
             if (!$user)
-                throw new \Exception("Could not find the user you are trying to message! Please verify the username (" . $request->email . "!");
+                throw new \Exception("Could not find the user you are trying to message! Please verify the recipient: " . $request->email);
+
+            // Send message to user
             Auth::user()->sendMessage($user->id, $request->message, $request->subject);
 
             return redirect()->route('messages.sent')->withSuccess('Message to ' . $request->email . ' has been send successfully!');
@@ -96,8 +98,15 @@ class MessageController extends Controller
         try
         {
             $message = Message::find($id);
+
             if(!$message)
-                throw new \Exception('Could not find message to reply to!');
+                throw new \Exception('Could not find the message to reply to!');
+
+            // Only allow replies if user is recipient of message
+            if (!Auth::user()->isRecipient($message->id))
+            {
+                throw new \Exception('Can not reply to a message that you are not the recipient of!');
+            }
 
             $user = User::find($message->sender->id);
             if (!$user)

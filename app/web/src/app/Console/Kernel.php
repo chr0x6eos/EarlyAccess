@@ -74,6 +74,13 @@ class Kernel extends ConsoleKernel
                 ->delete();
         })->everyMinute();
 
+        // Delete unread messages after an hour (check every 10 minutes)
+        $schedule->call(function () {
+            DB::table('messages')
+                ->where('created_at', '<=', Carbon::now()->subHour(1))
+                ->delete();
+        })->everyTenMinutes();
+
         // Delete users after 6 hours (check every hour)
         $schedule->call(function () {
             DB::table('users')
@@ -90,12 +97,12 @@ class Kernel extends ConsoleKernel
                 ->delete();
         })->everyMinute();
 
-        /*// Delete scoreboard entries every 12hrs to cleanup (check every hour)
+        // Delete scoreboard entries every 12hrs to cleanup (check every hour)
         $schedule->call(function () {
             DB::table('scoreboard')
                 ->where('time', '<=', Carbon::now()->subHour(12))
                 ->delete();
-        })->hourly();*/
+        })->hourly();
     }
 
     /**

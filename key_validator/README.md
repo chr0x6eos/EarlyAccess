@@ -13,4 +13,5 @@ Usage: ./validate.py <game-key>
 ```
 
 ## Working Key ([magic_num=348]):
-KEY01-0H0H0-XP8I3-GAME1-1297
+KEY01-0H0H0-XPAA0-GAME1-1295
+

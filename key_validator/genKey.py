@@ -132,7 +132,7 @@ def submit_key(session:requests.Session, key:str) -> bool:
 
     # Double check to limit false-positives
     #return "Game-key is invalid!" not in out and "Game-key successfully added!" in out
-    if "Game-key successfully added!" in out:
+    if "Game-key successfully added" in out:
         return True
     elif "Game-key is invalid!" in out:
         return False

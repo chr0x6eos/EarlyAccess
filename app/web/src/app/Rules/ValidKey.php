@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class ValidChars implements Rule
+class ValidKey implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,8 +25,8 @@ class ValidChars implements Rule
      */
     public function passes($attribute, $value)
     {
-        // Only letters and numbers are allowed
-        return preg_match('/^[a-z0-9_\- ]+$/i', $value) === 1;
+        // Check if key is in valid format
+        return preg_match('/^[A-Z0-9]{5}(-[A-Z0-9]{5})(-[A-Z]{4}[0-9])(-[A-Z0-9]{5})(-[0-9]{1,5})$/', $value) === 1;
     }
 
     /**
@@ -36,6 +36,6 @@ class ValidChars implements Rule
      */
     public function message()
     {
-        return 'The :attribute contains invalid characters (only alphanumeric characters are allowed)!';
+        return 'Invalid :attribute format!';
     }
 }

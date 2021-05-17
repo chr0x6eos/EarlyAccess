@@ -13,19 +13,22 @@ class API extends Model
     /**
      * Verifies a game-key using the API
      *
-     * @param String $key # Game-key to verify
-     * @return bool
+     * @param String $key // Game-key to verify
+     * @return string //Returns response from API
      */
     public static function verify_key(String $key) : string
     {
         try
         {
             $response = Http::get('http://api:5000/verify/' . $key);
-            return $response["message"];
+            if (isset($response["message"]))
+                return $response["message"];
+            else
+                return $response->body();
         }
         catch (\Exception $ex)
         {
-            return false;
+            return "Unkown error: " . $ex->getMessage();
         }
     }
 }

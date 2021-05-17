@@ -18,7 +18,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next)
     {
         // Only allow access if user is admin
-        if(Auth::user() && Auth::user()->role == "admin")
+        if(Auth::user() && Auth::user()->role === "admin")
             return $next($request);
         return  redirect()->route('dashboard')->withErrors("You are not authorized to access this resource!");
     }

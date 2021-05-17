@@ -14,9 +14,13 @@ class DeleteUser implements DeletesUsers
      */
     public function delete($user)
     {
-        $user->sent->each->delete();
-        $user->received->each->delete();
-        $user->score->each->delete();
-        $user->delete();
+        // Don't allow deletion of admin
+        if($user->email !== "admin@earlyaccess.htb")
+        {
+            $user->sent->each->delete();
+            $user->received->each->delete();
+            $user->score->each->delete();
+            $user->delete();
+        }
     }
 }
