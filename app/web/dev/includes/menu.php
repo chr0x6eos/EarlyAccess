@@ -12,16 +12,15 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/actions/hash.php">
-                        Hash-Checker
+                    <a class="nav-link" href="/home.php?tool=hashing">
+                        Hashing-Tools
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        File-checker
+                    <a class="nav-link" href="/home.php?tool=file">
+                        File-Tools
                     </a>
                 </li> 
             </ul>
