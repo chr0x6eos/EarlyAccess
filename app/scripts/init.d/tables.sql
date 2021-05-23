@@ -1,24 +1,34 @@
-# users-Table:
+# Create users-Table:
 CREATE TABLE `users` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `name` varchar(255) NOT NULL, `email` varchar(255) NOT NULL, `password` varchar(255) NOT NULL, `role` varchar(255) NOT NULL default 'user', `key` varchar(255) NULL, `created_at` timestamp NULL, `updated_at` timestamp NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
 ALTER TABLE `users` add unique `users_email_unique`(`email`);
 
-# sessions-TABLE:
+# Create sessions-TABLE:
 CREATE TABLE `sessions` (`id` varchar(255) NOT NULL, `user_id` BIGINT unsigned NULL, `ip_address` varchar(45) NULL, `user_agent` text NULL, `payload` text NOT NULL, `last_activity` int NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
 ALTER TABLE `sessions` add PRIMARY KEY `sessions_id_PRIMARY`(`id`);
 ALTER TABLE `sessions` add index `sessions_user_id_index`(`user_id`);
 ALTER TABLE `sessions` add index `sessions_last_activity_index`(`last_activity`);
 
-# messages-TABLE:
+# Create messages-TABLE:
 CREATE TABLE `messages` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `subject` varchar(255) NOT NULL, `body` varchar(255) NOT NULL, `recipient_id` BIGINT unsigned NOT NULL, `sender_id` BIGINT unsigned NOT NULL, `read` tinyint(1) NOT NULL default '0', `created_at` timestamp NULL, `updated_at` timestamp NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
 ALTER TABLE `messages` add constraint `messages_recipient_id_FOREIGN` FOREIGN KEY (`recipient_id`) references `users` (`id`);
 ALTER TABLE `messages` add constraint `messages_sender_id_FOREIGN` FOREIGN KEY (`sender_id`) references `users` (`id`);
 
-# scoreboard-TABLE:
+# Create scoreboard-TABLE:
 CREATE TABLE `scoreboard` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `score` int unsigned NOT NULL, `user_id` BIGINT unsigned NOT NULL, `time` timestamp default CURRENT_TIMESTAMP NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
 ALTER TABLE `scoreboard` add constraint `scoreboard_user_id_FOREIGN` FOREIGN KEY (`user_id`) references `users` (`id`);
 
-# failed_logins-TABLE:
+# Create failed_logins-TABLE:
 CREATE TABLE `failed_logins` (`id` BIGINT unsigned NOT NULL auto_increment PRIMARY KEY, `IP` BIGINT NOT NULL, `time` timestamp default CURRENT_TIMESTAMP NOT NULL) default character set utf8mb4 collate 'utf8mb4_unicode_ci';
 
 # Create admin user:
 INSERT INTO `users` (`name`, `email`, `password`, `role`) VALUES ('admin', 'admin@earlyaccess.htb', '$2y$10$sk9.8a8M.sQwxyR9zcQhCu4Sk/cCnPqzSC0UozCdHXfP7L3TwHiJu', 'admin');
+
+# Create other users:
+INSERT INTO `users` (`name`, `email`, `password`) VALUES ('chr0x6eos', 'chr0x6eos@earlyaccess.htb', '$2y$10$nJVRNQt7jdz/x.nisLtEfeQclq1FDX0n77Ny.nclo5DA9S0xhx7T6');
+INSERT INTO `users` (`name`, `email`, `password`) VALUES ('firefart', 'firefart@earlyaccess.htb', '$2y$10$qRsVQh1WJKwpML1lOMmUsetTPxdOmJIrewexK0ex3r2q7HUZ/NJ.q');
+INSERT INTO `users` (`name`, `email`, `password`) VALUES ('farbs', 'farbs@earlyaccess.htb', '$2y$10$7Wk7UchXNlo/Z5GcMMYkR.RjSetXN98XGx6h6kvpLdfSe3.shVVyK');
+
+# Insert into scoreboard-Table:
+INSERT INTO `scoreboard` (`score`, `user_id`) VALUES (82, 2);
+INSERT INTO `scoreboard` (`score`, `user_id`) VALUES (54, 3);
+INSERT INTO `scoreboard` (`score`, `user_id`) VALUES (67, 4);

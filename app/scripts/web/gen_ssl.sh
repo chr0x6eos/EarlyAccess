@@ -4,7 +4,7 @@
 country="AT"
 state="Vienna"
 locality="Vienna"
-organization="EarlyAccess Game Corp"
+organization="EarlyAccess Studios"
 ou="IT"
 cn="earlyaccess.htb"
 email="chr0x6eos@earlyaccess.htb"
