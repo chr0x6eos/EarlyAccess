@@ -98,11 +98,11 @@ class Kernel extends ConsoleKernel
         })->everyMinute();
 
         // Delete scoreboard entries every 12hrs to cleanup (check every hour)
-        $schedule->call(function () {
+        /*$schedule->call(function () {
             DB::table('scoreboard')
                 ->where('time', '<=', Carbon::now()->subHour(12))
                 ->delete();
-        })->hourly();
+        })->hourly();*/
     }
 
     /**
