@@ -31,10 +31,10 @@
                             </ul>
                         </div>
                         <br>
-                        <p>If you have any inquiry, please do not hesitate contacting us!</p>
+                        <h5>If you have any inquiry, please do not hesitate contacting us!</h5>
                         <div class="card header">
                             <div class="card-header">
-                                <p class="Recipient">Send message to: @if(session()->has('email')){{session('email')}} @else admin@earlyaccess.htb @endif</p>
+                                <p class="Recipient">Send message to: <b>@if(session()->has('email')){{session('email')}} @else admin@earlyaccess.htb @endif</b></p>
                             </div>
                             <div class="card-body">
                                 <form class="form-horizontal" role="form" method="POST" action="{{route('contact.create')}}">

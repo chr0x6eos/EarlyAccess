@@ -44,7 +44,7 @@
                                             {{--
                                              <!--
                                                 TODO: Research why some usernames cause strange behavior.
-                                                Fix: Blacklist characters upon registration that can cause errors & show user-id instead of name
+                                                Possible fixes: Blacklist characters upon registration that can cause errors & show user-id instead of name
                                             -->
                                             {{-- Echo user-id to not distrupt all messages after this one --\}}
                                             <p>Message by (ID: @php echo $message->sender->id; @endphp)</p>

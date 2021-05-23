@@ -48,10 +48,12 @@
                                     </div>
                                 @endforeach
                             @else
+                            <div class="card header">
                                 <div class="card-body">
                                     <h3>You have not send any messages yet!</h3>
                                     {{--<a class="btn btn-outline-success" href="{{route('contact.index')}}">Send message</a>--}}
                                 </div>
+                            </div>
                             @endif
                         </div>
                         <br>
