@@ -10,6 +10,8 @@ Creates:
 
 Inserts:
 - Admin-user into users
+- Users into users
+- Scores into scoreboard
 
 ## users.sql
 Creates MySQL-user:

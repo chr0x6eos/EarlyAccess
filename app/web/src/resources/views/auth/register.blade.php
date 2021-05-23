@@ -1,7 +1,9 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+            <a class="d-flex justify-content-center mb-4" href="/">
+                <img src="@php echo asset('storage/logo.png') @endphp" width="366" height="205">
+            </a>
         </x-slot>
 
         <x-jet-validation-errors class="mb-3" />
