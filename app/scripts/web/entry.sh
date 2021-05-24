@@ -8,6 +8,8 @@ sleep $time
 # Migrate database
 #php artisan migrate:fresh --seed
 
+php artisan storage:link
+
 # PROD:
 #composer install --optimize-autoloader --no-dev
 php artisan config:cache

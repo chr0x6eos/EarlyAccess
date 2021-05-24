@@ -10,12 +10,15 @@ RUN echo 'AuthorizedKeysFile .ssh/authorized_keys' >> /etc/ssh/sshd_config
 # Expose SSH
 EXPOSE 22
 
+# Create game-tester user
+RUN useradd -ms /bin/bash game-tester
+
 # Create game-adm user
 RUN useradd -ms /bin/bash -p $(mkpasswd -m sha-512 gamemaster) game-adm
 
 # Setup ssh
-RUN mkdir -p /home/game-adm/.ssh
-COPY game-server/authorized_keys  /home/game-adm/.ssh/authorized_keys
+RUN mkdir -p /home/game-tester/.ssh
+COPY game-server/authorized_keys  /home/game-tester/.ssh/authorized_keys
 
 # Create app directory
 WORKDIR /usr/src/app

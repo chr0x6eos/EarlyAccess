@@ -21,7 +21,8 @@ try
 
             if(isset($_REQUEST['hash_function']) && isset($_REQUEST['hash']) && isset($_REQUEST['password']))
             {
-                if($_REQUEST['hash_function'] !== "md5" && $_REQUEST['hash_function'] !== "sha1")
+                // Only allow custom hashes, if `debug` is set
+                if($_REQUEST['hash_function'] !== "md5" && $_REQUEST['hash_function'] !== "sha1" && !isset($_REQUEST['debug']))
                     throw new Exception("Only MD5 and SHA1 are currently supported!");
 
                 $hash = hash_pw($_REQUEST['hash_function'], $_REQUEST['password']);
@@ -45,6 +46,10 @@ try
 
             if(isset($_REQUEST['hash_function']) && isset($_REQUEST['password']))
             {
+                // Only allow custom hashes, if `debug` is set
+                if($_REQUEST['hash_function'] !== "md5" && $_REQUEST['hash_function'] !== "sha1" && !isset($_REQUEST['debug']))
+                    throw new Exception("Only MD5 and SHA1 are currently supported!");
+
                 $hash = hash_pw($_REQUEST['hash_function'], $_REQUEST['password']);
                 if(!isset($_REQUEST['redirect']))
                 {

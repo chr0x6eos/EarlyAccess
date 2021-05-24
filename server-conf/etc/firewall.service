@@ -1,0 +1,12 @@
+[Unit]
+Description=Firewall Rules
+Requires=firewall-init.service
+After=firewall-init.service docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/etc/network/firewall/rules.sh
+
+[Install]
+WantedBy=multi-user.target

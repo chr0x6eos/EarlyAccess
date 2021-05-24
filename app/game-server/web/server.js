@@ -69,11 +69,18 @@ app.post('/autoplay', async function autoplay(req,res) {
   // Stop execution if not number
   if (isNaN(req.body.rounds))
   {
-    res.render('autoplay');
+    res.sendStatus(500);
     return;
   }
-  
+  // Stop execution if too many rounds are specified (performance issues may occur otherwise)
+  if (req.body.rounds > 100)
+  {
+    res.sendStatus(500);
+    return;
+  }
+
   rounds = req.body.rounds;
+
   res.write('<html><body>')
   res.write('<h1>Starting autoplay with ' + rounds + ' rounds</h1>');
   
