@@ -2,9 +2,9 @@
 import requests # To make web-requests
 import sys # For input-verification
 import argparse # For argument-parsing
-import string # Use for key-calcuation
-from random import randrange
-from typing import List
+import string # For key-calculation
+from random import randrange # For random numbers
+from typing import List # For type hinting
 
 #################
 # KEY FUNCTIONS #
