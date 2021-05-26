@@ -165,7 +165,7 @@ def clear(count:int=1) -> None:
 #################
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="Game-Key generation script by Chr0x6eos")
     parser.add_argument("--email", help="Email of your account", type=str)
     parser.add_argument("--password", help="Password of your account", type=str)
     parser.add_argument("-c", "--cookie", help="Cookie to use", type=str)
