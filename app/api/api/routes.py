@@ -8,7 +8,7 @@ import api.helpers.docker as docker # Docker-API
 
 @app.route('/', methods=['GET'])
 def home():
-    return resp.ok(msg='Welcome to the game-key verification API! You can verify your keys via: /verify/<game-key>. Admin users can verify the database using /check_db.')
+    return resp.ok(msg='Welcome to the game-key verification API! You can verify your keys via: /verify/<game-key>. If you are using manual verification, you have to synchronize the magic_num here. Admin users can verify the database using /check_db.')
 
 @app.route('/verify/<string:key>', methods=['GET'])
 def verify_key(key:str):
