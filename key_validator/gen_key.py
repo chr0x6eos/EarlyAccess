@@ -6,9 +6,6 @@ import string # Use for key-calcuation
 from random import randrange
 from typing import List
 
-values = string.ascii_uppercase + string.digits
-
-
 #################
 # KEY FUNCTIONS #
 #################
@@ -20,6 +17,7 @@ def gen_g1() -> str:
     g1 = []
     target = [221,81,145]
 
+    # Calculate each g1 according to target
     while len(g1) != 3:
         g1.append({(ord(v)<<len(g1)+1)%256^ord(v):v for v in string.ascii_uppercase}[target[len(g1)]])
 
@@ -34,11 +32,12 @@ def gen_g2() -> str:
     Calculates the second group of the key (g2)
     """
     g2 = []
+    values = string.ascii_uppercase + string.digits
 
     for x in values:
         for y in values:
             if ord(x)*3 == ord(y)*2:
-                g2.append(x+y+x+y+x)
+                g2.append((x+y) * 2 + x)
     return g2[randrange(0,len(g2))]
 
 def gen_g3(magic_num:int, magic_value:str="XP") -> str:
@@ -107,7 +106,7 @@ urllib3.disable_warnings()
 
 # URL of webpage
 url = "https://earlyaccess.htb"
-proxies = {} #{'https':'http://127.0.0.1:8080'}
+proxies = {}
 
 def login(session:requests.Session, email:str, password:str) -> requests.Session:
     """
@@ -161,7 +160,6 @@ def clear(count:int=1) -> None:
         sys.stdout.write("\033[K")
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--email", help="Email of your account", type=str)
     parser.add_argument("--password", help="Password of your account", type=str)
@@ -172,8 +170,10 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--local", help="Only calculate key, do not submit", action='store_true')
     args = parser.parse_args()
 
+    # Print help if no arguments were supplient
     if not any(vars(args).values()):
         parser.print_help()
+        quit()
 
     if args.local:
         """
@@ -185,11 +185,15 @@ if __name__ == "__main__":
             magic_num = -1
         
         keys = gen_key(magic_num)
-        print("".join(keys))
+        print("\r\n".join(keys))
         quit()
     else:
+        """
+        Submit keys against website
+        """
         if not (args.email and args.password) and not args.cookie:
-            print("When not using --local either --email and --password or --cookie is required!")
+            parser.print_usage()
+            print("\nWhen not using --local either (--email and --password) or --cookie is required!")
             quit()
         
         session = requests.Session()
@@ -205,7 +209,7 @@ if __name__ == "__main__":
             password = args.password
 
             if not login(session, email, password):
-                print(f"[-] Could not login with creds: {email} - {password}!")
+                print(f"[-] Could not login as {email} with password: {password}!")
                 quit()
 
         if args.magic_num:
@@ -213,9 +217,9 @@ if __name__ == "__main__":
         else:
             magic_num = -1
         
-        keys = gen_key(magic_num) #gen_all_keys() || calc_key()
+        keys = gen_key(magic_num)
 
-        print(f"[*] Starting Brute-Force with {len(keys)} possible keys!\r\n")
+        print(f"[*] Testing {len(keys)} possible keys!\r\n")
         
         # Stop execution time
         start_time = time()
