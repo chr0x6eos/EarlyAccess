@@ -200,7 +200,7 @@ if __name__ == "__main__":
             parser.print_usage()
             print("\nWhen not using --local either (--email and --password) or --cookie is required!")
             quit()
-        
+
         session = requests.Session()
         session.verify = False
 
@@ -216,6 +216,9 @@ if __name__ == "__main__":
             if not login(session, email, password):
                 print(f"[-] Could not login as {email} with password: {password}!")
                 quit()
+
+        if not args.delay:
+            args.delay = 0.5
 
         if args.magic_num:
             magic_num = args.magic_num
