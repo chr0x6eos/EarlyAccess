@@ -139,7 +139,7 @@ def submit_key(session:requests.Session, key:str) -> bool:
 
     # Double check to limit false-positives
     #return "Game-key is invalid!" not in out and "Game-key successfully added!" in out
-    if "Game-key successfully added" in out:
+    if "Game-key successfully added" in out or "Game-key is valid!" in out:
         return True
     elif "Game-key is invalid!" in out:
         return False
@@ -166,8 +166,9 @@ if __name__ == "__main__":
     parser.add_argument("--email", help="Email of your account", type=str)
     parser.add_argument("--password", help="Password of your account", type=str)
     parser.add_argument("-c", "--cookie", help="Cookie to use", type=str)
-    parser.add_argument("-m", "--magic_num", help="Magic number to use", metavar="[346-406]", choices=range(346,405+1), type=int)
+    parser.add_argument("-d", "--delay", help="Delay between requests (in seconds)", metavar="1", type=float)
     parser.add_argument("-p", "--proxy", help="HTTP proxy", metavar="http://127.0.0.1:8080", type=str)
+    parser.add_argument("-m", "--magic_num", help="Magic number to use", metavar="[346-406]", choices=range(346,405+1), type=int)
     parser.add_argument("-l", "--local", help="Only calculate key, do not submit", action='store_true')
     args = parser.parse_args()
 
@@ -176,13 +177,16 @@ if __name__ == "__main__":
 
     if args.local:
         """
-        Calc checksum locally
+        Calculate keys locally
         """
         if args.magic_num:
             magic_num = args.magic_num
         else:
             magic_num = -1
-        print(gen_key(magic_num))
+        
+        keys = gen_key(magic_num)
+        print("".join(keys))
+        quit()
     else:
         if not (args.email and args.password) and not args.cookie:
             print("When not using --local either --email and --password or --cookie is required!")
@@ -233,7 +237,7 @@ if __name__ == "__main__":
                 print(f"[INFO] Magic_num of the API currently is: {sum(bytearray(key.split('-')[2].encode()))}")
                 quit()
             
-            # Sleep 1 second between each request to not get blocked
-            sleep(.5)
+            # Sleep delay second between each request to not get blocked
+            sleep(args.delay)
         
         print(f"[-] Could not find valid key! Please retry...")
