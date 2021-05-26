@@ -96,6 +96,7 @@ def gen_key(magic_num:int=-1) -> List[str]:
 ##################
 # HTTP FUNCTIONS #
 ##################
+
 import requests
 from time import sleep, time
 from bs4 import BeautifulSoup
@@ -158,6 +159,10 @@ def clear(count:int=1) -> None:
     for i in range(count):
         sys.stdout.write("\033[F")
         sys.stdout.write("\033[K")
+
+#################
+# MAIN FUNCTION #
+#################
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
