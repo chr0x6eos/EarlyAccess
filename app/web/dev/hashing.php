@@ -51,7 +51,6 @@
     </form>
     <form id="verify" style="display:none" action="/actions/hash.php" method="POST">
         <input type="hidden" name="action" value="verify"/>
-        <input type="hidden" name="redirect" value="true" />
         <ul style="list-style-type: none">
             <li>
                 <label for="password">Password:</label>
