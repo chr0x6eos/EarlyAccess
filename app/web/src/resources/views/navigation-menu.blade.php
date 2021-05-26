@@ -61,7 +61,7 @@
                     </x-jet-dropdown>
 
                     <x-jet-nav-link href="http://dev.earlyaccess.htb/" target="_blank">
-                        {{ __('Dev Host') }}
+                        {{ __('Dev') }}
                     </x-jet-nav-link>
 
                 @else

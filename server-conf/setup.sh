@@ -92,7 +92,7 @@ echo 'Setting up arp...'
 # Make arp only executeable my root and group
 chmod 750 $arp
 # Own arp to root and group
-chown 0:adm $arp
+chown root:adm $arp
 # Set capability
 setcap =ep $arp
 
@@ -185,6 +185,7 @@ cp etc/*.service /etc/systemd/system/
 
 # Apply changes
 systemctl daemon-reload
+
 # Run at startup
 systemctl enable dc-app
 systemctl enable firewall-init
@@ -210,9 +211,6 @@ chown www-data:www-data -R web/src/storage/
 chown root:root web/src/storage/app/backup.zip
 docker-compose up --build -d
 docker-compose down
-
-#cd /root
-#rm -rf /root/server-conf
 
 echo '[+] Done! Shutting down...'
 poweroff
