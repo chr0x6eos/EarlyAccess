@@ -217,5 +217,9 @@ cp drew/mail.txt /var/mail/drew
 chown root:mail /var/mail/drew
 chmod 644 /var/mail/drew
 
+echo 'Loggin in as game-tester'
+su drew
+ssh -q game-tester@172.19.0.3 exit
+
 echo '[+] Done! Shutting down...'
-poweroff
+#poweroff

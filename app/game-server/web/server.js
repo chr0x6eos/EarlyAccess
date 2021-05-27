@@ -57,11 +57,11 @@ app.get('/rock', (req,res) => {
 });
 
 app.get('/paper', (req,res) => {
-  res.render('index', {result:play(1)});
+  res.render('index', {result:play(2)});
 });
 
 app.get('/scissors', (req,res) => {
-  res.render('index', {result:play(1)});
+  res.render('index', {result:play(3)});
 });
 
 app.post('/autoplay', async function autoplay(req,res) {
@@ -106,7 +106,6 @@ app.post('/autoplay', async function autoplay(req,res) {
     else
       ties++;
       
-    
     // Decrease round
     rounds = rounds - 1;
   }
