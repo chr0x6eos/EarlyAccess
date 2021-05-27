@@ -6,8 +6,8 @@ Date: Thu May 27 8:10:34 2021
 
 Hi Drew!
 
-Thanks again for taking the time to test this very early version of our new project!
-We have received your feedback and implemented a healthcheck that will automatically restart the game server if it has crashed (sorry for the current instability of the game! We are working on it...) 
+Thanks again for taking the time to test this very early version of our newest project!
+We have received your feedback and implemented a healthcheck that will automatically restart the game-server if it has crashed (sorry for the current instability of the game! We are working on it...) 
 If the game hangs now, the server will restart and be available again after about a minute.
 
 If you find any other problems, please don't hesitate to report them!
