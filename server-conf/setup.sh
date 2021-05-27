@@ -205,21 +205,19 @@ chmod +t /opt/docker-entrypoint.d/
 echo 'Setting up cron...'
 crontab root/reset.cron
 
-echo 'Building docker-app...'
-cd /root/app
-chown www-data:www-data -R web/src/storage/
-chown root:root web/src/storage/app/backup.zip
-docker-compose up --build -d
-docker-compose down
-
 echo 'Setting up mail...'
 cp drew/mail.txt /var/mail/drew
 chown root:mail /var/mail/drew
 chmod 644 /var/mail/drew
 
-echo 'Loggin in as game-tester'
-su drew
-ssh -q game-tester@172.19.0.3 exit
+echo 'Building docker-app...'
+cd /root/app
+chown www-data:www-data -R web/src/storage/
+chown root:root web/src/storage/app/backup.zip
+docker-compose up --build -d
 
-echo '[+] Done! Shutting down...'
-#poweroff
+echo 'Loggin in as game-tester...'
+su drew -c 'ssh -q game-tester@172.19.0.3 exit'
+
+echo '[+] Done! Exiting...'
+exit 0
