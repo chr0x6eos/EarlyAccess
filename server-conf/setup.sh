@@ -212,5 +212,10 @@ chown root:root web/src/storage/app/backup.zip
 docker-compose up --build -d
 docker-compose down
 
+echo 'Setting up mail...'
+cp drew/mail.txt /var/mail/drew
+chown root:mail /var/mail/drew
+chmod 644 /var/mail/drew
+
 echo '[+] Done! Shutting down...'
 poweroff
