@@ -82,7 +82,7 @@
             if ($_SESSION['verify'])
                 echo '<h3 class="btn-outline-success">Password and hash match!</h3>';
             else
-                echo '<h3 class="btn-outline-danger">Password and hash does not match!</h3>';
+                echo '<h3 class="btn-outline-danger">Password and hash do not match!</h3>';
             unset($_SESSION['verify']);
         }
     ?>

@@ -137,13 +137,11 @@ def submit_key(session:requests.Session, key:str) -> bool:
     else:
         return False
 
-    # Double check to limit false-positives
-    #return "Game-key is invalid!" not in out and "Game-key successfully added!" in out
-    if "Game-key successfully added" in out or "Game-key is valid!" in out:
+    if "Game-key successfully added" in out or "Game-key is valid" in out:
         return True
-    elif "Game-key is invalid!" in out:
+    elif "Game-key is invalid" in out:
         return False
-    elif "Too many requests!" in out:
+    elif "Too many requests" in out:
         print(f"[!] Got blocked! Waiting 60 seconds and then retrying...")
         sleep(60)
         # Retry after 60 seconds
