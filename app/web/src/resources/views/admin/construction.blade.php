@@ -37,7 +37,7 @@
                         </div>
                         <div class="card header">
                             <div class="card-header">
-                                <h2>This page is still under construction! <i class="fas fa-hammer"></i></h2>
+                                <h2>This page is still under construction!</h2>
                             </div>
                             <div class="card-body">
                                 <h3>Please check back again another time!</h3>

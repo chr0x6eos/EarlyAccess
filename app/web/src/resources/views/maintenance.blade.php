@@ -11,7 +11,7 @@
                 <div class="panel-body">
                     <div class="card header">
                         <div class="card-header">
-                            <h1>This page is currently undergoing maintenance! <i class="fas fa-hammer"></i></h1>
+                            <h1>This page is currently undergoing maintenance!</i></h1>
                             <h2>Please check back another time!</h2>
                         </div>
                     </div>

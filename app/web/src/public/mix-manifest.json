@@ -1,6 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/css/bootstrap.css": "/css/bootstrap.css",
+    "/css/styles.css": "/css/styles.css",
     "/css/nunito.css": "/css/nunito.css",
     "/fonts/XRXV3I6Li01BKofINeaE.ttf": "/fonts/XRXV3I6Li01BKofINeaE.ttf",
     "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf": "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf",
