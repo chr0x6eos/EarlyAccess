@@ -148,7 +148,6 @@ iface ens33 inet static
         netmask 255.255.255.0
         gateway 192.168.0.1
         dns-nameservers 8.8.8.8' > /etc/network/interfaces
-systemctl restart networking
 
 if [ ! -f etc/dc-app.service ];
  then
@@ -156,40 +155,14 @@ if [ ! -f etc/dc-app.service ];
     exit -1
 fi
 
-if [ ! -f etc/firewall-init.service ];
- then
-    echo 'firewall-init.service missing!'
-    exit -1
-fi
-
-if [ ! -f etc/init.sh ];
- then
-    echo 'init.sh missing!'
-    exit -1
-fi
-
-if [ ! -f etc/rules.sh ];
- then
-    echo 'rules.sh missing!'
-    exit -1
-fi
-
-mkdir -p /etc/network/firewall/
-chmod 750 /etc/network/firewall
-cp etc/*.sh /etc/network/firewall/
-chmod 750 /etc/network/firewall/*
-
 echo 'Setting up services...'
-#cp etc/dc-app.service /etc/systemd/system/
-cp etc/*.service /etc/systemd/system/
+cp etc/dc-app.service /etc/systemd/system/
 
 # Apply changes
 systemctl daemon-reload
 
 # Run at startup
 systemctl enable dc-app
-systemctl enable firewall-init
-systemctl enable firewall
 
 echo 'Hardening server...'
 mount -o remount,rw,hidepid=2 /proc
@@ -216,8 +189,10 @@ chown www-data:www-data -R web/src/storage/
 chown root:root web/src/storage/app/backup.zip
 docker-compose up --build -d
 
+IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "game-server")
+
 echo 'Loggin in as game-tester...'
-su drew -c 'ssh -q game-tester@172.19.0.3 exit'
+su drew -c "ssh -q game-tester@$IP exit"
 
 echo '[+] Done! Exiting...'
 exit 0

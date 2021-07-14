@@ -1,10 +1,10 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/css/bootstrap.css": "/css/bootstrap.css",
-    "/css/styles.css": "/css/styles.css",
-    "/css/nunito.css": "/css/nunito.css",
-    "/fonts/XRXV3I6Li01BKofINeaE.ttf": "/fonts/XRXV3I6Li01BKofINeaE.ttf",
-    "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf": "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf",
-    "/fonts/XRXW3I6Li01BKofAjsOUYevN.ttf": "/fonts/XRXW3I6Li01BKofAjsOUYevN.ttf"
+    "/js/app.js": "/js/app.js?id=a044ccf813cba38cf722",
+    "/css/app.css": "/css/app.css?id=7083a5db3665b11ca2a0",
+    "/css/bootstrap.css": "/css/bootstrap.css?id=0959decf07f5cbba6b39",
+    "/css/styles.css": "/css/styles.css?id=6d8969040ef8187702fb",
+    "/css/nunito.css": "/css/nunito.css?id=28b2170c836b8b5cf6f5",
+    "/fonts/XRXV3I6Li01BKofINeaE.ttf": "/fonts/XRXV3I6Li01BKofINeaE.ttf?id=e004f4fb21178a513678",
+    "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf": "/fonts/XRXW3I6Li01BKofA6sKUYevN.ttf?id=100c2a5e73d809a87f8e",
+    "/fonts/XRXW3I6Li01BKofAjsOUYevN.ttf": "/fonts/XRXW3I6Li01BKofAjsOUYevN.ttf?id=93f3b9d07a7555bcadee"
 }

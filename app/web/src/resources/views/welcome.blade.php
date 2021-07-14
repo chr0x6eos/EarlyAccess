@@ -249,7 +249,7 @@
                     <div class="footer-title">
                         <h3>Subscribe to our newsletter</h3>2017
                     <div class="support">
-                        <form action="#" method="post">
+                        <form>
                             <input type="email" placeholder="Enter email...." required=""> 
                             <input type="submit" value="Subscribe" class="botton">
                         </form> 
