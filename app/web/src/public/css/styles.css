@@ -2,6 +2,14 @@
 Author: W3layout
 Author URL: http://w3layouts.com
 --*/
+
+html, body {
+	width:100%; 
+	height:100%;
+	margin: 0;
+	padding: 0;
+}  
+
 .banner{
 	background: url(../images/1.jpg) no-repeat 0px 0px;
     background-size: cover;
@@ -272,7 +280,7 @@ Author URL: http://w3layouts.com
 .welcome{
     border-bottom: 1px dashed #ccc;
     padding-bottom: 1em;
-	text-align:center;
+	text-align:centerbody {width:100%; hight:100%;};
 }
 .agileits-title h2,.agileits-title h3{
     font-size: 4em;
@@ -284,6 +292,7 @@ Author URL: http://w3layouts.com
 .agileits-title p {
     font-size: 1em;
     color: #999;
+	text-align: center;
     line-height: 1.8em;
     margin: 1em auto 0;
     width: 65%;
@@ -662,11 +671,11 @@ ul.simplefilter {
 }
 .gameplay
 {
-	position: fixed;
-	right: 0;
-	bottom: 0;
-	min-width: 100%;
-	min-height: 100%;
+	width: 100%;
+    height: 100%;
+    /* and retain its aspect ratio: */
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 .testimonial-img-info h4{
     color: #FFFFFF;
@@ -1077,7 +1086,8 @@ ul.simplefilter {
 /*-- footer --*/ 
 .footer{
 	background: #333;
-	padding:4em 0;
+	padding-top: 2em;
+	padding-bottom: 0;
 }  
 .footer-title h3 {
     font-size: 1.5em;
@@ -1085,6 +1095,25 @@ ul.simplefilter {
     color: #fff;
     letter-spacing: 2px;
     margin: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.footer-title-h4 {
+    font-size: 1.1em;
+	margin-bottom:0;
+	padding-bottom:0;
+    display: inline-block;
+    color: #fff;
+    letter-spacing: 1.8px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.footer-title-h4 {
+    font-size: 1.1em;
+    display: inline-block;
+    color: #fff;
+    letter-spacing: 1.8px;
+    font-family: 'Roboto Condensed', sans-serif;
+}
+.footer-p {
     font-family: 'Roboto Condensed', sans-serif;
 }
 .amet-sed p {
@@ -1187,6 +1216,7 @@ ul.simplefilter {
 .copyright{
 	background:#212121;
 	padding:1em 0;
+	bottom: 0;
 }
 .copyright p{
 	color:#FFFFFF;
@@ -1564,9 +1594,6 @@ ul.simplefilter {
 	.address-right {
 		padding-left: 1.5em;
 		padding-right: 0;
-	}
-	.footer {
-		padding: 2em 0;
 	}
 	.support input[type="email"] {
 		width: 58%;
