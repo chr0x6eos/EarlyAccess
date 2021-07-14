@@ -15,7 +15,6 @@
                         <div class="main-body">
                             <div class="inner-wrapper">
                                 <div class="inner-main-body p-2 p-sm-3 collapse show" id="forum">
-
                                     <div class="card mb-2">
                                         <div class="card-body p-2 p-sm-3">
                                             <div class="media forum-item">
@@ -25,10 +24,6 @@
                                                         Issue with scoreboard
                                                     </p>
                                                     <p class="text-muted"><a href="#">Support</a> replied <span class="text-secondary font-weight-bold">2 hours ago</span></p>
-                                                </div>
-                                                <div class="text-muted small text-center align-self-center">
-                                                    <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 8</span>
-                                                    <span><i class="far fa-comment ml-2"></i> 2</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -44,7 +39,7 @@
                                                         <div class="mt-3 font-size-sm">
                                                             <p>Hello Game-Corp Team!</p>
                                                             <p>
-                                                                I have found a critical bug in the game-scoreboard.<br>My username (') returns strange errors on the scoreboard. Please fix this issue!
+                                                                I have found a critical bug in the game-scoreboard.<br>My username returns strange errors on the scoreboard. Please fix this issue!
                                                             </p>
                                                             <p>Thanks, SingleQuoteMan</p>
                                                         </div>
@@ -67,7 +62,6 @@
                                                             </p>
                                                             <p>Take care, your Support-Team</p>
                                                         </div>
-                                                        <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i>1</button>
                                                         <p class="text-muted small"><a href="#" class="text-muted small">Reply</a> (Only available to Alpha-Access users)</p>
                                                     </div>
                                                 </div>
@@ -83,10 +77,6 @@
                                                         My bought game-key does not work!
                                                     </p>
                                                     <p class="text-muted"><a href="#">Support</a> replied <span class="text-secondary font-weight-bold">10 hours ago</span></p>
-                                                </div>
-                                                <div class="text-muted small text-center align-self-center">
-                                                    <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 137</span>
-                                                    <span><i class="far fa-comment ml-2"></i> 2</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,7 +117,6 @@
                                                             </p>
                                                             <p>Take care, your Support-Team</p>
                                                         </div>
-                                                        <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i>1</button>
                                                         <p class="text-muted small"><a href="#" class="text-muted small">Reply</a> (Only available to Alpha-Access users)</p>
                                                     </div>
                                                 </div>
@@ -143,10 +132,6 @@
                                                         I want to refund my game!
                                                     </p>
                                                     <p class="text-muted"><a href="#">T04str</a> created this thread <span class="text-secondary font-weight-bold">2 days ago</span></p>
-                                                </div>
-                                                <div class="text-muted small text-center align-self-center">
-                                                    <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 153</span>
-                                                    <span><i class="far fa-comment ml-2"></i> 1</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,10 +166,6 @@
                                                         Game is crashing after score reaches 99!
                                                     </p>
                                                     <p class="text-muted"><a href="#">Support</a> replied <span class="text-secondary font-weight-bold">1 week ago</span></p>
-                                                </div>
-                                                <div class="text-muted small text-center align-self-center">
-                                                    <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 186</span>
-                                                    <span><i class="far fa-comment ml-2"></i> 4</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -260,7 +241,6 @@
                                                             </p>
                                                             <p>Take care, your Support-Team</p>
                                                         </div>
-                                                        <button class="btn btn-xs text-muted has-icon"><i class="fa fa-heart" aria-hidden="true"></i>1</button>
                                                         <p class="text-muted small"><a href="#" class="text-muted small">Reply</a> (Only available to Alpha-Access users)</p>
                                                     </div>
                                                 </div>
@@ -286,10 +266,7 @@
                         </div>
                     </div>
                 </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </x-app-layout>
-

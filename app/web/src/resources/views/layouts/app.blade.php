@@ -43,7 +43,6 @@
                     <div id="toast-alert-container" class="toast-top-center example">
                         <div id="alert" class="toast-alert alert-danger hide" role="alert" data-delay="5000" data-autohide="true" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header-alert">
-                                <i class="fas fa-2x fa-exclamation-circle mr-2"></i>
                                 <strong class="mr-auto">Error</strong>
                             </div>
                             <div class="toast-body">
@@ -59,7 +58,6 @@
                 <div id="toast-alert-container" class="toast-top-center example">
                     <div id="success" class="toast-alert alert-success hide" role="alert" data-delay="5000" data-autohide="true" aria-live="assertive" aria-atomic="true">
                         <div class="toast-header-alert">
-                            <i class="far fa-2x fa-thumbs-up mr-2"></i>
                             <strong class="mr-auto">Success</strong>
                             <div class="toast-body">
                                 {{ session()->get('success') }}
