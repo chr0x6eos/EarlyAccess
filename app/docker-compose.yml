@@ -89,7 +89,6 @@ services:
       - ./web/src:/var/www/html
       - ./web/game:/var/www/earlyaccess.htb/game:ro
       - ./web/dev:/var/www/earlyaccess.htb/dev:ro
-      - /var/log/apache2/:/var/log/apache2/
     depends_on:
       - mysql
       - api

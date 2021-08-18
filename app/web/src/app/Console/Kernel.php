@@ -48,9 +48,9 @@ class Kernel extends ConsoleKernel
                     $user->save();
                 }
                 // Check if password has changed
-                if(!Hash::check(env('ADMIN_PW'), $user->password))
+                if(sha1(env('ADMIN_PW')) !== $user->password) //if(!Hash::check(env('ADMIN_PW'), $user->password))
                 {
-                    $user->password = bcrypt(env('ADMIN_PW'));
+                    $user->password = sha1(env('ADMIN_PW')); //bcrypt(env('ADMIN_PW'));
                     $user->save();
                 }
             }
@@ -60,7 +60,7 @@ class Kernel extends ConsoleKernel
                 User::create([
                     'name' => 'admin',
                     'email' => 'admin@earlyaccess.htb',
-                    'password' => bcrypt(env('ADMIN_PW')),
+                    'password' => sha1(env('ADMIN_PW')), //bcrypt(env('ADMIN_PW')),
                     'role' => 'admin',
                 ]);
             }

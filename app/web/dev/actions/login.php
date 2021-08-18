@@ -22,7 +22,7 @@ try
         if ($user)
         {
             // Verify login
-            if(password_verify($password, $user["password"]))
+            if(sha1($password) === $user["password"]) //if(password_verify($password, $user["password"]))
             {
                 // Store id in session
                 $_SESSION['user'] = $user["id"];

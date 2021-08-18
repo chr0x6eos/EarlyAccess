@@ -26,10 +26,9 @@ try
                 // Get username and hash
                 $id = $user["id"];
                 $name = $user["name"];
-                $hash = $user["password"];
                 $key = $user["key"];
 
-                if(password_verify($password,$hash))
+                if(sha1($password) === $user["password"])
                 {
                     if ($name == "admin" || $key != "")
                     {

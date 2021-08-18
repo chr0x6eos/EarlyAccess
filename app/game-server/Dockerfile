@@ -18,7 +18,7 @@ RUN useradd -ms /bin/bash -p $(mkpasswd -m sha-512 gamemaster) game-adm
 
 # Setup ssh
 RUN mkdir -p /home/game-tester/.ssh
-COPY game-server/authorized_keys  /home/game-tester/.ssh/authorized_keys
+COPY game-server/authorized_keys /home/game-tester/.ssh/authorized_keys
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -28,7 +28,7 @@ RUN groupmod -g 1111 node \
   && usermod -u 1111 -g 1111 node
 
 # Create entrypoint dir
-RUN mkdir - p /docker-entrypoint.d
+RUN mkdir -p /docker-entrypoint.d
 
 # Execute all scripts in /entrypoint.sh
 RUN echo '#!/bin/bash' > /entrypoint.sh
