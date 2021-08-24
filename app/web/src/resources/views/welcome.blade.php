@@ -87,7 +87,7 @@
                     <div class="agileits-icon-grid">
                         <div class="icon-right">
                             <h5>Multiplayer</h5>
-                            <p>Jump into multiplayer battles against up to 128 players in different challenging modes. This feature planned for Q3 this year.</p>
+                            <p>Jump into multiplayer battles against up to 128 players in different challenging modes. This feature is planned for Q3 this year.</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
