@@ -30,7 +30,7 @@ try
 
                 if(sha1($password) === $user["password"])
                 {
-                    if ($name == "admin" || $key != "")
+                    if ($key != "")
                     {
                         // Store id & username in session
                         $_SESSION['user'] = array();

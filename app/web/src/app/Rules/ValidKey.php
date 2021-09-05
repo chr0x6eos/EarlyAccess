@@ -25,8 +25,15 @@ class ValidKey implements Rule
      */
     public function passes($attribute, $value)
     {
-        // Check if key is in valid format
-        return preg_match('/^[A-Z0-9]{5}(-[A-Z0-9]{5})(-[A-Z]{4}[0-9])(-[A-Z0-9]{5})(-[0-9]{1,5})$/', $value) === 1;
+        try
+        {
+            // Check if key is in valid format
+            return preg_match('/^[A-Z0-9]{5}(-[A-Z0-9]{5})(-[A-Z]{4}[0-9])(-[A-Z0-9]{5})(-[0-9]{1,5})$/', $value) === 1;
+        }
+        catch (\Exception $ex)
+        {
+            return false;
+        }
     }
 
     /**
