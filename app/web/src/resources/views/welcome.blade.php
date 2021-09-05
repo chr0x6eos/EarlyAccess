@@ -68,7 +68,7 @@
                 <div class="banner_text">
                     <h3>Innovative gameplay</h3>
                     <p style="margin-bottom: 30%">
-                        Build on the newest version of the SNAK Engine, Mamba allows for unique gameplay like never before. <br> 
+                        Built on the newest version of the SNAK Engine, Mamba allows for unique gameplay like never before. <br> 
                         With graphics like never seen before you will take on the role of a green mamba and chase your prey through the jungle. An advanced skill system (to be released in a later version) allows players to adapt to their environment. 
                         Learn to use the environment to unlock powerful upgrades and dominate the jungle. But beware of the highly intelligent AI that analyses your game style and uses machine-learning to give you a new challenge every time.
                     </p>
@@ -87,7 +87,7 @@
                     <div class="agileits-icon-grid">
                         <div class="icon-right">
                             <h5>Multiplayer</h5>
-                            <p>Jump into multiplayer battles against up to 128 players in different challenging modi. This feature planned for Q3 this year.</p>
+                            <p>Jump into multiplayer battles against up to 128 players in different challenging modes. This feature is planned for Q3 this year.</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -114,7 +114,7 @@
                     <div class="agileits-icon-grid">
                         <div class="icon-right">
                             <h5>New Content</h5>
-                            <p>Constant supply of new maps, skins, skills and multiplayer modi are planned to be released over the course of the next year.</p>
+                            <p>Constant supply of new maps, skins, skills and multiplayer modes are planned to be released over the course of the next year.</p>
                         </div>
                         <div class="clearfix"> </div>
                     </div>
@@ -206,7 +206,7 @@
                             <ul class="rslides callbacks callbacks1">
                                 <li>
                                     <div class="testimonial-img-info">
-                                        <h3>Play against up to 128 player in thrilling fast-paced multiplayer battles. Choose from fan-favorite modi such as:</p>
+                                        <h3>Play against up to 128 player in thrilling fast-paced multiplayer battles. Choose from fan-favorite modes such as:</p>
                                         <p>
                                             <h4>- Conquest</h4>
                                             <h4>- Battle Royale</h4>
