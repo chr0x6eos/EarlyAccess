@@ -1,9 +1,10 @@
 <?php
 	include_once "includes/config.php";
 
-	if(isset($_SESSION['user']))
+	if(isset($_SESSION['admin']))
 		header('Location: /home.php');
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<?php include_once "includes/header.php"; ?>

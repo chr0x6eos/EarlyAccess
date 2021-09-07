@@ -2,8 +2,8 @@
 
 include_once "config.php";
 
-//Verify user is logged in
-if(!isset($_SESSION['user']))
+//Verify admin is logged in
+if(!isset($_SESSION['admin']))
 {
     header('Location: /index.php');
     return;

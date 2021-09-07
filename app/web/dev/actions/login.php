@@ -1,5 +1,5 @@
 <?php
-include_once "../includes/session.php";
+include_once "../includes/config.php";
 include_once "../includes/ban.php";
 
 try
@@ -25,7 +25,7 @@ try
             if(sha1($password) === $user["password"]) //if(password_verify($password, $user["password"]))
             {
                 // Store id in session
-                $_SESSION['user'] = $user["id"];
+                $_SESSION['admin'] = $user["id"];
                 header('Location: /home.php');
                 return;
             }
